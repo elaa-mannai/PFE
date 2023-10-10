@@ -8,11 +8,6 @@ export class CreateLoginDto {
         description: 'this is a required property'
     })
 
-
-
-
-
-    
     @IsString()
     @IsNotEmpty()
     username: string

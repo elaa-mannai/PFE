@@ -46,4 +46,15 @@ export class CategoriesService {
     }
     return deleteCategorie
   }
-}
+
+  ///////////////////////
+
+
+
+  async getCategorieByName(name: string): Promise<ICategorie> {
+    const existingCategorie = await this.categoryModel.findOne({ name: name }).exec();
+    if (!existingCategorie) {
+      throw new NotFoundException(`Categorie #${name} not found by Name`);
+    }
+    return existingCategorie;
+  }}

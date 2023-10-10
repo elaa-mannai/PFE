@@ -105,7 +105,7 @@ export class EventsController {
     }
   }
 
-
+//////////////////////////
 
   @Get("user/:id")
   async getAllEventsbyuser(@Param('id') UserId: string ,@Res() response) {

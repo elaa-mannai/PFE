@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus, Query } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
@@ -25,6 +25,21 @@ export class CategoriesController {
       })
     }
   }
+
+  
+@Get("/getbyname")
+async getCategoriebyname(@Res() response, @Query('name') name: string) {
+  try {
+    const existingCategorie = await
+      this.categoriesService.getCategorieByName(name)
+    return response.status(HttpStatus.OK).json({
+      message: 'categorie found successfully', existingCategorie,
+    });
+  } catch (err) {
+    return response.status(err.status).json(err.response);
+  }
+}
+
 
   @Get()
   async findAllCategorie(@Res() response) {
@@ -99,5 +114,12 @@ export class CategoriesController {
       })
     }
   }
+
+
+
+
+////////////////////
+
+
 
 }
