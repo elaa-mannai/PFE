@@ -62,4 +62,15 @@ export class ProductsService {
       throw new NotFoundException('Product not found')
     }
     return pdata  }
+
+
+
+    async findAllProductsByuser(UserId: string):Promise<IProduct[]>
+    {
+      const ProductsData= await this.productModel.find({user :UserId})
+      if (!ProductsData || ProductsData.length ==0 ){
+     return null
+      }
+        return ProductsData;
+      }
 }

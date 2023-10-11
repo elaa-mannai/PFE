@@ -11,4 +11,6 @@ export interface IEvent extends Document {
     readonly theme:string
     readonly user: string
     readonly event: string
+       //// list product favorite
+    readonly products:string
 }

@@ -26,6 +26,8 @@ export class Event {
     user: Types.ObjectId
 
    //// list product favorite
+   @Prop({required:true, type: SchemaTypes.ObjectId, ref:'products'})
+   products: Types.ObjectId
 
 }
 

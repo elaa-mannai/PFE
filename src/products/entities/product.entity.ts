@@ -13,6 +13,9 @@ export class Product {
     @Prop({ required: false })
     price: number
 
+    @Prop({required :false})
+    location:string
+    
     @Prop({ required: false })
     images: string[]
 

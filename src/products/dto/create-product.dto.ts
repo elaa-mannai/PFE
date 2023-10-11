@@ -15,7 +15,7 @@ export class CreateProductDto {
         description: 'this is a required property'
     })
     @IsString()
-  //  @IsNotEmpty()
+    //  @IsNotEmpty()
     description: string
 
     @ApiProperty({
@@ -23,8 +23,18 @@ export class CreateProductDto {
         description: 'this is a required property'
     })
     @IsNumber()
-  //  @IsNotEmpty()
+    //  @IsNotEmpty()
     price: number
+
+
+    @ApiProperty({
+        type: String,
+        description: 'this is a required property'
+    })
+    @IsNumber()
+    //  @IsNotEmpty()
+    location:string
+
 
 
     @ApiProperty({

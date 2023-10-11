@@ -48,4 +48,13 @@ export class GuestsService {
     }
     return data
   }
+//////////////////
+async findAllGuestsByuser(UserId: string):Promise<IGuest[]>
+{
+  const GuestsData= await this.guestModel.find({user :UserId})
+  if (!GuestsData || GuestsData.length ==0 ){
+ return null
+  }
+    return GuestsData;
+  }
 }

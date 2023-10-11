@@ -160,7 +160,7 @@ export class UsersController {
   async update(@Res() response,@Param('id') userId: string, @UploadedFile() file: Express.Multer.File, @Body() updateUserDto: UpdateUserDto) {
 
     try {
-     updateUserDto.image = file.filename
+    // updateUserDto.image = file.filename
       const updateduser=await this.usersService.updateUser(userId, updateUserDto);
       return response.status(HttpStatus.OK).json({
         message:"user Updated successfully",

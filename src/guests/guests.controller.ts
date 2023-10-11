@@ -97,4 +97,23 @@ export class GuestsController {
       })
     }
   }
+
+     //// find guests by userid
+     @Get("user/:id")
+     async getAllGuestsbyuser(@Param('id') UserId: string ,@Res() response) {
+       try{
+         const GuestsData=await this.guestsService.findAllGuestsByuser(UserId);
+         return response.status(HttpStatus.OK).json({
+           message:'All geusts data found successfully',
+           status:HttpStatus.OK,
+           data:GuestsData
+         })
+       }catch (err){
+         return response.status(HttpStatus.BAD_REQUEST).json({
+           message:err,
+           status:HttpStatus.BAD_REQUEST,
+           data:null
+         })
+       }
+     }
 }

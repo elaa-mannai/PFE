@@ -60,4 +60,13 @@ export class CreateEventDto {
     user: string
     
 
+    @ApiProperty({
+        type: String,
+        description: 'this is a required property'
+    })
+    @IsString()
+    @IsNotEmpty()
+    products: string
+    
+
 }

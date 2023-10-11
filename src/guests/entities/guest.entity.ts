@@ -4,13 +4,16 @@ import { SchemaTypes, Types } from "mongoose";
 @Schema()
 export class Guest {
 
-    @Prop({ required: true })
+    @Prop({ required: false })
     name: string
 
-    @Prop({ required: true })
+    @Prop({required: false})
+    phonenumber: number
+    
+    @Prop({ required: false })
     invited: boolean
     
-    @Prop({required:true, type: SchemaTypes.ObjectId, ref:'users'})
+    @Prop({required:false, type: SchemaTypes.ObjectId, ref:'users'})
     user: Types.ObjectId   
    
 }

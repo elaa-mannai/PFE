@@ -25,6 +25,9 @@ export class ProductsController {
         price: {
           type: 'number'
         },
+        location:{
+          type:'string'
+        },
         category:{
           type:'string'
         },
@@ -53,7 +56,7 @@ export class ProductsController {
   )
   async create(@Body() createProductDto: CreateProductDto, @UploadedFiles() files, @Res() response) {
     try {
-      createProductDto.images = files.map(item => item.filename)
+    //  createProductDto.images = files.map(item => item.filename)
       const newproduct = await this.productsService.createProduct(createProductDto)
       return response.status(HttpStatus.CREATED).json({
         message: 'Product created successfully',
@@ -123,6 +126,9 @@ export class ProductsController {
         price: {
           type: 'number'
         },
+        location:{
+          type:'string'
+        },
         category:{
           type:'string'
         },
@@ -150,7 +156,7 @@ export class ProductsController {
   @Patch(':id')
   async update(@Res() response, @Param('id') productId: string, @Body() updateProductDto: UpdateProductDto, @UploadedFiles() files) {
     try {
-      updateProductDto.images = files.map(item => item.filename)
+    //  updateProductDto.images = files.map(item => item.filename)
       const Pdata = await this.productsService.updateProduct(productId, updateProductDto)
 
       return response.status(HttpStatus.OK).json({
@@ -183,4 +189,27 @@ export class ProductsController {
       })
     }
   }
+
+
+
+///////////
+  @Get("user/:id")
+  async getAllProductsbyuser(@Param('id') UserId: string ,@Res() response) {
+    try{
+      const ProductsData=await this.productsService.findAllProductsByuser(UserId);
+      return response.status(HttpStatus.OK).json({
+        message:'All Products data found successfully',
+        status:HttpStatus.OK,
+        data:ProductsData
+      })
+    }catch (err){
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message:err,
+        status:HttpStatus.BAD_REQUEST,
+        data:null
+      })
+    }
+  }
+
+  
 }
