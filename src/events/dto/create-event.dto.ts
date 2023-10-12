@@ -59,14 +59,22 @@ export class CreateEventDto {
     @IsNotEmpty()
     user: string
     
-
+/* 
     @ApiProperty({
+        type: Array,
+        description: 'this is a required property'
+    })
+    @IsArray()
+    //@IsNotEmpty()
+    guests: string[]
+ */
+    /* @ApiProperty({
         type: String,
         description: 'this is a required property'
     })
     @IsString()
     @IsNotEmpty()
-    products: string
+    products: string */
     
 
 }

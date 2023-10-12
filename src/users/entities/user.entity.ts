@@ -35,15 +35,18 @@ export class User {
 
     @Prop({ required: false })
     image: string
+  
+   @Prop({ required: false })
+    refreshToken: string
 
     @Prop([{ required: false , type: SchemaTypes.ObjectId, ref:'events'}])
     events: Types.ObjectId[]
 
-   @Prop({ required: false })
-    refreshToken: string
-
     @Prop([{ required: false , type: SchemaTypes.ObjectId, ref:'products'}])
     products: Types.ObjectId[]
+
+    @Prop([{ required: false , type: SchemaTypes.ObjectId, ref:'guests'}])
+    guests: Types.ObjectId[]
 
   
 }

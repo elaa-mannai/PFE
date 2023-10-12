@@ -8,9 +8,9 @@ export interface IEvent extends Document {
     readonly date_fin:Date
     readonly local:string
     readonly budget:number
-    readonly theme:string
     readonly user: string
-    readonly event: string
+   /* readonly guests:string[]
+    readonly guests:string
        //// list product favorite
-    readonly products:string
+    readonly products:string */
 }

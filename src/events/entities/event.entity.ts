@@ -4,30 +4,34 @@ import { SchemaTypes, Types } from "mongoose";
 @Schema()
 export class Event {
 
-    @Prop({ required: true })
+    @Prop({ required: false })
     titleevent: string
 
-    @Prop({ required: true })
+    @Prop({ required: false })
     description: string
 
-    @Prop({ required: true })
+    @Prop({ required: false })
     date_debut: Date
 
-    @Prop({ required: true })
+    @Prop({ required: false })
     date_fin: Date
     
-    @Prop({ required: true })
+    @Prop({ required: false })
     local: string
     
-    @Prop({ required: true })
+    @Prop({ required: false })
     budget: number
     
-    @Prop({required:true, type: SchemaTypes.ObjectId, ref:'users'})
+    @Prop({required:false, type: SchemaTypes.ObjectId, ref:'users'})
     user: Types.ObjectId
 
-   //// list product favorite
-   @Prop({required:true, type: SchemaTypes.ObjectId, ref:'products'})
-   products: Types.ObjectId
+   
+    @Prop([{ required: false , type: SchemaTypes.ObjectId, ref:'guests'}])
+    guests: Types.ObjectId[]
+
+    //// list product favorite
+   @Prop({required:false, type: SchemaTypes.ObjectId, ref:'products'})
+   products: Types.ObjectId[]
 
 }
 

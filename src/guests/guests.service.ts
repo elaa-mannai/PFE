@@ -4,18 +4,30 @@ import { UpdateGuestDto } from './dto/update-guest.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { IGuest } from './interfaces/guest.interface';
 import { Model } from 'mongoose';
+import { IUser } from 'src/users/interfaces/user.interface';
+import { IEvent } from 'src/events/interfaces/event.interface';
 
 @Injectable()
 export class GuestsService {
 
-  constructor(@InjectModel('guests')
-  private guestModel: Model<IGuest>) { }
+  constructor(
+    @InjectModel('guests')
+  private guestModel: Model<IGuest> ,
+  @InjectModel('events')
+  private eventModel: Model<IEvent>,
+
+) { }
 
 
   async createGuest(createGuestDto: CreateGuestDto): Promise<IGuest> {
     const newGuest = new this.guestModel(createGuestDto)
+    await this.eventModel.updateOne({ _id: createGuestDto.events },
+      {$push: {guests :newGuest._id}})
+
     return await newGuest.save()
   }
+
+  
 
   async findAllGuests(): Promise<IGuest[]> {
     const data = await this.guestModel.find().exec()
@@ -49,7 +61,7 @@ export class GuestsService {
     return data
   }
 //////////////////
-async findAllGuestsByuser(UserId: string):Promise<IGuest[]>
+/* async findAllGuestsByuser(UserId: string):Promise<IGuest[]>
 {
   const GuestsData= await this.guestModel.find({user :UserId})
   if (!GuestsData || GuestsData.length ==0 ){
@@ -57,4 +69,14 @@ async findAllGuestsByuser(UserId: string):Promise<IGuest[]>
   }
     return GuestsData;
   }
+ */
+  async findAllGuestsByEventId(EventId: string):Promise<IGuest[]>
+{
+  const GuestsData= await this.guestModel.find({events :EventId})
+  if (!GuestsData || GuestsData.length ==0 ){
+ return null
+  }
+    return GuestsData;
+  }
+  
 }

@@ -13,8 +13,8 @@ export class Guest {
     @Prop({ required: false })
     invited: boolean
     
-    @Prop({required:false, type: SchemaTypes.ObjectId, ref:'users'})
-    user: Types.ObjectId   
+    @Prop({required:false, type: SchemaTypes.ObjectId, ref:'events'})
+    events: Types.ObjectId
    
 }
 

@@ -19,10 +19,10 @@ export class Product {
     @Prop({ required: false })
     images: string[]
 
-    @Prop({ required: true , type: SchemaTypes.ObjectId, ref:'categories'})
+    @Prop({ required: false , type: SchemaTypes.ObjectId, ref:'categories'})
     category: Types.ObjectId
 
-    @Prop({required:true, type: SchemaTypes.ObjectId, ref:'users'})
+    @Prop({required:false, type: SchemaTypes.ObjectId, ref:'users'})
     user: Types.ObjectId
 
     

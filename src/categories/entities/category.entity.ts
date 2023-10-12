@@ -4,10 +4,10 @@ import { SchemaTypes, Types } from "mongoose";
 @Schema()
 export class Category {
 
-    @Prop({required:true})
+    @Prop({required:false})
     name:String
  
-    @Prop([{required:true, type: SchemaTypes.ObjectId, ref:'products'}])
+    @Prop([{required:false, type: SchemaTypes.ObjectId, ref:'products'}])
     products: Types.ObjectId[]
 
     

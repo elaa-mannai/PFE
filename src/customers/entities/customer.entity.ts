@@ -10,7 +10,7 @@ export class Customer {
     items: string
 
 
-    @Prop({ required: true, type: SchemaTypes.ObjectId, ref: 'guests' })
+    @Prop({ required: false, type: SchemaTypes.ObjectId, ref: 'guests' })
     guest: Types.ObjectId
 
 }

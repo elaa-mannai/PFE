@@ -5,6 +5,6 @@ export interface IGuest extends Document {
     readonly name : string
     readonly phonenumber: number
     readonly invited: boolean
-    readonly user: string
+    readonly events: string
    
 }

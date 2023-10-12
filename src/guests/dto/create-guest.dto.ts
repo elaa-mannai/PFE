@@ -32,7 +32,7 @@ export class CreateGuestDto {
             description: 'this is a required property'
         })
         @IsString()
-        //@IsNotEmpty()
-        user: string
+        @IsNotEmpty()
+        events: string
 
 }
