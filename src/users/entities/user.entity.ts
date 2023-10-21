@@ -42,6 +42,7 @@ export class User {
     @Prop([{ required: false , type: SchemaTypes.ObjectId, ref:'events'}])
     events: Types.ObjectId[]
 
+    ///favlist
     @Prop([{ required: false , type: SchemaTypes.ObjectId, ref:'products'}])
     products: Types.ObjectId[]
 

@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsNumber, IsDate, IsArray } from "class-validator"
+import { IsString, IsNotEmpty, IsNumber, IsDate, IsArray, IsBoolean } from "class-validator"
 import { ApiProperty } from "@nestjs/swagger"
 
 export class CreateProductDto {
@@ -35,7 +35,12 @@ export class CreateProductDto {
     //  @IsNotEmpty()
     location:string
 
-
+@ApiProperty({
+    type:Boolean,
+    description:'this is not required'
+})
+@IsBoolean()
+favorite :boolean
 
     @ApiProperty({
         type: Array,

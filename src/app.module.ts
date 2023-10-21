@@ -20,7 +20,7 @@ import { join } from 'path';
 import { SocketModule } from './socket/socket.module';
 
 @Module({
-  imports: [MongooseModule.forRoot("mongodb://127.0.0.1:27017", { dbName: "weddingmanagment" }),
+  imports: [MongooseModule.forRoot("mongodb://127.0.0.1:27017", { dbName: "Eventmanagment" }),
     UsersModule,
     CategoriesModule,
     EventsModule,

@@ -13,51 +13,8 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  @ApiBody({
-    schema: {
-      type: 'object',
-      properties: {
-        items: {
-          type: 'string'
-        },
-        username: {
-          type: 'string'
-        },
-        email: {
-          type: 'string'
-        },
-        password: {
-          type: 'string'
-        },
-        city: {
-          type: 'string'
-        },
-        adress: {
-          type: 'string'
-        },
-        phone: {
-          type: 'number'
-        },
-        file: {
-          type: 'string',
-          format:'binary'
-        }
-      }
-    }
-  }) 
-  @ApiConsumes('multipart/form-data')
-  @UseInterceptors(
-    FileInterceptor("file", {
-      storage: diskStorage({
-        destination: "./upload/users",
-        filename: (_request, file, callback) =>
-          callback(null, `${new Date().getTime()}-${file.originalname}`)
-      })
-    })
-  )
-  async createUser(@Body() createuserDto: CreateUserDto, @UploadedFile() file: Express.Multer.File,  @Res() response){
+  async createUser(@Body() createuserDto: CreateUserDto, @Res() response){
     try{
-   // createuserDto.image = file.filename
      const newUser=await this.usersService.createUser(createuserDto)
       return response.status(HttpStatus.CREATED).json({
         message:'user created successfully',
@@ -114,53 +71,9 @@ export class UsersController {
   
   
   @Patch(':id')
-  @ApiBody({
-    schema: {
-      type: 'object',
-      properties: {
-        items: {
-          type: 'string'
-        },
-       
-        username: {
-          type: 'string'
-        },
-        email: {
-          type: 'string'
-        },
-        password: {
-          type: 'string'
-        },
-        city: {
-          type: 'string'
-        },
-        adress: {
-          type: 'string'
-        },
-        phone: {
-          type: 'number'
-        },
-        file: {
-          type: 'string',
-          format:'binary'
-        }
-      }
-    }
-  }) 
-  @ApiConsumes('multipart/form-data')
-  @UseInterceptors(
-    FileInterceptor("file", {
-      storage: diskStorage({
-        destination: "./upload/users",
-        filename: (_request, file, callback) =>
-          callback(null, Date.now() + file.originalname)
-      })
-    })
-  )
-  async update(@Res() response,@Param('id') userId: string, @UploadedFile() file: Express.Multer.File, @Body() updateUserDto: UpdateUserDto) {
+    async update(@Res() response,@Param('id') userId: string, @Body() updateUserDto: UpdateUserDto) {
 
     try {
-    // updateUserDto.image = file.filename
       const updateduser=await this.usersService.updateUser(userId, updateUserDto);
       return response.status(HttpStatus.OK).json({
         message:"user Updated successfully",

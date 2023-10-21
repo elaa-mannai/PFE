@@ -24,7 +24,7 @@ export class ProductsService {
   async createProduct(createProductDto: CreateProductDto): Promise<IProduct> {
     const newP = new this.productModel(createProductDto)
     await this.categoryModel.updateOne({_id:createProductDto.category},
-       {$push:{products:newP._id}});
+       {$push:{products:newP._id}}).populate;
     await this.userModel.updateOne({ _id: createProductDto.user },
         { $push: { products: newP._id } })
   

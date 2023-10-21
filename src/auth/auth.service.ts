@@ -15,6 +15,7 @@ export class AuthService {
         private configService: ConfigService,
         private mailerService: MailerService,
     ) { }
+    
 
     async getToken(userId: string, username: string) {
         const [accessToken, refreshToken] = await Promise.all([
@@ -36,7 +37,7 @@ export class AuthService {
     }
 
     async signIn(data: CreateLoginDto) {
-        const user = await this.usersService.findOneByUsername(data.username)
+        const user = await (await this.usersService.findOneByUsername(data.username)).populate("products")
         if (!user) throw new BadRequestException('User does not exist!')
         const passwordMatch = await argon2.verify(user.password, data.password)
         if (!passwordMatch) throw new BadRequestException('Password is incorrect')

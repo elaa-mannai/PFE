@@ -15,7 +15,10 @@ export class Product {
 
     @Prop({required :false})
     location:string
-    
+
+    @Prop({required: false})
+    favorite:Boolean
+
     @Prop({ required: false })
     images: string[]
 
