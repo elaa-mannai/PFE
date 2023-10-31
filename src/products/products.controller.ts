@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, Res, UseInterceptors, UploadedFiles, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, Res, Query, UploadedFiles, UploadedFile } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -126,7 +126,29 @@ export class ProductsController {
         data:null
       })
     }
+    
   }
+
+
+ /*  @Get("favoriteproduct/:id/:favorite")
+  async getAllFavoriteProduct( @Param(":id") UserId: string ,@Query(':favorite') favoriteProduct: boolean ,@Res() response) {
+    try{
+      const ProductsData=await this.productsService.findAllProductsByuserCustomer(UserId, favoriteProduct);
+      return response.status(HttpStatus.OK).json({
+        message:'All Products data found successfully',
+        status:HttpStatus.OK,
+        data:ProductsData
+      })
+    }catch (err){
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message:err,
+        status:HttpStatus.BAD_REQUEST,
+        data:null
+      })
+    }
+  } */
+
 
   
 }
+

@@ -73,4 +73,15 @@ export class ProductsService {
       }
         return ProductsData;
       }
+
+     /*  async findAllProductsByuserCustomer(UserId: string, favoriteProduct: Boolean):Promise<IProduct[]>
+      {
+        const ProductsData= await this.productModel.find({ UserId , favorite :favoriteProduct})
+        if (!ProductsData || ProductsData.length ==0 ){
+       return null
+        }
+       return  ProductsData;
+        } */
+  
+    
 }

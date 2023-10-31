@@ -35,13 +35,6 @@ export class CreateProductDto {
     //  @IsNotEmpty()
     location:string
 
-@ApiProperty({
-    type:Boolean,
-    description:'this is not required'
-})
-@IsBoolean()
-favorite :boolean
-
     @ApiProperty({
         type: Array,
         description: 'this is a required property'
@@ -52,10 +45,10 @@ favorite :boolean
 
 
     @ApiProperty({
-        type: Array,
+        type: String,
         description: 'this is a required property'
     })
-    @IsArray()
+    @IsString()
     @IsNotEmpty()
     category: string
 

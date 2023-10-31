@@ -18,6 +18,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { join } from 'path';
 import { SocketModule } from './socket/socket.module';
+import { FavoriteModule } from './favorite/favorite.module';
 
 @Module({
   imports: [MongooseModule.forRoot("mongodb://127.0.0.1:27017", { dbName: "Eventmanagment" }),
@@ -51,6 +52,7 @@ import { SocketModule } from './socket/socket.module';
       }
     }
   }),
+  FavoriteModule,
 
 ],
 

@@ -37,7 +37,7 @@ export class AuthService {
     }
 
     async signIn(data: CreateLoginDto) {
-        const user = await (await this.usersService.findOneByUsername(data.username)).populate("products")
+        const user = await (await (await this.usersService.findOneByUsername(data.username)).populate("products , favorites"))
         if (!user) throw new BadRequestException('User does not exist!')
         const passwordMatch = await argon2.verify(user.password, data.password)
         if (!passwordMatch) throw new BadRequestException('Password is incorrect')

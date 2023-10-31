@@ -17,6 +17,7 @@ async function bootstrap() {
     .addTag('events')
     .addTag('factures')
     .addTag('guests')
+    .addTag('favorites')
 
     .addBearerAuth(
       {

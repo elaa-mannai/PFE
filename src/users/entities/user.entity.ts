@@ -36,13 +36,15 @@ export class User {
     @Prop({ required: false })
     image: string
   
-   @Prop({ required: false })
+    @Prop({ required: false })
     refreshToken: string
+
+    @Prop([{required: false , type: SchemaTypes.ObjectId, ref:'favorites'}])
+    favorites:Types.ObjectId[]
 
     @Prop([{ required: false , type: SchemaTypes.ObjectId, ref:'events'}])
     events: Types.ObjectId[]
 
-    ///favlist
     @Prop([{ required: false , type: SchemaTypes.ObjectId, ref:'products'}])
     products: Types.ObjectId[]
 

@@ -16,9 +16,6 @@ export class Product {
     @Prop({required :false})
     location:string
 
-    @Prop({required: false})
-    favorite:Boolean
-
     @Prop({ required: false })
     images: string[]
 
@@ -27,6 +24,8 @@ export class Product {
 
     @Prop({required:false, type: SchemaTypes.ObjectId, ref:'users'})
     user: Types.ObjectId
+
+
 
     
 }

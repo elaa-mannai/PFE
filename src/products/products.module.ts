@@ -5,11 +5,12 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { productSchema } from './entities/product.entity';
 import { CategorieSchema } from 'src/categories/entities/category.entity';
 import { userSchema } from 'src/users/entities/user.entity';
+import { favoriteSchema } from 'src/favorite/entities/favorite.entities';
 
 @Module({
   imports:[MongooseModule.forFeature([{name:'products', schema:productSchema}]), 
   MongooseModule.forFeature([{name:'categories', schema:CategorieSchema}]),  
-  MongooseModule.forFeature([{ name: 'users', schema: userSchema }])],
+  MongooseModule.forFeature([{ name: 'users', schema: userSchema }]),],
   controllers: [ProductsController],
   providers: [ProductsService],
   

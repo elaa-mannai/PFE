@@ -14,6 +14,7 @@ export class UsersService {
     const user = this.userModel.findOne({ username });
     return user
   }
+  
   constructor(@InjectModel('users') private userModel: Model<IUser>) { }
 
 
