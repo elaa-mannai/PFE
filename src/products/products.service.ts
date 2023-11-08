@@ -41,7 +41,7 @@ export class ProductsService {
   }
 
   async findOneProduct(productId: string): Promise<IProduct> {
-    const pdata = await this.productModel.findById(productId).exec()
+    const pdata = await (await this.productModel.findById(productId).exec()).populate('favorites')
     if (!pdata) {
       throw new NotFoundException("Product not found")
     }
@@ -74,14 +74,7 @@ export class ProductsService {
         return ProductsData;
       }
 
-     /*  async findAllProductsByuserCustomer(UserId: string, favoriteProduct: Boolean):Promise<IProduct[]>
-      {
-        const ProductsData= await this.productModel.find({ UserId , favorite :favoriteProduct})
-        if (!ProductsData || ProductsData.length ==0 ){
-       return null
-        }
-       return  ProductsData;
-        } */
+     
   
     
 }

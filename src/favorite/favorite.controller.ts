@@ -4,6 +4,7 @@ import { FavoriteService } from './favorite.service';
 import { response } from 'express';
 import { CreateFavoriteDto } from './dto/create_favorite.dto';
 import { UpdateFavoriteDto } from './dto/update_favorite.dto';
+import { IFavorite } from './interface/favorite.interface';
 
 @Controller('favorites')
 @ApiTags('favorites')
@@ -29,6 +30,27 @@ async create(@Res()response, @Body() createFavoriteDto:CreateFavoriteDto){
         })
       }
 }
+
+
+
+@Get('stateAndUserId/:state/:id')
+ async GetAllFavoriteByuserAndState(@Query('state') state : boolean,@Param('id') UserId: string ,@Res() response): Promise<IFavorite>{
+ try{
+  const favoriteDate = await this.favoriteService.getFavoriteByUserIdAndFavoriteState(UserId, state)
+  return response.status(HttpStatus.OK).json({
+    message:"listeStateAndUserId found successfully",
+    status:HttpStatus.OK,
+    data:favoriteDate
+  })
+ }catch
+  (error){
+    return response.status(HttpStatus.BAD_REQUEST).json({
+      message:error.message,
+      status:HttpStatus.BAD_REQUEST,
+      data:null
+    })
+ } 
+ }
 
 
 @Get()
@@ -90,6 +112,24 @@ return response.status(HttpStatus.OK).json({
 }
 
 
+  /* try{
+const favoritestatus = await this.favoriteService.findAllFavoriteByuserAndState(UserId, status)
+return response.status(HttpStatus.OK).json({
+   message:'All favorite by state data found successfully',
+   status:HttpStatus.OK,
+   data:favoritestatus
+ })
+   }
+   catch (err){
+       return response.status(HttpStatus.BAD_REQUEST).json({
+         message:err,
+         status:HttpStatus.BAD_REQUEST,
+         data:null
+       })
+}
+} */
+
+
 @Get(':id')
 async findOneFavorite(@Res() response,@Param('id') favoriteId: string) {
   try {
@@ -146,6 +186,7 @@ async remove(@Res() response,@Param('id') FavoriteId: string) {
      })
    }
  }
+
 
 
 

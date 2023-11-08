@@ -9,4 +9,6 @@ export interface IProduct extends Document {
     readonly image: string
     readonly category: string
     readonly user: string
+    readonly favorites: string
+
 }

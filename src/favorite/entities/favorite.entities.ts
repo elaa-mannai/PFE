@@ -14,6 +14,8 @@ export class Favorite {
     @Prop({ required: false , type: SchemaTypes.ObjectId, ref:'products'})
     products: Types.ObjectId
 
+
+
 }
 
 export const favoriteSchema = SchemaFactory.createForClass(Favorite)

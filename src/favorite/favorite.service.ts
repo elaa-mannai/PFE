@@ -18,14 +18,30 @@ export class FavoriteService {
     @InjectModel('products')
     private productModel:Model<IProduct>
     ){}
+    
+  
+
+    async getFavoriteByUserIdAndFavoriteState(userId: string, state : boolean):Promise<IFavorite[]>{
+      const favoriteDatebyUserId= await this.favoriteModel.find({user :userId, state})
+      if (!favoriteDatebyUserId || favoriteDatebyUserId.length ==0 ){
+     return null
+      }
+        return favoriteDatebyUserId;
+  }
+
+
+
+
 
     async createFavorite(createFavoriteDto: CreateFavoriteDto ): Promise<IFavorite> {
         const newFavorite = new this.favoriteModel(createFavoriteDto)
-        await this.userModel.updateOne({ _id: createFavoriteDto.user },
-          { $push: { favorites: newFavorite._id } });
-        /* await this.productModel.updateOne({_id :createFavoriteDto.products},
-          {$push: {favorites: newFavorite._id}}).populate;
-         */return await newFavorite.save()
+         await this.userModel.updateOne({ _id: createFavoriteDto.user },
+          { $push: {  favorites: newFavorite._id } });
+
+          await this.productModel.updateOne({ _id: createFavoriteDto.products },
+            {  $set: { favorites: newFavorite._id} });
+      
+        return await newFavorite.save()
       }
 
 
@@ -77,5 +93,7 @@ export class FavoriteService {
         }
           return favoriteDatebyUserId;
     }
+
+
             
 }
