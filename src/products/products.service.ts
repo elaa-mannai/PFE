@@ -32,7 +32,7 @@ export class ProductsService {
   }
 
   async findAllProducts(): Promise<IProduct[]> {
-    const pdata = await this.productModel.find().exec()
+    const pdata = await this.productModel.find().populate('category').exec()
     if (!pdata || pdata.length === 0) {
       //throw new NotFoundException("Products Data not found")
       return null
@@ -40,8 +40,10 @@ export class ProductsService {
     return pdata
   }
 
+ 
   async findOneProduct(productId: string): Promise<IProduct> {
-    const pdata = await (await this.productModel.findById(productId).exec()).populate('favorites')
+    // const pdata = await this.productModel.findById(productId).populate({path:'products', populate:[{path: 'favorites'},{path :'category'}]}).exec(); 
+    const pdata = await this.productModel.findById(productId).populate( 'category').exec();
     if (!pdata) {
       throw new NotFoundException("Product not found")
     }
@@ -74,6 +76,15 @@ export class ProductsService {
         return ProductsData;
       }
 
+      async findAllProductsByCategory(categorieid: String): Promise<IProduct[]> {
+        const pdata = await this.productModel.find({category: categorieid}).populate('category')
+        if (!pdata || pdata.length === 0) {
+          //throw new NotFoundException("Products Data not found")
+          return null
+        }
+        return pdata
+      }
+    
      
   
     

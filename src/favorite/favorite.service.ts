@@ -22,7 +22,16 @@ export class FavoriteService {
   
 
     async getFavoriteByUserIdAndFavoriteState(userId: string, state : boolean):Promise<IFavorite[]>{
-      const favoriteDatebyUserId= await this.favoriteModel.find({user :userId, state})
+      const favoriteDatebyUserId= await this.favoriteModel.find({user :userId, state}).populate({
+        path: 'products',
+        populate: [{
+          path: 'category',
+        },
+      {path:'favorites'},]
+      })
+      .exec();
+    
+
       if (!favoriteDatebyUserId || favoriteDatebyUserId.length ==0 ){
      return null
       }

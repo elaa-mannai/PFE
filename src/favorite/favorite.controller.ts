@@ -33,7 +33,7 @@ async create(@Res()response, @Body() createFavoriteDto:CreateFavoriteDto){
 
 
 
-@Get('stateAndUserId/:state/:id')
+@Get('stateAndUserId/:id/state')
  async GetAllFavoriteByuserAndState(@Query('state') state : boolean,@Param('id') UserId: string ,@Res() response): Promise<IFavorite>{
  try{
   const favoriteDate = await this.favoriteService.getFavoriteByUserIdAndFavoriteState(UserId, state)
