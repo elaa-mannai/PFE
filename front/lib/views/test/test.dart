@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/* import 'package:flutter/material.dart';
 import 'package:sms/sms.dart';
 
 void main() {
@@ -49,4 +49,4 @@ class MyHomePage extends StatelessWidget {
       print('Error sending SMS: $error');
     }
   }
-}
+} */

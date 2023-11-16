@@ -43,7 +43,9 @@ export class ProductsService {
  
   async findOneProduct(productId: string): Promise<IProduct> {
     // const pdata = await this.productModel.findById(productId).populate({path:'products', populate:[{path: 'favorites'},{path :'category'}]}).exec(); 
-    const pdata = await this.productModel.findById(productId).populate( 'category').exec();
+    const pdata = await this.productModel.findById(productId).populate('category')
+    .populate('favorites')
+    .exec();
     if (!pdata) {
       throw new NotFoundException("Product not found")
     }

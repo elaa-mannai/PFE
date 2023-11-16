@@ -198,6 +198,7 @@ class ProductsController extends GetxController {
     });
   }
 
+///////// a descuter
   getProductById() async {
     print("product by id ");
     apiProductGetById.id = AccountInfoStorage.readProductId().toString();
@@ -207,31 +208,16 @@ class ProductsController extends GetxController {
         productGetByIdJson = value as ProductGetByIdJson?;
         print(
             "data product by id ============================${productGetByIdJson!.data}");
-        AccountInfoStorage.saveProductName(
-            productGetByIdJson!.data!.nameproduct.toString());
-        AccountInfoStorage.saveProductPrice(
-            productGetByIdJson!.data!.price.toString());
-        AccountInfoStorage.saveProductDescription(
-            productGetByIdJson!.data!.description.toString());
-        AccountInfoStorage.saveProductImage(
-            productGetByIdJson!.data!.images.toString());
-
         print(
             "lenght image list=====${productGetByIdJson!.data!.images!.length}");
 
-        /* if (imgList!.isNotEmpty) {
-        for (int i = 0; i < productGetJson!.data![i].images!.length; i++) {
-          print(imgList![i].nameproduct);
-          if (FavoriteProducts![i].favorite == true) {
-            listFavProd.add(FavoriteProducts![i].sId.toString());
-            print("list$listFavProd");
-          }
+        if (productGetByIdJson!.data != null) {
+          return productGetByIdJson!;
         }
-      } */
-      });     
-      //  Get.to(ProductDetail());
+        return null;
+      });
 
-      return productGetByIdJson;
+      return productGetByIdJson!;
     } catch (error) {
       print("error product by id ==== $error");
     }
@@ -252,7 +238,7 @@ class ProductsController extends GetxController {
       await apiProductGetByCategoryId.getData().then((value) {
         productsByCategoryIdJson = value as ProductsByCategoryIdJson?;
         print(
-            "data product by category id  ============================${productsByCategoryIdJson!.data}");
+            "data product by categorie id ============================${productsByCategoryIdJson!.data}");
 
         print(
             "lenght image list=====${productsByCategoryIdJson!.data!.length}");
@@ -267,11 +253,10 @@ class ProductsController extends GetxController {
         }
       } */
       });
-
-      return productsByCategoryIdJson;
+      return productsByCategoryIdJson!;
       // update();
     } catch (error) {
-      print("error product by category id ==== $error");
+      print("error product by categorie id ==== $error");
     }
   }
 

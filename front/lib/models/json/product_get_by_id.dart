@@ -30,8 +30,7 @@ class Data {
   String? nameproduct;
   String? description;
   int? price;
-  String? location;
-  List<dynamic>? images;
+  List<String>? images;
   Category? category;
   String? user;
   int? iV;
@@ -42,7 +41,6 @@ class Data {
       this.nameproduct,
       this.description,
       this.price,
-      this.location,
       this.images,
       this.category,
       this.user,
@@ -54,9 +52,7 @@ class Data {
     nameproduct = json['nameproduct'];
     description = json['description'];
     price = json['price'];
-    location = json['location'];
-    images = json['images'].cast<dynamic>();
-    // images = json['images'].cast<String>();
+    images = json['images'].cast<String>();
     category = json['category'] != null
         ? new Category.fromJson(json['category'])
         : null;
@@ -73,7 +69,6 @@ class Data {
     data['nameproduct'] = this.nameproduct;
     data['description'] = this.description;
     data['price'] = this.price;
-    data['location'] = this.location;
     data['images'] = this.images;
     if (this.category != null) {
       data['category'] = this.category!.toJson();
@@ -83,6 +78,28 @@ class Data {
     if (this.favorites != null) {
       data['favorites'] = this.favorites!.toJson();
     }
+    return data;
+  }
+}
+
+class Category {
+  String? sId;
+  String? name;
+  int? iV;
+
+  Category({this.sId, this.name, this.iV});
+
+  Category.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    name = json['name'];
+    iV = json['__v'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['name'] = this.name;
+    data['__v'] = this.iV;
     return data;
   }
 }
@@ -110,31 +127,6 @@ class Favorites {
     data['state'] = this.state;
     data['user'] = this.user;
     data['products'] = this.products;
-    data['__v'] = this.iV;
-    return data;
-  }
-}
-
-class Category {
-  List<String>? products;
-  String? sId;
-  String? name;
-  int? iV;
-
-  Category({this.products, this.sId, this.name, this.iV});
-
-  Category.fromJson(Map<String, dynamic> json) {
-    products = json['products'];
-    sId = json['_id'];
-    name = json['name'];
-    iV = json['__v'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['products'] = this.products;
-    data['_id'] = this.sId;
-    data['name'] = this.name;
     data['__v'] = this.iV;
     return data;
   }

@@ -10,13 +10,12 @@ import 'package:front/widgets/custom_box_detail.dart';
 import 'package:front/widgets/custom_text.dart';
 import 'package:get/get.dart';
 
-
 class ProductDetail extends GetView<ProductsController> {
   const ProductDetail({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    controller.getProductById();
+    // controller.getProductById();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white, //your color
@@ -70,34 +69,40 @@ class ProductDetail extends GetView<ProductsController> {
                         ),
                       ),
 
-                      // text ProductName && price && barre message+buy+fav
+                      // text ProductName && price
                       Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Center(
                           child: GetBuilder<ProductsController>(
                             //key: index,
+
                             builder: (controller) {
-                              return CustomText(
-                                fontSize: 30,
-                                fontWeight: FontWeight.w400,
-                                text:
-                                    " ${AccountInfoStorage.readProductName()}",
-                                textAlign: TextAlign.center,
+                              controller.getProductById();
+
+                              return Column(
+                                children: [
+                                  CustomText(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.w400,
+                                    text:
+                                        " ${controller.productGetByIdJson!.data!.nameproduct}",
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  CustomText(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.w400,
+                                    text:
+                                        " ${controller.productGetByIdJson!.data!.price} DT",
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
                               );
                             },
                           ),
                         ),
                       ),
 
-                      Center(
-                        child: CustomText(
-                          fontSize: 28,
-                          fontWeight: FontWeight.w400,
-                          text:
-                              " ${AccountInfoStorage.readProductPrice().toString()} DT",
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
+                      //custom box detail for message, send demande and favorite
                       Padding(
                         padding: EdgeInsets.all(8.0),
                         child: GetBuilder<ProductsController>(
@@ -144,20 +149,25 @@ class ProductDetail extends GetView<ProductsController> {
                               }
                             },
                             icon:
-                               // Icon(Icons.favorite)
-                               PController.productGetByIdJson!.data!.favorites == null 
-                              ? Icon(Icons.favorite_border, color: AppColor.goldColor,)
-                              :  Icon(
-                              PController.productGetByIdJson!.data!.favorites!
-                                      .state! 
-                                  ? Icons.favorite
-                                  : Icons.favorite_border,
-                              color: PController.productGetByIdJson!.data!
-                                      .favorites!.state!
-                                  ? Colors.red
-                                  : AppColor.goldColor,
-                              size: 30,
-                            ),
+                                // Icon(Icons.favorite)
+                                PController.productGetByIdJson!.data!
+                                            .favorites ==
+                                        null
+                                    ? Icon(
+                                        Icons.favorite_border,
+                                        color: AppColor.goldColor,
+                                      )
+                                    : Icon(
+                                        PController.productGetByIdJson!.data!
+                                                .favorites!.state!
+                                            ? Icons.favorite
+                                            : Icons.favorite_border,
+                                        color: PController.productGetByIdJson!
+                                                .data!.favorites!.state!
+                                            ? Colors.red
+                                            : AppColor.goldColor,
+                                        size: 30,
+                                      ),
                           );
                         }),
                       ),
