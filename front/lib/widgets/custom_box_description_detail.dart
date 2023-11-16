@@ -19,7 +19,7 @@ class CustomBoxDescriptionDetail extends GetView<ProductsController> {
           text: "Categorie: ",
         ),
         Text(
-          "${AccountInfoStorage.readCategorieName().toString()}",
+          "${controller.productGetByIdJson!.data!.category}",
           style: TextStyle(
               fontSize: 18, fontWeight: FontWeight.w300, color: Colors.black),
         ),

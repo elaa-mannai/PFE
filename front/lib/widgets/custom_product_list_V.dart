@@ -39,7 +39,7 @@ class CustomProductListV extends GetView<ProductsController> {
         child: Row(
           children: [
             // SizedBox(width: 5),
-            Expanded(
+             Expanded(
               flex: 2,
               child:
                CarouselSlider(
@@ -59,7 +59,7 @@ class CustomProductListV extends GetView<ProductsController> {
                       fit: BoxFit.cover),
                 ),
               ), */
-            ),
+            ), 
             SizedBox(width: 15),
             Expanded(
               flex: 3,

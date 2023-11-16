@@ -22,8 +22,8 @@ class CustomSalesBox extends StatelessWidget {
           color: AppColor.goldColor.withOpacity(0.1),
           border: Border.all(
             strokeAlign: BorderSide.strokeAlignOutside,
-            width: 1,
-            color: AppColor.secondary,
+            width: 0.1,
+          color: AppColor.secondary,
           ),
           shape: BoxShape.rectangle,
         ),

@@ -9,11 +9,14 @@ class AccountInfoStorage {
   static const keyitems = "items";
   static const Keyimage = "image";
   static const KeyPassword = "password";
+  static const KeyphoneNumber = "phoneNumber";
+  static const keyadresse = "adresse";
 
   static const keyproductId = "productId";
   static const keyprodcutName = "prodcutName";
   static const keyprodcutPrice = "prodcutPrice";
   static const keyprodcutImage = "prodcutImage";
+  static const keyprodcutListImage = "prodcutListImage";
   static const keyprodcutDescription = "prodcutDescription";
   static const keyproductLocal = "productLocal";
 
@@ -69,6 +72,22 @@ class AccountInfoStorage {
     return SecureStorage.readSecureData(keyemail);
   }
 
+   static saveAdresse(String adresse) {
+    SecureStorage.writeSecureData(key:keyadresse , value:adresse );
+  }
+
+  static String? readAdresse() {
+    return SecureStorage.readSecureData(keyadresse);
+  }
+
+  static savePhoneNumber(String phoneNumber) {
+    SecureStorage.writeSecureData(key: KeyphoneNumber, value: phoneNumber);
+  }
+
+  static String? readPhoneNumber() {
+    return SecureStorage.readSecureData(KeyphoneNumber);
+  }
+
   static saveItems(String? items) {
     SecureStorage.writeSecureData(key: keyitems, value: items!);
   }
@@ -121,8 +140,19 @@ class AccountInfoStorage {
     SecureStorage.writeSecureData(key: keyprodcutImage, value: prodcutImage!);
   }
 
-  static String? readProductImage() {
-    return SecureStorage.readSecureData(keyprodcutImage);
+  static saveProductListImage(List<dynamic?> prodcutListImage) {
+    SecureStorage.writeSecureListData(
+        key: keyprodcutListImage, value: prodcutListImage!);
+  }
+
+  static deleteProductListImage() {
+    print("deleted");
+    return SecureStorage.deleteSecureData(keyprodcutListImage);
+  }
+
+  static List<dynamic?> readProductListImage() {
+    print("readed");
+    return SecureStorage.readSecureListData(keyprodcutListImage);
   }
 
   static saveProductDescription(String? prodcutDescription) {

@@ -13,6 +13,12 @@ class SecureStorage {
     var writeData = await box.write( key,value);
     return writeData;
   }
+   static Future? writeSecureListData({required String key,required List<dynamic?>  value})  async {
+
+    print("i save the $key==  $value ");
+    var writeData = await box.write( key,value);
+    return writeData;
+  }
   static  Future? writeBoolData(String key, bool value)  async {
 
 
@@ -29,6 +35,13 @@ class SecureStorage {
     var readData =   box.read( key);
     return readData;
   }
+
+   static  List<dynamic?> readSecureListData(String key)   {
+
+    var readData =   box.read( key);
+    return readData;
+  }
+
   static Future? deleteSecureData(String key) async{
 
     var deleteData = await box.remove( key);

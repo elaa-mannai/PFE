@@ -1,6 +1,7 @@
 import 'package:front/models/json/abstract_json_resource.dart';
+import 'package:front/models/json/favorite_by_user_id_and_state_json.dart';
 
-class ProductGetByIdJson extends AbstractJsonResource{
+class ProductGetByIdJson extends AbstractJsonResource {
   String? message;
   int? status;
   Data? data;
@@ -30,8 +31,8 @@ class Data {
   String? description;
   int? price;
   String? location;
-  List<String>? images;
-  String? category;
+  List<dynamic>? images;
+  Category? category;
   String? user;
   int? iV;
   Favorites? favorites;
@@ -54,8 +55,11 @@ class Data {
     description = json['description'];
     price = json['price'];
     location = json['location'];
-    images = json['images'].cast<String>();
-    category = json['category'];
+    images = json['images'].cast<dynamic>();
+    // images = json['images'].cast<String>();
+    category = json['category'] != null
+        ? new Category.fromJson(json['category'])
+        : null;
     user = json['user'];
     iV = json['__v'];
     favorites = json['favorites'] != null
@@ -71,7 +75,9 @@ class Data {
     data['price'] = this.price;
     data['location'] = this.location;
     data['images'] = this.images;
-    data['category'] = this.category;
+    if (this.category != null) {
+      data['category'] = this.category!.toJson();
+    }
     data['user'] = this.user;
     data['__v'] = this.iV;
     if (this.favorites != null) {
@@ -104,6 +110,31 @@ class Favorites {
     data['state'] = this.state;
     data['user'] = this.user;
     data['products'] = this.products;
+    data['__v'] = this.iV;
+    return data;
+  }
+}
+
+class Category {
+  List<String>? products;
+  String? sId;
+  String? name;
+  int? iV;
+
+  Category({this.products, this.sId, this.name, this.iV});
+
+  Category.fromJson(Map<String, dynamic> json) {
+    products = json['products'];
+    sId = json['_id'];
+    name = json['name'];
+    iV = json['__v'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['products'] = this.products;
+    data['_id'] = this.sId;
+    data['name'] = this.name;
     data['__v'] = this.iV;
     return data;
   }

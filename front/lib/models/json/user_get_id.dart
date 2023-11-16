@@ -1,7 +1,7 @@
 import 'package:front/models/json/abstract_json_resource.dart';
 
 class UserGetByIdJson extends AbstractJsonResource {
- String? message;
+  String? message;
   int? status;
   Data? data;
 
@@ -30,9 +30,7 @@ class Data {
   String? username;
   String? email;
   String? password;
-  
   List<String>? events;
-
   List<String>? guests;
   String? createdAt;
   String? updatedAt;
@@ -42,18 +40,15 @@ class Data {
   String? image;
   int? phone;
   List<String>? products;
-  List<String>? favorites;
+  List<Favorites>? favorites;
 
   Data(
       {this.sId,
       this.items,
       this.username,
       this.email,
-      
       this.password,
-      
       this.events,
-
       this.guests,
       this.createdAt,
       this.updatedAt,
@@ -81,9 +76,13 @@ class Data {
     image = json['image'];
     phone = json['phone'];
 
-
-    products = json['products'].cast<String>();
-    favorites = json['favorites'].cast<String>();
+    products = json['products'];
+    if (json['favorites'] != null) {
+      favorites = <Favorites>[];
+      json['favorites'].forEach((v) {
+        favorites!.add(new Favorites.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -93,9 +92,7 @@ class Data {
     data['username'] = this.username;
     data['email'] = this.email;
     data['password'] = this.password;
-
     data['events'] = this.events;
-
     data['guests'] = this.guests;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
@@ -104,9 +101,38 @@ class Data {
     data['adress'] = this.adress;
     data['image'] = this.image;
     data['phone'] = this.phone;
-    data['products'] = this.products;
-    data['favorites'] = this.favorites;
+      data['products'] = this.products;
+    if (this.favorites != null) {
+      data['favorites'] = this.favorites!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
 
+class Favorites {
+  String? sId;
+  bool? state;
+  String? user;
+  String? products;
+  int? iV;
+
+  Favorites({this.sId, this.state, this.user, this.products, this.iV});
+
+  Favorites.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    state = json['state'];
+    user = json['user'];
+    products = json['products'];
+    iV = json['__v'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['state'] = this.state;
+    data['user'] = this.user;
+    data['products'] = this.products;
+    data['__v'] = this.iV;
+    return data;
+  }
+}

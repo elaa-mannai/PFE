@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:front/config/app_colors.dart';
 import 'package:front/controllers/products_controller.dart';
+import 'package:front/widgets/components/multiple_image.dart';
 import 'package:front/widgets/custom_backgroung_image.dart';
 import 'package:front/widgets/custom_dropdown_services_choices.dart';
 import 'package:front/widgets/custom_input_text.dart';
@@ -13,7 +14,6 @@ class CustomMultiImageChange extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Asset> images = <Asset>[];
     return Scaffold(
       // resizeToAvoidBottomInset: true,
       body: CustomBackgroungImage(
@@ -48,15 +48,10 @@ class CustomMultiImageChange extends StatelessWidget {
                           label: "Price:",
                         ),
                         //addimages
-                        ElevatedButton(
-                          child: Text("Pick images"),
-                          onPressed: () {
-                            controller.profilePicFiles;
-                            function() {
-                              controller.directUpdateMultiImage;
-                            }
-                          },
-                        ),
+
+                        MultipleImage(),
+
+                     
                         //categories
                         CustomDropdownServices(),
                       ],
@@ -80,20 +75,7 @@ class CustomMultiImageChange extends StatelessWidget {
                     },
                   ),
 
-                  /*  
-                Expanded(
-                  child: GridView.count(
-                    crossAxisCount: 3,
-                    children: List.generate(images.length, (index) {
-                      Asset asset = images[index];
-                      return AssetThumb(
-                        asset: asset,
-                        width: 300,
-                        height: 300,
-                      );
-                    }),
-                  ),
-                ), */
+                 
                 ],
               );
             })

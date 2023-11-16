@@ -9,7 +9,7 @@ import 'package:flutter_image_stack/flutter_image_stack.dart';
 
 class CustomEventList extends GetView<EventController> {
   final String? eventName;
-  final String? datedeb, datefin, description, local, budget;
+  final String? datedeb, datefin, description, local, budget, text;
   final Function? function;
   final double? widthBorder;
   final Color? colorBorder;
@@ -18,6 +18,7 @@ class CustomEventList extends GetView<EventController> {
   CustomEventList({
     Key? key,
     this.eventName,
+    this.text,
     this.function,
     this.widthBorder,
     this.colorBorder,
@@ -32,6 +33,8 @@ class CustomEventList extends GetView<EventController> {
   @override
   Widget build(BuildContext context) {
     //   ScrollController scrollController = ScrollController();
+
+    controller.getAllGuestsByEventId;
 
     return Padding(
       padding: EdgeInsets.fromLTRB(2, 15, 2, 15),
@@ -126,111 +129,17 @@ class CustomEventList extends GetView<EventController> {
 
                     ////////////////////////////////////////////////////////////
                     ///problem that it only get one event by id
+
                     Column(
                       children: [
                         CustomText(text: "Guest List:"),
                         Text(
-                          controller.guestByEventIdJson!.data != null
-                              ? controller.guestByEventIdJson!.data!.length
-                                  .toString()
-                              : "0",
-                          style: TextStyle(color: Colors.white),
+                          text!,
+                          style: TextStyle(color: Colors.black),
                         ),
-                        /*  TextButton(
-                                              onPressed: () {
-                                                controller
-                                                    .getAllGuestsByEventId()
-                                                    .toString();
-                                                Get.to(GuestList());
-                                              },
-                                              child: Text( 
-                                                controller.guestByEventIdJson!
-                                                    .data!.length
-                                                    .toString(),
-                                                    style: TextStyle(color: Colors.white),
-                                          )); */
-
                         SizedBox(height: 10),
                       ],
-                    )
-
-                    // Expanded(
-                    //   child: FutureBuilder(
-                    //     future: controller.getAllGuestsByEventId(),
-                    //     builder: (ctx, snapshot) {
-                    //       print(
-                    //           'snapshot==============================>$snapshot');
-                    //       // Checking if future is resolved or not
-                    //       if (snapshot.connectionState ==
-                    //           ConnectionState.waiting) {
-                    //         print("-----------------snapshot$snapshot");
-                    //         return Center(
-                    //           child: CircularProgressIndicator(
-                    //               color: AppColor.secondary),
-                    //         );
-                    //       } else {
-                    //         print(
-                    //             'snapshot==============================>$snapshot');
-
-                    //         // If we got an error
-                    //         if (snapshot.hasError) {
-                    //           return Center(
-                    //             child: Text(
-                    //               '${snapshot.error} occurred',
-                    //               style: TextStyle(fontSize: 18),
-                    //             ),
-                    //           );
-
-                    //           // if we got our data
-                    //         }
-
-                    //         if (snapshot.data == null) {
-                    //           // Extracting data from snapshot object
-                    //           print(
-                    //               '-----------------------snapshotdata=======>$snapshot');
-                    //           return Center(
-                    //             child: Text(
-                    //               'No Guests for the moment!',
-                    //               style: TextStyle(color: AppColor.secondary),
-                    //             ),
-                    //           );
-                    //         } else {
-                    //           return Column(
-                    //             children: [
-                    //               CustomText(text: "Guest List:"),
-                    //               GetBuilder<EventController>(
-                    //                   builder: (controller) {
-                    //                 return ListView.builder(
-                    //                     padding: EdgeInsets.zero,
-                    //                     shrinkWrap: true,
-                    //                     physics: NeverScrollableScrollPhysics(),
-                    //                     itemCount: 1,
-                    //                     itemBuilder:
-                    //                         (BuildContext context, int index) {
-                    //                       return Text("data");
-                    //                       /*  TextButton(
-                    //                           onPressed: () {
-                    //                             controller
-                    //                                 .getAllGuestsByEventId()
-                    //                                 .toString();
-                    //                             Get.to(GuestList());
-                    //                           },
-                    //                           child: Text(
-                    //                             controller.guestByEventIdJson!
-                    //                                 .data!.length
-                    //                                 .toString(),
-                    //                                 style: TextStyle(color: Colors.white),
-                    //                       )); */
-                    //                     });
-                    //               }),
-                    //               SizedBox(height: 10),
-                    //             ],
-                    //           );
-                    //         }
-                    //       }
-                    //     },
-                    //   ),
-                    // ), ////////////Column to guest lists
+                    ),
                   ],
                 ),
                 /////// guest list

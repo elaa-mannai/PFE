@@ -15,8 +15,8 @@ class FavoriteView extends GetView<ProductsController> {
 
   @override
   Widget build(BuildContext context) {
-    // controller.getAllProductByUserId();
-    print("favstate${AccountInfoStorage.readFavoriteState()}");
+    controller.getAllProductByUserId();
+    // print("favstate${AccountInfoStorage.readFavoriteState()}");
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white, //your color
@@ -50,11 +50,12 @@ class FavoriteView extends GetView<ProductsController> {
         image: 'assets/images/landpage.jpg',
         widget: Column(
           children: <Widget>[
-            Text("data"),
             Expanded(
               child: FutureBuilder(
                   future: controller.getAllfavoriteByUserIdAndState(),
                   builder: (context, snapshot) {
+                        // print("testing ${controller.favoriteByUserIdAndStateJson!.data!.length}");
+
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       print("-----------------snapshot$snapshot");
                       return Center(
@@ -98,7 +99,7 @@ class FavoriteView extends GetView<ProductsController> {
                                           crossAxisSpacing: 20,
                                           mainAxisSpacing: 20),
                                   itemCount:
-                                      2, //controller.favoriteByUserIdJson!.data!.length,
+                                      controller.favoriteByUserIdAndStateJson!.data!.length,
                                   itemBuilder: (BuildContext ctx, index) {
                                     return GestureDetector(
                                       child: CustomFavoriteList(
@@ -106,10 +107,11 @@ class FavoriteView extends GetView<ProductsController> {
                                         function: () {},
                                         img: 'assets/images/logo2.png',
                                         icon: Icons.favorite_sharp,
+                                        productname: "${controller.favoriteByUserIdAndStateJson!.data![index].products!.nameproduct}",
                                         Descriptiontext:
-                                            "test", // "${controller.productsByUserIdJson!.data![index].description}",
+                                            "${controller.favoriteByUserIdAndStateJson!.data![index].products!.description}",
                                         ServiceName:
-                                            "test", //AccountInfoStorage.readCategorieName().toString(),
+                                            "${controller.favoriteByUserIdAndStateJson!.data![index].products!.category!.name}",
                                         height: 200,
                                         width: 200,
                                         colorBorder: AppColor.goldColor,
@@ -135,100 +137,5 @@ class FavoriteView extends GetView<ProductsController> {
     );
   }
 }
-            /*        Expanded(
-              flex: 8,
-              child: FutureBuilder(
-                  future: controller.getAllProductByUserId(),
-                  builder: (ctx, snapshot) {
-                    // Checking if future is resolved or not
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      print("-----------------snapshot$snapshot");
-                      return Center(
-                        child: CircularProgressIndicator(
-                            color: AppColor.secondary),
-                      );
-                    } else {
-                      // If we got an error
-                      if (snapshot.hasError) {
-                        return Center(
-                          child: Text(
-                            'Something went wrong !!!',
-                            style: TextStyle(fontSize: 18),
-                          ),
-                        );
-
-                        // if we got our data
-                      }
-
-                      if (snapshot.data == null) {
-                        // Extracting data from snapshot object
-                        print(
-                            '-----------------------snapshotdata=======>$snapshot');
-                        return Center(
-                          child: Text(
-                            'There is no service for the moment',
-                            style: TextStyle(color: AppColor.secondary),
-                          ),
-                        );
-                      } else {
-                        return Center(
-                          child: Expanded(
-                            flex: 6,
-                            child: GetBuilder<ProductsController>(
-                              builder: (controller) {
-                                return GridView.builder(
-                                  gridDelegate:
-                                      SliverGridDelegateWithMaxCrossAxisExtent(
-                                          maxCrossAxisExtent: 200,
-                                          childAspectRatio: 2 / 2,
-                                          crossAxisSpacing: 20,
-                                          mainAxisSpacing: 20),
-                                  itemCount:
-                                      profileColntroller.favProducts!.length,
-                                  itemBuilder: (BuildContext ctx, index) {
-                                    controller.getCategorieById(
-                                        "${controller.productGetJson!.data![index].category}");
-
-                                    return GestureDetector(
-                                      child: CustomFavoriteList(
-                                        FavoriteFunction: () {},
-                                        function: () {},
-                                        img: 'assets/images/logo2.png',
-                                        icon: Icons.favorite_sharp,
-                                        Descriptiontext:
-                                            "${controller.productGetJson!.data![index].description}",
-                                        ServiceName: AccountInfoStorage
-                                                .readCategorieName()
-                                            .toString(),
-                                        height: 200,
-                                        width: 200,
-                                        colorBorder: AppColor.goldColor,
-                                        widthBorder: 1,
-                                      ),
-                                      onTap: () {
-                                        print(
-                                            "*-------------------------------------------*get category by id*****************");
-                                        controller.getProductById(
-                                            "${controller.productGetJson!.data![index].sId}");
-                                        print(
-                                            "*************get category by id*****************");
-                                      },
-                                    );
-                                  },
-                                );
-                              },
-                            ),
-                          ),
-                        );
-                      }
-                    }
-                    // print("-----------------snapshot$snapshot");
-                    // Displaying LoadingSpinner to indicate waiting state
-
-                    // Future that needs to be resolved
-                    // inorder to display something on the Canvas
-                  }),
-            ),
-      */
-          
+         
       

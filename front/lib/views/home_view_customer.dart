@@ -5,6 +5,9 @@ import 'package:front/controllers/products_controller.dart';
 import 'package:front/controllers/profile_controller.dart';
 import 'package:front/views/event_list_view.dart';
 import 'package:front/views/favorite_view.dart';
+import 'package:front/views/product-by-categorie.dart';
+import 'package:front/views/product_detail.dart';
+import 'package:front/views/product_selection_by_services.dart';
 import 'package:front/views/profile_view.dart';
 import 'package:front/views/setting_view.dart';
 import 'package:front/widgets/custom_backgroung_image.dart';
@@ -97,7 +100,7 @@ class HomeView extends GetView<ProductsController> {
                   ),
 
                   ///fav list
-                  GetBuilder<ProfileColntroller>(builder: (controller) {
+                  GetBuilder<ProductsController>(builder: (controller) {
                     return ListTile(
                       leading: Icon(
                         Icons.favorite,
@@ -105,7 +108,14 @@ class HomeView extends GetView<ProductsController> {
                       title: Text('Favorite list'),
                       onTap: () {
                         // print("listDrawer${controller.savedFavProd}");
-                        // print("listDrawer${controller.favProducts}");
+                        print("listDrawer");
+
+                        /*   controller.getAllFavoriteByUserId();
+                         AccountInfoStorage.saveFavoriteId(
+                            '${controller.favoriteByUserIdJson!.data!}');
+                        print(
+                            "objectstate  ${AccountInfoStorage.readFavoriteId()}");
+ */
                         Get.to(FavoriteView());
                       },
                     );
@@ -209,87 +219,19 @@ class HomeView extends GetView<ProductsController> {
                           text: 'View All',
                           icon: Icons.arrow_forward,
                           function: () {
-                            //Get.to(ProductSelectionByServices());
-                            //Get.to(EventListView());
+                            // Get.to(ProductSelectionByServices());
+                            Get.to(EventListView());
                             //    Get.to(ProductDetail());
                             // Get.to(FavoriteView());
-                            Get.to(ProfileView());
+                            //  Get.to(ProfileView());
                           },
                         ),
                       )
                     ],
                   ),
                 ),
+
                 //list service names
-
-                /*           FutureBuilder(
-                  future: controller.getProducts(),
-                  builder: (ctx, snapshot) {
-                    // Checking if future is resolved or not
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      print("-----------------snapshot$snapshot");
-                      return Center(
-                        child: CircularProgressIndicator(
-                            color: AppColor.secondary),
-                      );
-                    } else {
-                      // If we got an error
-                      if (snapshot.hasError) {
-                        return Center(
-                          child: Text(
-                            'Something went wrong !!!',
-                            style: TextStyle(fontSize: 18),
-                          ),
-                        );
-
-                        // if we got our data
-                      }
-
-                      if (snapshot.data == null) {
-                        // Extracting data from snapshot object
-                        print(
-                            '-----------------------snapshotdata=======>$snapshot');
-                        return Center(
-                          child: Text(
-                            'There is no availble services for the moment',
-                            style: TextStyle(color: AppColor.secondary),
-                          ),
-                        );
-                      } else {
-                        print(
-                            'categories length============> ${controller.categorieJson!.data!.length}');
-                        print('categories============> ${snapshot.data}');
-                        return Center(
-                          child: Expanded(
-                            flex: 5,
-                            child: GetBuilder<ProductsController>(
-                              builder: (controller) {
-                                return ListView.builder(
-                                  shrinkWrap: true,
-                                  controller: scrollController,
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount:
-                                      controller.categorieJson!.data!.length,
-                                  itemBuilder: (BuildContext context, index) {
-                                    return CustomChechbox(
-                                      function: () {},
-                                      text:
-                                          '${controller.categorieJson!.data![index].name}',
-                                      colorBorder: AppColor.goldColor,
-                                      widthBorder: 1,
-                                    );
-                                  },
-                                );
-                              },
-                            ),
-                          ),
-                        );
-                      }
-                    }
-                  },
-                ),
-       */
-
                 FutureBuilder(
                     future: controller.getCategories(),
                     builder: (ctx, snapshot) {
@@ -336,7 +278,18 @@ class HomeView extends GetView<ProductsController> {
                                     controller.categorieJson!.data!.length,
                                 itemBuilder: (BuildContext context, index) {
                                   return CustomChechbox(
-                                    function: () {},
+                                    function: () {
+                                      AccountInfoStorage.saveCatgorieId(
+                                          controller
+                                              .categorieJson!.data![index].sId);
+                                      AccountInfoStorage.saveCatgorieName(
+                                          controller.categorieJson!.data![index]
+                                              .name);
+
+                                      //  controller.getProductByCatgoryId();
+
+                                      Get.to(ProductByCategorie());
+                                    },
                                     text:
                                         '${controller.categorieJson!.data![index].name}',
                                     colorBorder: AppColor.goldColor,
@@ -347,6 +300,7 @@ class HomeView extends GetView<ProductsController> {
                         }
                       }
                     }),
+
                 //list products
                 Expanded(
                   flex: 5,
@@ -399,25 +353,16 @@ class HomeView extends GetView<ProductsController> {
                                       itemBuilder:
                                           (BuildContext context, index) {
                                         controller.getCategorieById(
-                                            "${controller.productGetJson!.data![index].category}");
+                                            "${controller.productGetJson!.data![index].category!.name}");
                                         return GestureDetector(
                                           child: CustomFavoriteList(
                                             function: () {},
-                                            /*  FavoriteFunction: (){
-
-                                            },
-                                            icon: controller.isFavorite
-                                                ? Icons.favorite_sharp
-                                                : Icons.favorite_border_sharp,
- */
-                                            //  Icons.favorite_border,
-                                            //products[index].image.toString()
-                                            //img: "${controller.productGetJson!.data![index].images}",
                                             img: "assets/images/logo2.png ",
                                             /* '${controller.productGetJson!.data![index].images}', */
-                                            ServiceName: AccountInfoStorage
-                                                    .readCategorieName()
-                                                .toString(),
+                                            ServiceName:
+                                                "${controller.productGetJson!.data![index].category!.name}",
+                                            productname:
+                                                "${controller.productGetJson!.data![index].nameproduct}",
                                             Descriptiontext:
                                                 "${controller.productGetJson!.data![index].description}",
                                             height: 200,
@@ -434,8 +379,8 @@ class HomeView extends GetView<ProductsController> {
                                                 controller.productGetJson!
                                                     .data![index].sId);
 
-                                            controller.getProductById();
-                                            controller.getAllFavoriteByUserId();
+                                            // controller.getProductById();
+                                            Get.to(ProductDetail());
 
                                             print(
                                                 "*************get category by id*****************");
@@ -449,65 +394,9 @@ class HomeView extends GetView<ProductsController> {
                             );
                           }
                         }
-                        // print("-----------------snapshot$snapshot");
-                        // Displaying LoadingSpinner to indicate waiting state
-
-                        // Future that needs to be resolved
-                        // inorder to display something on the Canvas
                       }),
                 ),
 
-                // tasks
-                /*        Expanded(
-                    flex: 1,
-                    child: Column(
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 2,
-                                child: CustomText(
-                                  textAlign: TextAlign.justify,
-                                  text: 'Tasks',
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w400,
-                                  //textAlign: TextAlign.left,
-                                ),
-                    Color.fromARGB(177, 0, 0, 0)                       //view all
-                              Expanded(
-                                flex: 1,
-                                child: Row(
-                                  children: [
-                                    CustomButtonText(
-                                      text: 'View All',
-                                      icon: Icons.arrow_forward,
-                                      function: () {
-                                        //  Get.to();
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        controller: scrollController,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 10,
-                        itemBuilder: (BuildContext context, index) {
-                          return  Text("data");
-                        }),
-                  ),
-  */
                 // Top vendors
                 Expanded(
                   flex: 1,

@@ -129,6 +129,25 @@ export class ProductsController {
     
   }
 
+  @Get("category/:id")
+  async getAllProductsbyCategoryname(@Param('id') categorieid: string ,@Res() response) {
+    try{
+      const ProductsData=await this.productsService.findAllProductsByCategory(categorieid);
+      return response.status(HttpStatus.OK).json({
+        message:'All Products data found successfully',
+        status:HttpStatus.OK,
+        data:ProductsData
+      })
+    }catch (err){
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message:err,
+        status:HttpStatus.BAD_REQUEST,
+        data:null
+      })
+    }
+    
+  }
+
 
  /*  @Get("favoriteproduct/:id/:favorite")
   async getAllFavoriteProduct( @Param(":id") UserId: string ,@Query(':favorite') favoriteProduct: boolean ,@Res() response) {

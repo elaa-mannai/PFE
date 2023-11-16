@@ -15,7 +15,6 @@ class EventListView extends GetView<EventController> {
 
   @override
   Widget build(BuildContext context) {
-       
     ScrollController scrollController = ScrollController();
     //controller.getAllEventByUserId();
     //  controller.getEventById(AccountInfoStorage.saveEventId(controller.eventByIdJson!.data!.sId.toString()));
@@ -107,6 +106,8 @@ class EventListView extends GetView<EventController> {
                         flex: 1,
                         child: GetBuilder<EventController>(
                           builder: (controller) {
+                            // controller.getAllGuestsByEventId();
+
                             return ListView.builder(
                                 shrinkWrap: true,
                                 controller: scrollController,
@@ -114,11 +115,6 @@ class EventListView extends GetView<EventController> {
                                 itemCount:
                                     controller.eventByUserIdJson!.data!.length,
                                 itemBuilder: (BuildContext context, index) {
-                                  
-                                  AccountInfoStorage.saveEventId(controller
-                                      .eventByUserIdJson!.data![index].sId
-                                      .toString());
-controller.getAllGuestsByEventId();
                                   return GestureDetector(
                                       child: CustomEventList(
                                         eventName:
@@ -131,45 +127,7 @@ controller.getAllGuestsByEventId();
                                             "${controller.eventByUserIdJson!.data![index].local}",
                                         budget:
                                             "${controller.eventByUserIdJson!.data![index].budget}",
-                                        /*                  getlistguest: Expanded(
-                                        child: Column(
-                                          children: [
-                                            CustomText(text: "Guest List:"),
-                                            GetBuilder<EventController>(
-                                                builder: (controller) {
-                                              return ListView.builder(
-                                                  padding: EdgeInsets.zero,
-                                                  shrinkWrap: true,
-                                                  physics:
-                                                      NeverScrollableScrollPhysics(),
-                                                  itemCount: 1,
-                                                  itemBuilder:
-                                                      (BuildContext context,
-                                                          int index) {
-                                                    return TextButton(
-                                                        onPressed: () {
-                                                          controller.getEventById(
-                                                              controller
-                                                                  .eventByIdJson!
-                                                                  .data!
-                                                                  .sId
-                                                                  .toString());
-                                                          Get.to(GuestList());
-                                                        },
-                                                        child: Text(
-                                                          controller
-                                                              .guestByEventIdJson!
-                                                              .data!
-                                                              .length
-                                                              .toString(),
-                                                        ));
-                                                  });
-                                            }),
-                                            SizedBox(height: 10),
-                                          ],
-                                        ),
-                                      ),
-                                            */
+                                            text: "${controller.eventByUserIdJson!.data![index].guests!.length}",
                                         colorBorder: AppColor.goldColor,
                                         widthBorder: 1,
                                         function: () {},
@@ -177,7 +135,10 @@ controller.getAllGuestsByEventId();
                                       onTap: () {
                                         print(
                                             "////////////////////////////////////////event by id to get guest user////////////////////////////////////////");
-
+                                        AccountInfoStorage.saveEventId(
+                                            controller.eventByUserIdJson!
+                                                .data![index].sId
+                                                .toString());
                                         controller.getEventById(
                                             "${AccountInfoStorage.readEventId()}");
 

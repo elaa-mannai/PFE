@@ -12,8 +12,8 @@ import 'package:front/models/json/favorite_by_id_json.dart';
 import 'package:front/models/json/favorite_by_state_json.dart';
 import 'package:front/models/json/favorite_by_user_id_and_state_json.dart';
 import 'package:front/models/json/favorite_by_user_id_json.dart';
-import 'package:front/models/json/login_user_json.dart';
 import 'package:front/models/json/product_add_json.dart';
+import 'package:front/models/json/product_by_category_id_json.dart';
 import 'package:front/models/json/product_by_user_is_json.dart';
 import 'package:front/models/json/product_get_by_id.dart';
 import 'package:front/models/json/product_get_json.dart';
@@ -30,14 +30,13 @@ import 'package:front/models/network/api_favorite_get_by_user_id.dart';
 import 'package:front/models/network/api_favorite_get_by_user_id_and_state.dart';
 import 'package:front/models/network/api_get_user_by_id.dart';
 import 'package:front/models/network/api_product_add.dart';
+import 'package:front/models/network/api_product_by_user_is_json.dart';
 import 'package:front/models/network/api_product_get.dart';
 import 'package:front/models/network/api_product_get_by_id.dart';
 import 'package:front/models/network/api_products_get_by_user_id.dart';
 import 'package:front/views/product_detail.dart';
-import 'package:front/widgets/components/image_cloudinary.dart';
-import 'dart:io';
+import 'package:front/views/product_selection_by_services.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 
 class ProductsController extends GetxController {
   ApiCategoriesGet apiCategoriesGet = ApiCategoriesGet();
@@ -76,12 +75,24 @@ class ProductsController extends GetxController {
         }),
   );
 
-
-
   @override
-  void onInit() {
+  Future<void> onInit() async {
     getCategories();
-    getProducts();
+    await getProducts();
+    filteredItemsName
+        .addAll(productGetJson!.data!.map((data) => data.nameproduct ?? ''));
+    filteredItemsDes
+        .addAll(productGetJson!.data!.map((data) => data.description ?? ''));
+    filteredItemsCat
+        .addAll(productGetJson!.data!.map((data) => data.category!.name ?? ''));
+
+    await getProductByCatgoryId();
+    filteredItemsNameC.addAll(
+        productsByCategoryIdJson!.data!.map((data) => data.nameproduct ?? ''));
+    filteredItemsDesC.addAll(
+        productsByCategoryIdJson!.data!.map((data) => data.description ?? ''));
+    filteredItemsCatC.addAll(productsByCategoryIdJson!.data!
+        .map((data) => data.category!.name ?? ''));
     //  createProduct();
     // Initialisations spécifiques à ce contrôleur
     super
@@ -95,8 +106,9 @@ class ProductsController extends GetxController {
       if (categorieJson!.data != null) {
         return categorieJson!;
       }
-      return null;
       print("data categories =================== ${categorieJson!.message}");
+
+      return null;
     }).onError((error, stackTrace) {
       print("error ==== $error");
       return categorieJson!;
@@ -216,12 +228,50 @@ class ProductsController extends GetxController {
           }
         }
       } */
+      });     
+      //  Get.to(ProductDetail());
 
-        Get.to(ProductDetail());
-      });
-      update();
+      return productGetByIdJson;
     } catch (error) {
       print("error product by id ==== $error");
+    }
+    update();
+  }
+
+  ApiProductGetByCategoryId apiProductGetByCategoryId =
+      ApiProductGetByCategoryId();
+  ProductsByCategoryIdJson? productsByCategoryIdJson =
+      ProductsByCategoryIdJson();
+
+  getProductByCatgoryId() async {
+    print("product by categorie id ");
+    apiProductGetByCategoryId.id =
+        AccountInfoStorage.readCategorieId().toString();
+
+    try {
+      await apiProductGetByCategoryId.getData().then((value) {
+        productsByCategoryIdJson = value as ProductsByCategoryIdJson?;
+        print(
+            "data product by category id  ============================${productsByCategoryIdJson!.data}");
+
+        print(
+            "lenght image list=====${productsByCategoryIdJson!.data!.length}");
+
+        /* if (imgList!.isNotEmpty) {
+        for (int i = 0; i < productGetJson!.data![i].images!.length; i++) {
+          print(imgList![i].nameproduct);
+          if (FavoriteProducts![i].favorite == true) {
+            listFavProd.add(FavoriteProducts![i].sId.toString());
+            print("list$listFavProd");
+          }
+        }
+      } */
+      });
+
+      return productsByCategoryIdJson;
+      // update();
+    } catch (error) {
+      print("error product by category id ==== $error");
     }
   }
 
@@ -236,9 +286,12 @@ class ProductsController extends GetxController {
       productsByUserIdJson = value as ProductsByUserIdJson?;
 
       if (productsByUserIdJson!.data != null) {
-        // print("Product by user id =============== ${productsByUserIdJson!.data![0].user}");
+        print(
+            "Product by user id =============== ${productsByUserIdJson!.data!.length}");
         return productsByUserIdJson;
       }
+
+      update();
       return null;
     }).onError((error, stackTrace) {
       print('error======> $error');
@@ -248,129 +301,37 @@ class ProductsController extends GetxController {
 
   createProduct() {
     print('************************create product***********************');
-    /*  dio.FormData formData1 = dio.FormData.fromMap({
-      "nameproduct": productNameController.text,
-      "description": productDescriptionController.text,
-      "price": productPriceController.text.toString(),
-      //"images": [],
-      "category": AccountInfoStorage.readCategorieName().toString(),
-      "user": AccountInfoStorage.readId().toString(),
-    }); */
     Map<String, dynamic> data = {
       "nameproduct": productNameController.text,
       "description": productDescriptionController.text,
       "price": productPriceController.text,
-      //"images":[],
-      // "favorite": false,
+      "images": AccountInfoStorage.readProductListImage(),
       "category": AccountInfoStorage.readCategorieName().toString(),
       "user": AccountInfoStorage.readId().toString(),
     };
-
-    apiProductAdd.postData(data).then((value) {
-      print('success+++++++++++++++> $value');
-      getProducts();
-      // productAddJson = value as ProductAddJson?;
-      //  print('name==================> ${AccountInfoStorage.readProductName()}');
-
-      // print('event created=======> ${productAddJson!.data!.sId}');
-    }).onError((error, stackTrace) {
-      print('error create product ==========> $TypeError');
-    });
-    update();
-  }
-
-  ImageCloudinary imageCloudinary = ImageCloudinary();
-List<File> profilePicFiles = [];
-  Future<void> directUpdateMultiImage(List<XFile> files) async {
-    if (files == null) return;
-profilePicFiles = files.map((xfile) => File(xfile.path)).toList();
-  print("Uploaded Images: ${profilePicFiles.map((file) => file.path).toList()}");
-  
-  // Call your upload function here for each image in profilePicFiles
-  for (var file in profilePicFiles) {
-    await imageCloudinary.uploadMultiImagesToCloudinary(profilePicFiles);
-  }
-
-  update();
-  }
-
-
-
-/* 
-   Future<void> loadAssets() async {
-    List<Asset> resultList = <Asset>[];
-    String error = 'No Error Detected';
-
     try {
-      resultList = await MultipleImagesPicker.pickImages(
-        maxImages: 300,
-        enableCamera: true,
-        selectedAssets: images,
-        cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
-        materialOptions: MaterialOptions(
-          actionBarColor: "#abcdef",
-          actionBarTitle: "Example App",
-          allViewTitle: "All Photos",
-          useDetailsView: false,
-          selectCircleStrokeColor: "#000000",
-        ),
-      );
-    } on Exception catch (e) {
-      error = e.toString();
+      apiProductAdd.postData(data).then((value) {
+        print('success+++++++++++++++> $value');
+
+        //AccountInfoStorage.deleteProductListImage();
+        print("object");
+        // AccountInfoStorage.readProductListImage();
+        update();
+
+        getAllProductByUserId();
+
+        // productAddJson = value as ProductAddJson?;
+        //  print('name==================> ${AccountInfoStorage.readProductName()}');
+
+        // print('event created=======> ${productAddJson!.data!.sId}');
+      });
+    } catch (error) {
+      print('error create favorite ==========> $TypeError');
     }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-
-   
-      images = resultList;
-      _error = error;
-  
   }
-
- */
-  // final ImagePicker imagePicker = ImagePicker();
-  // List<XFile>? imageFileList = [];
-  // List<File> selectedImages = []; // List of selected image
-
- 
-
-  /* updateProductByIdFav(bool favorited) {
-    print("update prod by id fav   ${favorited}");
-    apiProductGetById.id = AccountInfoStorage.readProductId().toString();
-    apiProductGetById.updateData({
-      'favorite': favorited,
-    }).then((value) {
-      productGetByIdJson = value as ProductGetByIdJson?;
-      print(
-          "update prod by id  after fav   ${productGetByIdJson!.data!.favorite}");
-      print("update prod by id fav${favorited}");
-      print("success ${value} ${favorited}");
-      //Get.to(ProductDetail());
-      update();
-    }).onError((error, stackTrace) {
-      print("error fav product by id ==== $error");
-    });
-    // update();
-  }
-
-   */
 
   ApiUserById apiUserById = ApiUserById();
   UserGetByIdJson? userGetByIdJson;
-
-  /* updateFavoriteListProducts() {
-    apiUserById.id = AccountInfoStorage.readId().toString();
-    apiUserById.updateData({'products': savedFavProd}).then((value) {
-      print("success updateFavoriteListProducts");
-      update();
-
-      // Get.to(FavoriteView());
-    }).onError((error, stackTrace) {
-      print('error updateFavoriteListProducts ======> $error');
-    });
-  } */
 
   //////////////////////////////// Favorite  ////////////////////////////////
   ///
@@ -383,7 +344,7 @@ profilePicFiles = files.map((xfile) => File(xfile.path)).toList();
     update();
   }
 
-  List<Products?> savedFavProd = [];
+  // List<Products?> savedFavProd = [];
 
   ApiFavoriteCreate apiFavoriteCreate = ApiFavoriteCreate();
   ApiFavoriteDeleteById apiFavoriteDeleteById = ApiFavoriteDeleteById();
@@ -495,7 +456,7 @@ profilePicFiles = files.map((xfile) => File(xfile.path)).toList();
           // print("Product by user id =============== ${productsByUserIdJson!.data![0].user}");
           print(
               '++++++++++++++++++++++++++++++++++++++++++++++++++${favoriteByUserIdJson!.data!.length}');
-          return favoriteByUserIdJson;
+          return favoriteByUserIdJson!;
         }
 
         print('----------------------------------------------fav----');
@@ -511,7 +472,8 @@ profilePicFiles = files.map((xfile) => File(xfile.path)).toList();
     print(
         "-------------------------favoriteByUserIdAndState---------------------");
     apiFavoriteByUserIdAndState.id = AccountInfoStorage.readId().toString();
-    apiFavoriteByUserIdAndState.state = AccountInfoStorage.readFavoriteState().toString();
+    apiFavoriteByUserIdAndState.state =
+        AccountInfoStorage.readFavoriteState().toString();
 
     try {
       return await apiFavoriteByUserIdAndState
@@ -526,8 +488,8 @@ profilePicFiles = files.map((xfile) => File(xfile.path)).toList();
         if (favoriteByUserIdAndStateJson!.data != null) {
           // print("Product by user id =============== ${productsByUserIdJson!.data![0].user}");
           print(
-              '++++++++++++++++++++++++++++++++++++++++++++++++++${favoriteByUserIdAndStateJson!.data!.length}');
-          return favoriteByUserIdAndStateJson;
+              '++++++++++length++++++++++++${favoriteByUserIdAndStateJson!.data!.length}');
+          return favoriteByUserIdAndStateJson!;
         }
 
         print(
@@ -583,14 +545,52 @@ profilePicFiles = files.map((xfile) => File(xfile.path)).toList();
     return false;
   }
 
+  // List<String> items = ['Apple', 'Banana', 'Orange', 'Grapes', 'Watermelon'];
+  List<String> filteredItemsName = [];
+  List<String> filteredItemsDes = [];
+  List<String> filteredItemsCat = [];
 
+  void filterList(String query) {
+    filteredItemsName.clear();
+    filteredItemsDes.clear();
+    filteredItemsCat.clear();
 
-/////////////////multi images
-///
-///
+    productGetJson!.data!.forEach((item) {
+      print('--------filter-------');
 
+      if (item.nameproduct!.toLowerCase().contains(query.toLowerCase()) ||
+              item.description!.toLowerCase().contains(query.toLowerCase())
+          //|| item.category!.name!.toLowerCase().contains(query.toLowerCase()
+          ) {
+        filteredItemsName.add(item.nameproduct.toString());
+        filteredItemsDes.add(item.description.toString());
+        filteredItemsCat.add(item.category!.name.toString());
+      }
+      update();
+    });
+  }
 
+  List<String> filteredItemsNameC = [];
+  List<String> filteredItemsDesC = [];
+  List<String> filteredItemsCatC = [];
 
+  void filterList1(String query) {
+    filteredItemsNameC.clear();
+    filteredItemsDesC.clear();
+    filteredItemsCatC.clear();
 
+    productsByCategoryIdJson!.data!.forEach((item) {
+      print('--------filter-------');
 
+      if (item.nameproduct!.toLowerCase().contains(query.toLowerCase()) ||
+              item.description!.toLowerCase().contains(query.toLowerCase())
+          //|| item.category!.name!.toLowerCase().contains(query.toLowerCase()
+          ) {
+        filteredItemsNameC.add(item.nameproduct.toString());
+        filteredItemsDesC.add(item.description.toString());
+        filteredItemsCatC.add(item.category!.name.toString());
+      }
+      update();
+    });
+  }
 }

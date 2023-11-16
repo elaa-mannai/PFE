@@ -5,8 +5,10 @@ import 'package:front/controllers/event_contorller.dart';
 import 'package:front/models/json/guest_by_event_id_json.dart';
 import 'package:front/widgets/custom_backgroung_image.dart';
 import 'package:front/widgets/custom_chechbox.dart';
+import 'package:front/widgets/custom_event_details.dart';
 import 'package:front/widgets/custom_input_text.dart';
 import 'package:front/widgets/custom_text.dart';
+import 'package:front/widgets/custum_event_list.dart';
 import 'package:get/get.dart';
 
 class GuestList extends GetView<EventController> {
@@ -19,7 +21,9 @@ class GuestList extends GetView<EventController> {
     ScrollController scrollController = ScrollController();
     ListTileTitleAlignment? titleAlignment;
 
-    //controller.getAllGuestsByEventId();
+    controller.getAllGuestsByEventId();
+    controller.getGuestById();
+    controller.getGuests();
     // controller.getGuests();
     return Scaffold(
       appBar: AppBar(
@@ -92,25 +96,62 @@ class GuestList extends GetView<EventController> {
                         ),
                       );
                     } else {
-                      return GetBuilder<EventController>(builder: (controller) {
-                        return ListView.builder(
-                            shrinkWrap: true,
-                            controller: scrollController,
-                            scrollDirection: Axis.vertical,
-                            itemCount:
-                                controller.eventByUserIdJson!.data!.length,
-                            itemBuilder: (BuildContext context, index) {
-                              return Text("data");
-                            });
-                      });
+                      return CustomEventDetails(
+                        eventName:
+                            "${controller.eventByIdJson!.data!.titleevent}",
+                        datedeb: "${controller.eventByIdJson!.data!.dateDebut}",
+                        datefin: "${controller.eventByIdJson!.data!.dateFin}",
+                        local: "${controller.eventByIdJson!.data!.local}",
+                        budget: "${controller.eventByIdJson!.data!.budget}",
+                        colorBorder: AppColor.goldColor,
+                        widthBorder: 0,
+                        function: () {},
+                      );
                     }
                   }
                 },
               ),
             ),
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomText(
+                      text: "GuestList ",
+                      fontWeight: FontWeight.w600,
+                      fontSize: 24,
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        
+                        // Add your button click logic here
+                      },
+                      style: TextButton.styleFrom(
+                        primary: AppColor
+                            .secondary, // Set the text color of the button
+                      ),
+                      child: Text(
+                        "Send The Invitation Message",
+                        style: TextStyle(color: AppColor.secondary),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.all(5),
+                  child: Container(
+                    width: MediaQuery.sizeOf(context).width,
+                    height: 2,
+                    color: AppColor.secondary,
+                  ),
+                ),
+              ],
+            ),
             Expanded(
+              flex: 2,
               child: FutureBuilder(
-                future: controller.getAllGuestsByEventId(),
+                future: controller.getAllEventByUserId(),
                 builder: (ctx, snapshot) {
                   print('snapshot==============================>$snapshot');
                   // Checking if future is resolved or not
@@ -165,12 +206,12 @@ class GuestList extends GetView<EventController> {
                                     ]),
                                     title: CustomText(
                                         text:
-                                            '${controller.guestByEventIdJson!.data![index].name}',
+                                            'Name: ${controller.guestByEventIdJson!.data![index].name}',
                                         fontSize: 18,
                                         fontWeight: FontWeight.w500),
                                     subtitle: CustomText(
                                         text:
-                                            '${controller.guestByEventIdJson!.data![index].phonenumber}',
+                                            'Phone number :${controller.guestByEventIdJson!.data![index].phonenumber}',
                                         fontSize: 16),
                                     trailing:
                                         PopupMenuButton<ListTileTitleAlignment>(
@@ -263,7 +304,9 @@ class GuestList extends GetView<EventController> {
                                                         print("object update");
                                                         controller.updateGuest(
                                                             '${controller.guestByEventIdJson!.data![index].sId}');
-                                                        //controller.getAllGuestsByEventId();
+
+                                                        controller
+                                                            .getAllGuestsByEventId();
                                                         Navigator.of(context)
                                                             .pop();
 

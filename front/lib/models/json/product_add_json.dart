@@ -28,7 +28,8 @@ class Data {
   String? nameproduct;
   String? description;
   int? price;
-  List<String>? images;
+  String? location;
+  List<dynamic>? images;
   String? category;
   String? user;
   String? sId;
@@ -38,6 +39,7 @@ class Data {
       {this.nameproduct,
       this.description,
       this.price,
+      this.location,
       this.images,
       this.category,
       this.user,
@@ -48,7 +50,8 @@ class Data {
     nameproduct = json['nameproduct'];
     description = json['description'];
     price = json['price'];
-    images = json['images'].cast<String>();
+    location = json['location'];
+    images = json['images'].cast<dynamic>();
     category = json['category'];
     user = json['user'];
     sId = json['_id'];
@@ -60,6 +63,7 @@ class Data {
     data['nameproduct'] = this.nameproduct;
     data['description'] = this.description;
     data['price'] = this.price;
+    data['location'] = this.location;
     data['images'] = this.images;
     data['category'] = this.category;
     data['user'] = this.user;

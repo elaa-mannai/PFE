@@ -13,7 +13,7 @@ class CustomDropdownServices extends StatefulWidget {
 
 class _CustomDropdownServicesState extends State<CustomDropdownServices> {
   final List<String> items = [
-    "Catering", "Wedding dresses"
+    "Catering", "Wedding dresses", "makeup"
 
     ///dinamic
   ];

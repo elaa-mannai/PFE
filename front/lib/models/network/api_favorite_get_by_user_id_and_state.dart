@@ -5,17 +5,16 @@ import 'package:front/models/network/api_manager.dart';
 
 class ApiFavoriteByUserIdAndState extends ApiManager {
   String id = '';
-   String state = '';
+  String state = '';
 
   // ApiFavoriteByUserIdAndState(this.id, this.state);
 
   @override
   String apiUrl() {
-    return AppApi.getFavoriteByUserIdAndStateUrl + state + id;
-    // print(
-    //     'urlfavoriteByUserIdAndState=======================>${AppApi.getFavoriteByUserIdAndStateUrl +id}');
-    // return AppApi.getFavoriteByUserIdAndStateUrl + id + "/${state}";
-    // return AppApi.getFavoriteByUserIdAndStatepath(id,state);
+    String url = "${AppApi.getFavoriteByUserIdAndStateUrl}$id/state?state=true";
+    print("url ${url}");
+    return url;
+    
   }
 
   @override

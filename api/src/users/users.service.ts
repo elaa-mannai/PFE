@@ -35,7 +35,7 @@ export class UsersService {
   }
 
   async findOneUser(userId: string): Promise<IUser> {
-    const exsitingUser = await this.userModel.findById(userId).exec()
+    const exsitingUser = await (await this.userModel.findById(userId).exec()).populate('favorites');
     if (!exsitingUser) {
       throw new NotFoundException("User not found")
     }

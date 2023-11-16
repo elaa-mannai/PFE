@@ -19,7 +19,7 @@ import 'package:front/views/home_view_customer.dart';
 import 'package:front/views/login_view.dart';
 import 'package:front/views/product_detail.dart';
 import 'package:front/views/vendors/home_view_vendor.dart';
-import 'package:front/widgets/components/image_cloudinary.dart';
+import 'package:front/controllers/image_cloudinary.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -179,6 +179,8 @@ class ProfileColntroller extends GetxController {
       AccountInfoStorage.saveName(loginUserJson!.user!.username.toString());
       AccountInfoStorage.saveImage(loginUserJson!.user!.image.toString());
       AccountInfoStorage.saveItems(loginUserJson!.user!.items.toString());
+      AccountInfoStorage.savePhoneNumber(loginUserJson!.user!.phone.toString());
+      AccountInfoStorage.saveAdresse(loginUserJson!.user!.adress.toString());
       AccountInfoStorage.savePassword(passwordController.text);
       // AccountInfoStorage.saveFavoriteId(
       //     loginUserJson!.user!.favorites!.toString());
@@ -187,7 +189,7 @@ class ProfileColntroller extends GetxController {
       AccountInfoStorage.saveTokenUser(loginUserJson!.tokens!.accessToken);
 
       viderControllers();
-    update();
+      update();
 
       //   print('password===========================>${passwordController.text}');
       print('success signin');
@@ -244,11 +246,11 @@ class ProfileColntroller extends GetxController {
       print('success');
       if (userGetByIdJson!.data!.items == "Customer") {
         print('Customer');
-        Get.to(HomeView());
+        Get.to(LoginView());
       } else if (userGetByIdJson!.data!.items == "Vendor") {
         print('Vendor');
 
-        Get.to(HomeViewVendor());
+        Get.to(LoginView());
       } else {
         Get.to(HomeViewAdmin());
       }
@@ -262,11 +264,12 @@ class ProfileColntroller extends GetxController {
   getUserById() {
     apiUserById.id = AccountInfoStorage.readId().toString();
 
+
     apiUserById.getData().then((value) {
       userGetByIdJson = value as UserGetByIdJson?;
-      usernameController.text = userGetByIdJson!.data!.username!;
-      emailController.text = userGetByIdJson!.data!.email!;
-      adresseController.text = userGetByIdJson!.data!.adress!;
+      usernameController.text = userGetByIdJson!.data!.username!.toString();
+      emailController.text = userGetByIdJson!.data!.email!.toString();
+      adresseController.text = userGetByIdJson!.data!.adress!.toString();
       phonenumberController.text = userGetByIdJson!.data!.phone!.toString();
     });
   }

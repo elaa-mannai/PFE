@@ -69,6 +69,9 @@ class EventController extends GetxController {
   @override
   void onInit() {
     getEvents();
+    // getGuests();
+    
+
     // print(
     //     '************************************create event**********************');
     //createEvent();
@@ -245,11 +248,12 @@ class EventController extends GetxController {
       //getEvents();
       // print('Guest created=======> ${guestJson!.data!.sId}');
       // getAllGuestsByEventId();
+      getGuests();
+      update();
       Get.to(GuestList());
     }).onError((error, stackTrace) {
       print('error create event ==========> $error');
     });
-    update();
   }
 
   ApiGuestDeleteById apiGuestDeleteById = ApiGuestDeleteById();
@@ -274,15 +278,14 @@ class EventController extends GetxController {
 
         guestByEventIdJson = value as GuestByEventIdJson?;
         print("Guest message =============== ${guestByEventIdJson!.message}");
-        if (guestByEventIdJson!.data != null) {
+        if (guestByEventIdJson!.data!.isNotEmpty) {
           print('+++++++++++++++++++++++if+++++++++++++++++++++++++');
           print(
               'Guest==========================> ${guestByEventIdJson!.data!.length}');
 
           return guestByEventIdJson!;
-          
         }
-              update();
+        // update();
 
         return null;
       });
@@ -308,8 +311,20 @@ class EventController extends GetxController {
     });
   }
 
-  GuestGetByIdJson guestGetByIdJson = GuestGetByIdJson();
+  GuestGetByIdJson? guestGetByIdJson = GuestGetByIdJson();
   ApiGuestGetById apiGuestGetById = ApiGuestGetById();
+
+  getGuestById() async {
+    apiGuestGetById.id = AccountInfoStorage.readGuestId().toString();
+    apiEventGetById.getData().then((value) {
+      guestGetByIdJson = value as GuestGetByIdJson?;
+      if (guestGetByIdJson!.data != null) {
+        return guestGetByIdJson;
+      }
+    }).onError((error, stackTrace) {
+      print("error guest by id=== >$error");
+    });
+  }
 
   updateGuest(String id) {
     print("update guest informations");
@@ -320,10 +335,10 @@ class EventController extends GetxController {
       //"invited": true,
       //"events": AccountInfoStorage.readEventId(),
     }).then((value) {
-      AccountInfoStorage.saveGuestName(guestGetByIdJson.data!.name);
+      AccountInfoStorage.saveGuestName(guestGetByIdJson!.data!.name);
       AccountInfoStorage.saveGuestPhonenumber(
-          guestGetByIdJson.data!.phonenumber.toString());
-      print("updated${guestGetByIdJson.data}");
+          guestGetByIdJson!.data!.phonenumber.toString());
+      print("updated${guestGetByIdJson!.data}");
       Get.snackbar("", "Success",
           backgroundColor: AppColor.goldColor,
           titleText: Text(
@@ -333,9 +348,11 @@ class EventController extends GetxController {
               fontSize: 24,
             ),
           ));
+      getAllEventByUserId();
     }).onError((error, stackTrace) {
       print("error update guest by id=== >$error");
     });
+    update();
   }
 
   ///// delete event ///////

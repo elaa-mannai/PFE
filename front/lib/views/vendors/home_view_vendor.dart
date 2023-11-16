@@ -1,9 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:front/config/account_info_storage.dart';
 import 'package:front/config/app_colors.dart';
 import 'package:front/controllers/profile_controller.dart';
 import 'package:front/views/login_view.dart';
+import 'package:front/views/profile_view.dart';
 import 'package:front/views/vendors/pending_demande.dart';
 import 'package:front/views/vendors/profile_view_vendor.dart';
 import 'package:front/views/vendors/service_details.dart';
@@ -53,7 +53,7 @@ class HomeViewVendor extends StatelessWidget {
                 accountEmail: Text(AccountInfoStorage.readEmail().toString()),
                 currentAccountPicture: CircleAvatar(
                   //get uesr photo from backend
-                  backgroundImage: AssetImage('assets/images/p.jpg'),
+                  backgroundImage: NetworkImage("${AccountInfoStorage.readImage()}" ==''?'assets/images/p.jpg':"${AccountInfoStorage.readImage()}" ),
                   maxRadius: 25,
                 ),
                 decoration: BoxDecoration(color: AppColor.goldColor),
@@ -67,7 +67,7 @@ class HomeViewVendor extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ProfileViewVendor()));
+                          builder: (context) => ProfileView()));
                 },
               ),
               ListTile(
@@ -76,7 +76,7 @@ class HomeViewVendor extends StatelessWidget {
                 ),
                 title: Text('My Products'),
                 onTap: () {
-                 Get.to(ServiceDetails());
+                  Get.to(ServiceDetails());
                 },
               ),
               /*  ListTile(
@@ -137,112 +137,109 @@ class HomeViewVendor extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: CustomBackgroungImage(
-          fit: BoxFit.cover,
-          image: 'assets/images/landpage.jpg',
-          widget: Expanded(
-            child: Column(
-              children: [
-                //Sales%
-                Row(
+      body: CustomBackgroungImage(
+        fit: BoxFit.cover,
+        image: 'assets/images/landpage.jpg',
+        widget: Expanded(
+          child: Column(
+            children: [
+              //Sales%
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomSalesBox(
+                        text1: 'Sales', text2: "This mounth", money: "139 "),
+                  ),
+
+                  //Earning%
+                  Expanded(
+                    child: CustomSalesBox(
+                        text1: 'Earning',
+                        text2: "This mounth",
+                        money: "199 "),
+                  ),
+                ],
+              ),
+              SizedBox(width: 5),
+
+              TextButton(
+                  onPressed: () {
+                    Get.to(ServiceDetails());
+                  },
+                  child: Text("viex")),
+
+              // Services Commandes
+              Expanded(
+                flex: 1,
+                child: Column(
                   children: [
                     Expanded(
-                      child: CustomSalesBox(
-                          text1: 'Sales', text2: "This mounth", money: "139 "),
+                      child: CustomText(
+                          fontSize: 32,
+                          fontWeight: FontWeight.w500,
+                          text: 'List demanded services'),
                     ),
-
-                    //Earning%
+                    //  barre de titre
                     Expanded(
-                      child: CustomSalesBox(
-                          text1: 'Earning',
-                          text2: "This mounth",
-                          money: "199 "),
+                      child: Row(children: [
+                        SizedBox(width: 10),
+                        Expanded(
+                          flex: 2,
+                          child: CustomText(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                              text: "Product Name"),
+                        ),
+                        // SizedBox(width: 10),
+                        Expanded(
+                          child: CustomText(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                              text: "Quantity"),
+                        ),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: CustomText(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                              text: "Price"),
+                        ),
+                        SizedBox(width: 60),
+                      ]),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(5),
+                      child: Container(
+                        width: MediaQuery.sizeOf(context).width,
+                        height: 1,
+                        color: AppColor.secondary,
+                      ),
                     ),
                   ],
                 ),
-                SizedBox(width: 5),
-
-                TextButton(
-                    onPressed: () {
-                      Get.to(ServiceDetails());
-                    },
-                    child: Text("viex")),
-
-                // Services Commandes
-                Expanded(
-                  flex: 1,
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: CustomText(
-                            fontSize: 32,
-                            fontWeight: FontWeight.w500,
-                            text: 'List demanded services'),
-                      ),
-                      //  barre de titre 
-                      Expanded(
-                        child: Row(children: [
-                          SizedBox(width: 10),
-                          Expanded(
-                            flex: 2,
-                            child: CustomText(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w400,
-                                text: "Product Name"),
-                          ),
-                          // SizedBox(width: 10),
-                          Expanded(
-                            child: CustomText(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w400,
-                                text: "Quantity"),
-                          ),
-                          SizedBox(width: 10),
-                          Expanded(
-                            child: CustomText(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w400,
-                                text: "Price"),
-                          ),
-                          SizedBox(width: 60),
-                        ]),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                        child: Container(
-                          width: MediaQuery.sizeOf(context).width,
-                          height: 1,
-                          color: AppColor.secondary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                //// list Services
-                Expanded(
-                  flex: 5,
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      controller: scrollController,
-                      scrollDirection: Axis.vertical,
-                      ///// get the last 8 demande
-                      itemCount: 8,
-                      itemBuilder: (BuildContext context, index) {
-                        return CustumSalesServices(
-                          text1: 'Product Name',
-                          productnumber: "20",
-                          price: "200",
-                          text: "check",
-                          function: () {
-                            Get.to(PendingDemande());
-                          },
-                        );
-                      }),
-                ),
-                Expanded(child: SizedBox(width: 400)),
-              ],
-            ),
+              ),
+              //// list Services
+              Expanded(
+                flex: 5,
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    // controller: scrollController,
+                    scrollDirection: Axis.vertical,
+                    ///// get the last 8 demande
+                    itemCount: 18,
+                    itemBuilder: (BuildContext context, index) {
+                      return CustumSalesServices(
+                        text1: 'Product Name',
+                        productnumber: "20",
+                        price: "200",
+                        text: "check",
+                        function: () {
+                          Get.to(PendingDemande());
+                        },
+                      );
+                    }),
+              ),
+            ],
           ),
         ),
       ),

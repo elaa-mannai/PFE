@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:front/config/account_info_storage.dart';
 import 'package:front/config/app_colors.dart';
 import 'package:front/controllers/products_controller.dart';
-import 'package:front/widgets/components/image_cloudinary.dart';
+import 'package:front/controllers/image_cloudinary.dart';
 import 'package:front/widgets/components/image_grid.dart';
+import 'package:front/widgets/components/multiple_image.dart';
 import 'package:front/widgets/custom_backgroung_image.dart';
 import 'package:front/widgets/custom_dropdown_services_choices.dart';
 import 'package:front/widgets/custom_input_text.dart';
@@ -19,12 +20,11 @@ class ServiceDetails extends GetView<ProductsController> {
   @override
   Widget build(BuildContext context) {
     ScrollController scrollController = ScrollController();
-    ImageCloudinary imageCloudinary =
-        ImageCloudinary(); // ImageCloudinary imageCloudinary = ImageCloudinary();
-    // controller.getCategories();
-    // controller.getProducts();
-
+    controller.getCategories();
+    // controller.getProductById();
+    controller.getProducts();
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         backgroundColor: Colors.white, //your color
         surfaceTintColor: Colors.white,
@@ -121,18 +121,19 @@ class ServiceDetails extends GetView<ProductsController> {
                         );
                       } else {
                         return Expanded(
-                          flex: 1,
+                          flex: 5,
                           child: GetBuilder<ProductsController>(
                             builder: (controller) {
+                              // AccountInfoStorage.saveProductId(controller.ProductById().toString());
                               return ListView.builder(
                                 shrinkWrap: true,
-                                controller: scrollController,
+                                // controller: scrollController,
                                 scrollDirection: Axis.vertical,
                                 itemCount: controller
                                     .productsByUserIdJson!.data!.length,
                                 itemBuilder: (BuildContext context, index) {
                                   controller.getCategorieById(
-                                      "${controller.productGetJson!.data![index].category}");
+                                      "${controller.productGetJson!.data![index].category!.name}");
 
                                   return CustomProductListV(
                                     colorBorder: AppColor.secondary,
@@ -140,12 +141,11 @@ class ServiceDetails extends GetView<ProductsController> {
                                         "${controller.productsByUserIdJson!.data![index].nameproduct}",
                                     description:
                                         "${controller.productsByUserIdJson!.data![index].description}",
-                                    local: "testesttestt",
+                                    local: "location map",
                                     price:
                                         "${controller.productsByUserIdJson!.data![index].price}",
                                     categorie:
-                                        AccountInfoStorage.readCategorieName()
-                                            .toString(),
+                                        "${controller.productGetJson!.data![index].category!.name}",
                                     // "${controller.categorieGetByIdJson!.data!.name}",
                                     widthBorder: 2,
                                     function: () {},
@@ -158,6 +158,8 @@ class ServiceDetails extends GetView<ProductsController> {
                       }
                     }
                   }),
+
+              Expanded(child: SizedBox(width: 50)),
             ],
           ),
         ),
@@ -169,7 +171,76 @@ class ServiceDetails extends GetView<ProductsController> {
           // icon: Icon(Icons.add_outlined),
           label: Text('New Service'),
           onPressed: () {
-            Get.to(CustomMultiImageChange());
+           Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CustomMultiImageChange()));
+
+            // controller.getProductById();
+            /*          Get.dialog(
+              AlertDialog(
+                title: Text("New event",
+                    style: TextStyle(color: AppColor.goldColor)),
+                backgroundColor: Colors.white,
+                content: GetBuilder<ProductsController>(builder: (controller) {
+                  return SingleChildScrollView(
+                    child: ListBody(
+                      children: <Widget>[
+                        //product title
+                        CustomInputText(
+                          controller: controller.productNameController,
+                          obscureText: false,
+                          label: "Product Name:",
+                        ),
+                        //description
+                        CustomInputText(
+                          controller: controller.productDescriptionController,
+                          obscureText: false,
+                          label: "Description:",
+                        ),
+                        //location dropdownlist
+                        CustomInputText(
+                          controller: controller.productPriceController,
+                          obscureText: false,
+                          label: "Price:",
+                        ),
+                        //addimages
+
+                        MultipleImage(),
+
+                        //categories
+                        CustomDropdownServices(),
+                      ],
+                    ),
+                  );
+                }),
+                actions: <Widget>[
+                  GetBuilder<ProductsController>(
+                    builder: (controller) {
+                      return TextButton(
+                        child: Text(
+                          'Add',
+                          style: TextStyle(
+                              color: AppColor.secondary, fontSize: 20),
+                        ),
+                        onPressed: () {
+                          print(
+                              "========================== product creation ======");
+                          controller.createProduct();
+                          controller.productDescriptionController.clear();
+                          controller.productNameController.clear();
+                          controller.productPriceController.clear();
+                          Navigator.of(context).pop();
+                          controller.getProducts();
+                          //  Get.to(ServiceDetails());
+                        },
+                      );
+                    },
+                  ),
+                ],
+              ),
+            );
+    */
           }),
     );
   }

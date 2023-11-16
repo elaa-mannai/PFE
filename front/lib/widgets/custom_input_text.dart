@@ -26,19 +26,25 @@ class CustomInputText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.fromLTRB(20, 0, 20, 0),
+      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
       child: Expanded(
         child: TextFormField(
+          cursorColor: AppColor.secondary,
           controller: controller,
           decoration: InputDecoration(
+            focusedBorder: InputBorder.none,
             label: Text(
               '$label',
               style: TextStyle(color: Colors.black54, fontSize: Checkbox.width),
             ),
             enabledBorder: UnderlineInputBorder(
+
                 borderSide: BorderSide(
+                  strokeAlign: 0,
+
               color: AppColor.goldColor,
-            )),
+            ),
+            ),
             suffixIcon: IconButton(
               icon: Icon(
                 iconData,

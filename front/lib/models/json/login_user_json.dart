@@ -140,7 +140,7 @@ class Products {
   String? description;
   int? price;
   bool? favorite;
-  List<String>? images;
+  List<dynamic>? images;
   String? category;
   String? user;
   int? iV;

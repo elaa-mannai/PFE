@@ -89,7 +89,7 @@ abstract class ApiManager {
     var data;
     print('*****************get Data By User Id And State****************');
     Map<String, dynamic> data_ = {
-      "state": AccountInfoStorage.readFavoriteState(),
+      "state": "true",
       "user": AccountInfoStorage.readId(),
     };
     AbstractJsonResource? json;

@@ -35,7 +35,7 @@ class Data {
   String? description;
   int? price;
   String? location;
-  List<String>? images;
+  List<dynamic>? images;
   String? category;
   int? iV;
   String? user;
@@ -58,7 +58,7 @@ class Data {
     description = json['description'];
     price = json['price'];
     location = json['location'];
-    images = json['images'].cast<String>();
+    images = json['images'].cast<dynamic>();
     category = json['category'];
     iV = json['__v'];
     user = json['user'];

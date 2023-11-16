@@ -5,7 +5,7 @@ import 'package:front/views/favorite_view.dart';
 import 'package:get/get.dart';
 
 class CustomFavoriteList extends StatelessWidget {
-  final String? Descriptiontext, ServiceName;
+  final String? Descriptiontext,productname, ServiceName;
   final double? height;
   final double? width;
   final Function? function, FavoriteFunction;
@@ -16,6 +16,7 @@ class CustomFavoriteList extends StatelessWidget {
 
   const CustomFavoriteList(
       {Key? key,
+      this.productname,
       this.Descriptiontext,
       this.ServiceName,
       this.function,
@@ -102,7 +103,21 @@ class CustomFavoriteList extends StatelessWidget {
                         ],
                       ),
                     ),
-                    //Description text
+                    //name product
+                    Expanded(
+                      flex: 2,
+                      child: AutoSizeText(
+                        '$productname',
+                        presetFontSizes: [18, 12],
+                        maxLines: 2,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                        ),
+                        textAlign: TextAlign.start,
+                      ),
+                    ),
+                    // description product
                     Expanded(
                       flex: 2,
                       child: AutoSizeText(

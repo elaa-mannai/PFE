@@ -24,7 +24,7 @@ export class CategoriesService {
     return categorieData
   }
   async findOneCategory(categoryId: string): Promise<ICategorie> {
-    const exsitingCategory = await this.categoryModel.findById(categoryId).exec()
+    const exsitingCategory = await (await this.categoryModel.findById(categoryId).exec()).populate('categories')
     if (!exsitingCategory) {
       throw new NotFoundException("Categorie not found")
     }

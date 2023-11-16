@@ -187,20 +187,20 @@ class ProfileView extends GetView<ProfileColntroller> {
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: Text("Confirme changes"),
+                                backgroundColor: Colors.white,
+                                title: Text("Confirme changes", style: TextStyle(color: AppColor.secondary)),
                                 actions: [
                                   TextButton(
                                     onPressed: () {
                                       controller.userUpdate();
                                       Navigator.of(context).pop();
                                     },
-                                    child: Text('OK'),
+                                    child: Text('OK', style: TextStyle(color: AppColor.goldColor)),
                                   ),
                                 ],
                               );
                             },
                           );
-                          //  controller.updatepasswordUser();
                         },
                       ),
                     ],
