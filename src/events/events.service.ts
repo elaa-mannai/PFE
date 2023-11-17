@@ -51,6 +51,7 @@ export class EventsService {
 
   async deleteEventById(eventId: string): Promise<IEvent> {
     const deleteEvent = await this.eventModel.findByIdAndDelete(eventId);
+   
     await this.userModel.updateOne({_id: deleteEvent.user}, {$pull:{events:deleteEvent._id}})
     if (!deleteEvent) {
       throw new NotFoundException('Event not found')
