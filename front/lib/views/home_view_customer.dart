@@ -219,9 +219,9 @@ class HomeView extends GetView<ProductsController> {
                           text: 'View All',
                           icon: Icons.arrow_forward,
                           function: () {
-                            // Get.to(ProductSelectionByServices());
-                            Get.to(EventListView());
-                            //    Get.to(ProductDetail());
+                            Get.to(ProductSelectionByServices());
+                            // Get.to(EventListView());
+                            //  Get.to(ProductDetail());
                             // Get.to(FavoriteView());
                             //  Get.to(ProfileView());
                           },
@@ -374,14 +374,11 @@ class HomeView extends GetView<ProductsController> {
                                             ////
                                             print(
                                                 "*-------------------------------------------*get category by id*****************");
-
                                             AccountInfoStorage.saveProductId(
                                                 controller.productGetJson!
                                                     .data![index].sId);
-
-                                            // controller.getProductById();
+                                            controller.getProductById();
                                             Get.to(ProductDetail());
-
                                             print(
                                                 "*************get category by id*****************");
                                           },

@@ -3,12 +3,13 @@ import 'package:front/config/app_colors.dart';
 
 class CustomButton extends StatelessWidget {
   final String? text;
+  final Color? backgroundColor;
   final double? height;
   final double? width;
   final Function? function;
 
   const CustomButton(
-      {Key? key, this.text, this.height, this.width, this.function})
+      {Key? key, this.text, this.backgroundColor, this.height, this.width, this.function})
       : super(key: key);
 
   @override
@@ -16,9 +17,10 @@ class CustomButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: ElevatedButton(
+        
         style: ElevatedButton.styleFrom(
           fixedSize: Size(width!, height!),
-          backgroundColor: AppColor.goldColor, // background
+          backgroundColor: backgroundColor,//AppColor.goldColor, // background
           onPrimary: Colors.white, // foreground
         ),
         onPressed: () {

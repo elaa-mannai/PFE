@@ -13,7 +13,7 @@ class CustomDropdownServices extends StatefulWidget {
 
 class _CustomDropdownServicesState extends State<CustomDropdownServices> {
   final List<String> items = [
-    "Catering", "Wedding dresses", "makeup"
+    "Catering", "Wedding dresses", "makeup",
 
     ///dinamic
   ];
@@ -63,7 +63,7 @@ class _CustomDropdownServicesState extends State<CustomDropdownServices> {
           },
           buttonStyleData: ButtonStyleData(
             height: 50,
-            width: 600,
+            width: 500,
             padding: const EdgeInsets.only(left: 14, right: 14),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4),
@@ -74,15 +74,15 @@ class _CustomDropdownServicesState extends State<CustomDropdownServices> {
           
           iconStyleData: const IconStyleData(
             icon: Icon(
-              Icons.arrow_forward_ios_outlined,
+              Icons.arrow_drop_down,
             ),
-            iconSize: 14,
-            iconEnabledColor: AppColor.goldColor,
+            iconSize: 30,
+            iconEnabledColor: Colors.white,
             iconDisabledColor: Colors.grey,
           ),
           dropdownStyleData: DropdownStyleData(
             maxHeight: 200,
-            width: 200,
+            width: MediaQuery.sizeOf(context).width/2,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(14),
               color:AppColor.secondary,
@@ -92,6 +92,7 @@ class _CustomDropdownServicesState extends State<CustomDropdownServices> {
               radius:  Radius.circular(40),
               thickness: MaterialStateProperty.all<double>(6),
               thumbVisibility: MaterialStateProperty.all<bool>(true),
+              
             ),
           ),
           menuItemStyleData: const MenuItemStyleData(

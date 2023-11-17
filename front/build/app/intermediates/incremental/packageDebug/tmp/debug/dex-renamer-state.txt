@@ -1,4 +1,4 @@
-#Thu Nov 16 14:05:32 WAT 2023
+#Fri Nov 17 17:02:32 WAT 2023
 base.0=D\:\\testint\\front\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
 base.1=D\:\\testint\\front\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes2.dex
 base.2=D\:\\testint\\front\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes3.dex

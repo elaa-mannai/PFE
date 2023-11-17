@@ -61,7 +61,9 @@ dependencies:
   multiple_images_picker: ^1.0.1
   easy_search_bar: ^2.5.0
   anim_search_bar: ^2.0.3
-  
+  cloudinary_public: ^0.21.0
+  path_provider: ^2.0.14
+
 
 dev_dependencies:
   flutter_test:

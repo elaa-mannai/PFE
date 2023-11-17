@@ -195,6 +195,7 @@ class LoginView extends GetView<ProfileColntroller> {
                   text: 'Login',
                   width: 150,
                   height: 50,
+                  backgroundColor: AppColor.secondary,
                   function: () {
                     print(
                         '====================================Function login====================================');

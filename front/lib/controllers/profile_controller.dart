@@ -262,11 +262,14 @@ class ProfileColntroller extends GetxController {
 ////////////function getinfouser /////////////////
 
   getUserById() {
+    print('get user by id----------------------------------');
     apiUserById.id = AccountInfoStorage.readId().toString();
 
-
     apiUserById.getData().then((value) {
+      print('value user id =====>$value');
       userGetByIdJson = value as UserGetByIdJson?;
+      print(
+          'get user by id success==============================>${userGetByIdJson!.data!.email!.toString()}');
       usernameController.text = userGetByIdJson!.data!.username!.toString();
       emailController.text = userGetByIdJson!.data!.email!.toString();
       adresseController.text = userGetByIdJson!.data!.adress!.toString();

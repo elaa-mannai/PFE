@@ -216,8 +216,7 @@ class ProductsController extends GetxController {
         }
         return null;
       });
-
-      return productGetByIdJson!;
+      //  return productGetByIdJson!;
     } catch (error) {
       print("error product by id ==== $error");
     }
@@ -230,7 +229,10 @@ class ProductsController extends GetxController {
       ProductsByCategoryIdJson();
 
   getProductByCatgoryId() async {
-    print("product by categorie id ");
+    filteredItemsNameC.clear();
+    filteredItemsDesC.clear();
+    filteredItemsCatC.clear();
+    print("product by categorie id ------------------------");
     apiProductGetByCategoryId.id =
         AccountInfoStorage.readCategorieId().toString();
 
@@ -254,7 +256,6 @@ class ProductsController extends GetxController {
       } */
       });
       return productsByCategoryIdJson!;
-      // update();
     } catch (error) {
       print("error product by categorie id ==== $error");
     }
@@ -559,12 +560,12 @@ class ProductsController extends GetxController {
   List<String> filteredItemsDesC = [];
   List<String> filteredItemsCatC = [];
 
-  void filterList1(String query) {
+  Future<void> filterList1(String query) async {
     filteredItemsNameC.clear();
     filteredItemsDesC.clear();
     filteredItemsCatC.clear();
 
-    productsByCategoryIdJson!.data!.forEach((item) {
+     productsByCategoryIdJson!.data!.forEach((item) {
       print('--------filter-------');
 
       if (item.nameproduct!.toLowerCase().contains(query.toLowerCase()) ||

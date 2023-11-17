@@ -72,8 +72,8 @@ class AccountInfoStorage {
     return SecureStorage.readSecureData(keyemail);
   }
 
-   static saveAdresse(String adresse) {
-    SecureStorage.writeSecureData(key:keyadresse , value:adresse );
+  static saveAdresse(String adresse) {
+    SecureStorage.writeSecureData(key: keyadresse, value: adresse);
   }
 
   static String? readAdresse() {
@@ -120,6 +120,11 @@ class AccountInfoStorage {
     return SecureStorage.readSecureData(keyproductId);
   }
 
+  static deleteProductId() {
+    print("deleted");
+    return SecureStorage.deleteSecureData(keyproductId);
+  }
+
   static saveProductName(String? prodcutName) {
     SecureStorage.writeSecureData(key: keyprodcutName, value: prodcutName!);
   }
@@ -128,12 +133,22 @@ class AccountInfoStorage {
     return SecureStorage.readSecureData(keyprodcutName);
   }
 
+  static deleteProductName() {
+    print("deleted");
+    return SecureStorage.deleteSecureData(keyprodcutName);
+  }
+
   static saveProductPrice(String? prodcutPrice) {
     SecureStorage.writeSecureData(key: keyprodcutPrice, value: prodcutPrice!);
   }
 
   static String? readProductPrice() {
     return SecureStorage.readSecureData(keyprodcutPrice);
+  }
+
+  static deleteProductPrice() {
+    print("deleted");
+    return SecureStorage.deleteSecureData(keyprodcutPrice);
   }
 
   static saveProductImage(String? prodcutImage) {
@@ -164,12 +179,21 @@ class AccountInfoStorage {
     return SecureStorage.readSecureData(keyprodcutDescription);
   }
 
+  static deleteProductDescription() {
+    print("deleted");
+    return SecureStorage.deleteSecureData(keyprodcutDescription);
+  }
+
   static saveProductLocal(String? productLocal) {
     SecureStorage.writeSecureData(key: keyproductLocal, value: productLocal!);
   }
 
   static String? readProductLocal() {
     return SecureStorage.readSecureData(keyproductLocal);
+  }
+  static deleteProductLocal() {
+    print("deleted");
+    return SecureStorage.deleteSecureData(keyproductLocal);
   }
 
   static saveCatgorieName(String? categorieName) {
@@ -179,6 +203,7 @@ class AccountInfoStorage {
   static String? readCategorieName() {
     return SecureStorage.readSecureData(keycategorieName);
   }
+  
 
   static saveCatgorieId(String? categorieId) {
     SecureStorage.writeSecureData(key: keycategorieId, value: categorieId!);

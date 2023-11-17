@@ -17,9 +17,17 @@ class CustomSearchBar extends GetView<ProductsController> {
   final List<String>? desc;
   final List<String>? category;
   final int? length;
-  const CustomSearchBar({this.label,this.onChanged, this.functionFuture, this.length,
-      this.image, this.name, this.desc, this.category,
-    Key? key, this.function})
+  const CustomSearchBar(
+      {this.label,
+      this.onChanged,
+      this.functionFuture,
+      this.length,
+      this.image,
+      this.name,
+      this.desc,
+      this.category,
+      Key? key,
+      this.function})
       : super(key: key);
 
   @override
@@ -111,7 +119,7 @@ class CustomSearchBar extends GetView<ProductsController> {
                                       function: () {},
                                       img: image, //'assets/images/logo2.png',
                                       productname: name![index],
-                                  //     controller.filteredItemsName[index],
+                                      //     controller.filteredItemsName[index],
                                       Descriptiontext: desc![index],
                                       //  "${controller.filteredItemsDes[index]}",
                                       ServiceName: category![index],
@@ -126,6 +134,7 @@ class CustomSearchBar extends GetView<ProductsController> {
                                           "*-------------------------------------------*get category by id*****************");
 
                                       controller.getProductById();
+                                      Get.to(ProductDetail());
                                       print(
                                           "*************get category by id*****************");
                                     },

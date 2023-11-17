@@ -30,8 +30,8 @@ class Data {
   String? username;
   String? email;
   String? password;
-  List<String>? events;
-  List<String>? guests;
+  List<dynamic>? events;
+  List<dynamic>? guests;
   String? createdAt;
   String? updatedAt;
   int? iV;
@@ -39,7 +39,7 @@ class Data {
   String? adress;
   String? image;
   int? phone;
-  List<String>? products;
+  List<dynamic>? products;
   List<Favorites>? favorites;
 
   Data(
@@ -66,8 +66,8 @@ class Data {
     username = json['username'];
     email = json['email'];
     password = json['password'];
-    events = json['events'].cast<String>();
-    guests = json['guests'].cast<String>();
+    events = json['events'].cast<dynamic>();
+    guests = json['guests'].cast<dynamic>();
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
@@ -76,7 +76,7 @@ class Data {
     image = json['image'];
     phone = json['phone'];
 
-    products = json['products'];
+    products = json['products'].cast<dynamic>();
     if (json['favorites'] != null) {
       favorites = <Favorites>[];
       json['favorites'].forEach((v) {

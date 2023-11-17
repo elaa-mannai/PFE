@@ -178,8 +178,9 @@ class ProfileView extends GetView<ProfileColntroller> {
                       ),
                       CustomButton(
                         text: 'Update',
-                        width: 100,
-                        height: 40,
+                        width: MediaQuery.sizeOf(context).width/2,
+                        height: 50,
+                        backgroundColor: AppColor.goldColor,
                         function: () {
                           //controller.userUpdate();
                           print("alert dialog");

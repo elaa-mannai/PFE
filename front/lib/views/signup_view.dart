@@ -238,6 +238,7 @@ class SignupView extends GetView<ProfileColntroller> {
                 text: 'Sign up',
                 width: 150,
                 height: 50,
+                backgroundColor:  AppColor.secondary,
                 function: () {
                   print('****************function signup**************');
                   if (formKey.currentState!.validate()) {

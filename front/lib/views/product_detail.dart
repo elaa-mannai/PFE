@@ -22,6 +22,8 @@ class ProductDetail extends GetView<ProductsController> {
         surfaceTintColor: Colors.white,
         leading: IconButton(
           onPressed: () {
+            controller.getProducts();
+
             Navigator.pop(context);
           },
           icon: const Icon(
@@ -77,8 +79,6 @@ class ProductDetail extends GetView<ProductsController> {
                             //key: index,
 
                             builder: (controller) {
-                              controller.getProductById();
-
                               return Column(
                                 children: [
                                   CustomText(
@@ -175,7 +175,39 @@ class ProductDetail extends GetView<ProductsController> {
                       //text for details
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: CustomBoxDescriptionDetail(),
+                        child:
+                            GetBuilder<ProductsController>(builder: (context) {
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CustomText(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w700,
+                                text: "Categorie: ",
+                              ),
+                              Text(
+                                "${controller.productGetByIdJson!.data!.category!.name}",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w300,
+                                    color: Colors.black),
+                              ),
+                              CustomText(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w700,
+                                text: "Description",
+                              ),
+                              Text(
+                                "${controller.productGetByIdJson!.data!.description}",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w300,
+                                    color: Colors.black),
+                              ),
+                            ],
+                          );
+                        }),
                       ),
                     ],
                   ),
