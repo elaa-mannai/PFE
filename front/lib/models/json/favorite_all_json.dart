@@ -1,7 +1,7 @@
 import 'package:front/models/json/abstract_json_resource.dart';
 
 class FavoriteAllJson extends AbstractJsonResource {
-  String? message;
+ String? message;
   int? status;
   List<Data>? data;
 
@@ -32,7 +32,7 @@ class FavoriteAllJson extends AbstractJsonResource {
 class Data {
   String? sId;
   bool? state;
-  String? user;
+  List<String>? user;
   String? products;
   int? iV;
 
@@ -41,7 +41,7 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     state = json['state'];
-    user = json['user'];
+    user = json['user'].cast<String>();
     products = json['products'];
     iV = json['__v'];
   }
@@ -55,4 +55,4 @@ class Data {
     data['__v'] = this.iV;
     return data;
   }
-}
+} 

@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:cloudinary/cloudinary.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:front/config/account_info_storage.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:image_picker/image_picker.dart';
@@ -54,7 +55,7 @@ class ImageCloudinary extends GetxController {
         print("try condition");
 
         final dio = Dio();
-        final apiKey = 'your_api_key'; // Replace with your Cloudinary API key
+        final apiKey = '872948247576765'; // Replace with your Cloudinary API key
         final uploadPreset =
             'EventManagement'; // Replace with your Cloudinary upload preset
 
@@ -106,15 +107,14 @@ class ImageCloudinary extends GetxController {
           await file.writeAsBytes(imageData);
           pickedFiles.add(file);
 
-          await uploadMultiImagesToCloudinary(pickedFiles);
         }
 
-        /*   imagefiles = pickedFiles;
+          imagefiles = pickedFiles;
         print("files === ${pickedFiles}");
         print("files === ${pickerImages}");
 
         await uploadMultiImagesToCloudinary(pickedFiles);
- */
+
         print("Success getting images");
       } else {
         print("No image is selected.");
@@ -125,6 +125,59 @@ class ImageCloudinary extends GetxController {
     update();
   }
 
+////////////////////////////////////////////////////read image list
+  ///
+  ///
+  ///
+  ///
+
+ /*  final List<String> imgList = ["${AccountInfoStorage.readProductListImage()}"];
+
+
+final List<Widget>  imageSliders = imgList
+    .map((item) => Container(
+          child: Container(
+            margin: const EdgeInsets.all(5.0),
+            child: ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                child: Stack(
+                  children: <Widget>[
+                    Image.network(item, fit: BoxFit.cover, width: 1000.0),
+                    Positioned(
+                      bottom: 0.0,
+                      left: 0.0,
+                      right: 0.0,
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Color.fromARGB(200, 0, 0, 0),
+                              Color.fromARGB(0, 0, 0, 0)
+                            ],
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                          ),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10.0,
+                          horizontal: 20.0,
+                        ),
+                        child: Text(
+                          '${imgList.indexOf(item)}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )),
+          ),
+        ))
+    .toList();
+    
 ///////////////multiple
 /*   Future<List<String?>> uploadMultiImagesToCloudinary(
       List<XFile> imageFiles) async {
@@ -219,5 +272,7 @@ class ImageCloudinary extends GetxController {
       print("error while picking file.");
     }
   }
+ */
+}
  */
 }

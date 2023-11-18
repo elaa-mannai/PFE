@@ -11,6 +11,7 @@ import 'package:front/views/product_selection_by_services.dart';
 import 'package:front/views/profile_view.dart';
 import 'package:front/views/setting_view.dart';
 import 'package:front/widgets/custom_backgroung_image.dart';
+import 'package:front/widgets/custom_box_home_detail_product.dart';
 import 'package:front/widgets/custom_button_text.dart';
 import 'package:front/widgets/custom_chechbox.dart';
 import 'package:front/widgets/custom_favorite_list.dart';
@@ -22,6 +23,7 @@ class HomeView extends GetView<ProductsController> {
   Widget build(BuildContext context) {
     ScrollController scrollController = ScrollController();
     ProfileColntroller PController = ProfileColntroller();
+    controller.getProductById();
     /* controller.getCategories();
     controller.getProducts();
     Future<String> getData() {
@@ -355,10 +357,13 @@ class HomeView extends GetView<ProductsController> {
                                         controller.getCategorieById(
                                             "${controller.productGetJson!.data![index].category!.name}");
                                         return GestureDetector(
-                                          child: CustomFavoriteList(
+                                          child: CustomBoxHomeDetailsProduct(
                                             function: () {},
-                                            img: "assets/images/logo2.png ",
-                                            /* '${controller.productGetJson!.data![index].images}', */
+                                            fun: () {
+                                              controller.getProductById();
+                                            },
+                                            img: (controller.productGetJson!
+                                                .data![index].images),
                                             ServiceName:
                                                 "${controller.productGetJson!.data![index].category!.name}",
                                             productname:
@@ -383,6 +388,35 @@ class HomeView extends GetView<ProductsController> {
                                                 "*************get category by id*****************");
                                           },
                                         );
+                                        /* GestureDetector(
+                                          child: CustomBoxHomeDetailsProduct(
+                                            function: () {},
+                                            img: ["${controller.productGetByIdJson!.data!.images![index]}"],
+                                            /* '${controller.productGetJson!.data![index].images}', */
+                                            ServiceName:
+                                                "${controller.productGetJson!.data![index].category!.name}",
+                                            productname:
+                                                "${controller.productGetJson!.data![index].nameproduct}",
+                                            Descriptiontext:
+                                                "${controller.productGetJson!.data![index].description}",
+                                            height: 200,
+                                            width: 200,
+                                            colorBorder: AppColor.goldColor,
+                                            widthBorder: 1,
+                                          ),
+                                          onTap: () {
+                                            ////
+                                            print(
+                                                "*-------------------------------------------*get category by id*****************");
+                                            AccountInfoStorage.saveProductId(
+                                                controller.productGetJson!
+                                                    .data![index].sId);
+                                            controller.getProductById();
+                                            Get.to(ProductDetail());
+                                            print(
+                                                "*************get category by id*****************");
+                                          },
+                                        ); */
                                       },
                                     );
                                   },
@@ -435,7 +469,8 @@ class HomeView extends GetView<ProductsController> {
                         return CustomFavoriteList(
                           function: () {},
                           icon: Icons.reviews,
-                          img: 'assets/images/logo2.png',
+                          img:
+                              "${controller.productGetJson!.data![index].images}",
                           ServiceName: "Catering",
                           Descriptiontext: '',
                           //  'Le lorem ipsum est, en imprimerie, une suite de mots sans signification utilisée à titre provisoire pour calibrer une mise en page, le texte définitif venant remplacer le faux-texte dès qul est prêt ou que la mise en page est achevée. Généralement, on utilise un texte en faux latin, le Lorem ipsum ou Lipsum',

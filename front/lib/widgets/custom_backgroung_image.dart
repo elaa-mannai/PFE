@@ -29,7 +29,7 @@ class CustomBackgroungImage extends StatelessWidget {
           width: MediaQuery.sizeOf(context).width,
           height: MediaQuery.sizeOf(context).height,
           padding: EdgeInsets.all(10),
-          color: Colors.white.withOpacity(0.8),
+          color: Colors.white54.withOpacity(0.9),
           child: widget,
         ),
       )

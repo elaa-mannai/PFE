@@ -34,7 +34,7 @@ class Data {
   String? nameproduct;
   String? description;
   int? price;
-  List<String>? images;
+  List<dynamic>? images;
   Category? category;
   String? user;
   int? iV;
@@ -58,7 +58,7 @@ class Data {
     nameproduct = json['nameproduct'];
     description = json['description'];
     price = json['price'];
-    images = json['images'].cast<String>();
+    images = json['images'].cast<dynamic>();
     category = json['category'] != null
         ? new Category.fromJson(json['category'])
         : null;

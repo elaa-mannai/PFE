@@ -22,6 +22,7 @@ class MultipleImage extends StatefulWidget {
 class _MultipleImageState extends State<MultipleImage> {
   ProductsController productsController = ProductsController();
   ImageCloudinary imageCloudinary = ImageCloudinary();
+  bool isUploading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -35,25 +36,52 @@ class _MultipleImageState extends State<MultipleImage> {
                 backgroundColor: AppColor.secondary,
                 height: 50,
                 width: MediaQuery.sizeOf(context).width,
-                function: () {
-                  imageCloudinary.openImages();
+                function: () async {
+                  setState(() {
+                    isUploading = true;
+                  });
+
+                  await imageCloudinary.openImages();
+
+                  setState(() {
+                    isUploading = false;
+                  });
+                  setState(() {
+                    
+                  });
                 },
                 text: "Open Images"),
 
-            imageCloudinary.imagefiles != null
-                ? Wrap(
-                    children: imageCloudinary.imagefiles!.map((imageone) {
-                      return Container(
-                          child: Card(
-                        child: Container(
-                          height: 100,
-                          width: 100,
-                          child: Image.file(File(imageone.path)),
+            if (isUploading)
+              Column(
+                children: [
+                  SizedBox(height: 10),
+                  Text(
+                    'Uploading images...',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColor.secondary),
+                  ),
+                  SizedBox(height: 10),
+                  CircularProgressIndicator(color:  AppColor.secondary), // Loading indicator
+                ],
+              ),
+
+            // Display selected images
+            if (!isUploading && imageCloudinary.imagefiles != null)
+              Wrap(
+                children: imageCloudinary.imagefiles!
+                    .map(
+                      (imageone) => Container(
+                        child: Card(
+                          child: Container(
+                            height: 100,
+                            width: 100,
+                            child: Image.file(File(imageone.path)),
+                          ),
                         ),
-                      ));
-                    }).toList(),
-                  )
-                : Container()
+                      ),
+                    )
+                    .toList(),
+              ),
           ],
         ));
   }

@@ -117,7 +117,7 @@ class CustomSearchBar extends GetView<ProductsController> {
                                   return GestureDetector(
                                     child: CustomFavoriteList(
                                       function: () {},
-                                      img: image, //'assets/images/logo2.png',
+                                      img: "$image", //'assets/images/logo2.png',
                                       productname: name![index],
                                       //     controller.filteredItemsName[index],
                                       Descriptiontext: desc![index],
