@@ -56,6 +56,11 @@ class AccountInfoStorage {
     return SecureStorage.readSecureData(keyId);
   }
 
+  static deleteUserId(){
+     print("deleted user id ");
+    return SecureStorage.deleteSecureData(keyId);
+  }
+
   static saveName(String name) {
     SecureStorage.writeSecureData(key: keyname, value: name);
   }
@@ -95,6 +100,10 @@ class AccountInfoStorage {
   static String? readItems() {
     return SecureStorage.readSecureData(keyitems);
   }
+  static deleteItems(){
+     print("deleted user items ");
+    return SecureStorage.deleteSecureData(keyitems);
+  }
 
   static saveImage(String? image) {
     SecureStorage.writeSecureData(key: Keyimage, value: image!);
@@ -102,6 +111,12 @@ class AccountInfoStorage {
 
   static String? readImage() {
     return SecureStorage.readSecureData(Keyimage);
+  }
+
+
+  static deleteImage() {
+    print("deleted user image ");
+    return SecureStorage.deleteSecureData(Keyimage);
   }
 
   static savePassword(String? password) {
@@ -212,6 +227,12 @@ class AccountInfoStorage {
   static String? readCategorieId() {
     return SecureStorage.readSecureData(keycategorieId);
   }
+   static deleteCategorieId() {
+    print("deleted");
+    return SecureStorage.deleteSecureData(keycategorieId);
+  }
+
+
 
   static saveCatgorieProducts(String? categorieProducts) {
     SecureStorage.writeSecureData(

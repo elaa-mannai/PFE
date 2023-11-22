@@ -1,10 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:front/config/account_info_storage.dart';
 import 'package:front/config/app_colors.dart';
 import 'package:front/controllers/products_controller.dart';
+import 'package:front/views/product_detail.dart';
 import 'package:front/widgets/components/image_grid.dart';
 import 'package:front/widgets/custom_backgroung_image.dart';
+import 'package:front/widgets/custom_input_text.dart';
 import 'package:front/widgets/custom_product_list_V.dart';
 import 'package:front/widgets/custom_text.dart';
 import 'package:get/get.dart';
@@ -14,10 +15,9 @@ class ServiceDetails extends GetView<ProductsController> {
 
   @override
   Widget build(BuildContext context) {
-    ScrollController scrollController = ScrollController();
-    controller.getCategories();
+    // controller.getCategories();
     // controller.getProductById();
-    controller.getProducts();
+    // controller.getAllProductByUserId();
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -45,7 +45,7 @@ class ServiceDetails extends GetView<ProductsController> {
         ),
       ),
       body: SingleChildScrollView(
-        controller: scrollController,
+        controller: ScrollController(),
         child: CustomBackgroungImage(
           fit: BoxFit.cover,
           image: 'assets/images/landpage.jpg',
@@ -119,7 +119,6 @@ class ServiceDetails extends GetView<ProductsController> {
                           flex: 5,
                           child: GetBuilder<ProductsController>(
                             builder: (controller) {
-                              // AccountInfoStorage.saveProductId(controller.ProductById().toString());
                               return ListView.builder(
                                 shrinkWrap: true,
                                 // controller: scrollController,
@@ -130,20 +129,30 @@ class ServiceDetails extends GetView<ProductsController> {
                                   controller.getCategorieById(
                                       "${controller.productGetJson!.data![index].category!.name}");
 
-                                  return CustomProductListV(
-                                    colorBorder: AppColor.secondary,
-                                    productName:
-                                        "${controller.productsByUserIdJson!.data![index].nameproduct}",
-                                    description:
-                                        "${controller.productsByUserIdJson!.data![index].description}",
-                                    local: "location map",
-                                    price:
-                                        "${controller.productsByUserIdJson!.data![index].price}",
-                                    categorie:
-                                        "${controller.productGetJson!.data![index].category!.name}",
-                                    // "${controller.categorieGetByIdJson!.data!.name}",
-                                    widthBorder: 2,
-                                    function: () {},
+                                  return GestureDetector(
+                                    child: CustomProductListV(
+                                      colorBorder: AppColor.secondary,
+                                      img: controller.productsByUserIdJson!
+                                          .data![index].images,
+                                      productName:
+                                          "${controller.productsByUserIdJson!.data![index].nameproduct}",
+                                      description:
+                                          "${controller.productsByUserIdJson!.data![index].description}",
+                                      local: "location map",
+                                      price:
+                                          "${controller.productsByUserIdJson!.data![index].price}",
+                                      categorie:
+                                          "${controller.productGetJson!.data![index].category!.name}",
+                                      widthBorder: 2,
+                                      function: () {},
+                                    ),
+                                    onTap: () {
+                                      // AccountInfoStorage.saveProductId(
+                                      //     "${controller.productGetByIdJson!.data!.sId}");
+                                      AccountInfoStorage.saveProductId(
+                                          "${controller.productsByUserIdJson!.data![index].sId}");
+                                      Get.to(ProductDetail());
+                                    },
                                   );
                                 },
                               );
@@ -166,12 +175,11 @@ class ServiceDetails extends GetView<ProductsController> {
           // icon: Icon(Icons.add_outlined),
           label: Text('New Service'),
           onPressed: () {
-           Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => CustomMultiImageChange()));
-
-         }),
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CustomMultiImageChange()));
+          }),
     );
   }
 }

@@ -13,13 +13,13 @@ import 'package:front/widgets/custom_sales_services.dart';
 import 'package:front/widgets/custom_text.dart';
 import 'package:get/get.dart';
 
-class HomeViewVendor extends StatelessWidget {
+class HomeViewVendor extends GetView<ProfileColntroller> {
   const HomeViewVendor({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     ScrollController scrollController = ScrollController();
-
+    controller.getUserById();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white, //your color
@@ -53,7 +53,10 @@ class HomeViewVendor extends StatelessWidget {
                 accountEmail: Text(AccountInfoStorage.readEmail().toString()),
                 currentAccountPicture: CircleAvatar(
                   //get uesr photo from backend
-                  backgroundImage: NetworkImage("${AccountInfoStorage.readImage()}" ==''?'assets/images/p.jpg':"${AccountInfoStorage.readImage()}" ),
+                  backgroundImage: NetworkImage(
+                      "${AccountInfoStorage.readImage()}" == null
+                          ? "https://media.istockphoto.com/id/1300845620/fr/vectoriel/appartement-dic%C3%B4ne-dutilisateur-isol%C3%A9-sur-le-fond-blanc-symbole-utilisateur.jpg?s=612x612&w=0&k=20&c=BVOfS7mmvy2lnfBPghkN__k8OMsg7Nlykpgjn0YOHj0="
+                          : "${AccountInfoStorage.readImage()}"),
                   maxRadius: 25,
                 ),
                 decoration: BoxDecoration(color: AppColor.goldColor),
@@ -64,10 +67,8 @@ class HomeViewVendor extends StatelessWidget {
                 ),
                 title: Text('Profile'),
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ProfileView()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ProfileView()));
                 },
               ),
               ListTile(
@@ -127,6 +128,9 @@ class HomeViewVendor extends StatelessWidget {
                     title: Text('Log out'),
                     onTap: () {
                       print('********************logout*************');
+                      AccountInfoStorage.deleteImage();
+                      controller.phonenumberController.clear();
+                      controller.adresseController.clear();
                       c.logOut();
                       Get.to(LoginView());
                     },
@@ -154,9 +158,7 @@ class HomeViewVendor extends StatelessWidget {
                   //Earning%
                   Expanded(
                     child: CustomSalesBox(
-                        text1: 'Earning',
-                        text2: "This mounth",
-                        money: "199 "),
+                        text1: 'Earning', text2: "This mounth", money: "199 "),
                   ),
                 ],
               ),

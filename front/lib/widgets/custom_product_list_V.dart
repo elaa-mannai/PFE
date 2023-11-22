@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:front/config/account_info_storage.dart';
 import 'package:front/config/app_colors.dart';
 import 'package:front/controllers/products_controller.dart';
+import 'package:front/views/vendors/service_details.dart';
+import 'package:front/widgets/custom_input_text.dart';
+import 'package:front/widgets/custom_text.dart';
 import 'package:get/get.dart';
 
 class CustomProductListV extends GetView<ProductsController> {
@@ -11,11 +15,13 @@ class CustomProductListV extends GetView<ProductsController> {
   final Function? function;
   final double? widthBorder;
   final Color? colorBorder;
+  final List<dynamic>? img;
 
   CustomProductListV({
     Key? key,
     this.productName,
     this.categorie,
+    this.img,
     this.price,
     this.function,
     this.widthBorder,
@@ -30,14 +36,13 @@ class CustomProductListV extends GetView<ProductsController> {
       future: controller.getProductById(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator(); // or a loading indicator
+          return CircularProgressIndicator(
+            color: AppColor.secondary,
+          ); // or a loading indicator
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
-          final List<dynamic> imagesList =
-              controller.productGetByIdJson?.data?.images ?? [];
-          print("testing list${controller.productGetByIdJson!.data!.images}");
-          print("testing data${controller.productGetByIdJson!.data!}");
+          img ?? [];
 
           return Padding(
             padding: EdgeInsets.fromLTRB(2, 5, 2, 5),
@@ -45,16 +50,16 @@ class CustomProductListV extends GetView<ProductsController> {
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 color: Colors.white.withOpacity(0.5),
-                borderRadius: BorderRadius.all(Radius.circular(24)),
-                border: Border.all(
-                    color: colorBorder!.withOpacity(0.1), width: widthBorder!),
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                // border: Border.all(
+                //     color: colorBorder!.withOpacity(0.1), width: widthBorder!),
               ),
               child: Row(
                 children: [
                   Expanded(
                     flex: 3,
                     child: CarouselSlider(
-                      items: buildImageSliders(imagesList),
+                      items: buildImageSliders(img ?? [], context),
                       options: CarouselOptions(
                         autoPlay: true,
                         aspectRatio: 2,
@@ -118,12 +123,6 @@ class CustomProductListV extends GetView<ProductsController> {
                       ],
                     ),
                   ),
-                  Expanded(
-                    child: Icon(
-                      Icons.more_vert,
-                      color: AppColor.secondary,
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -133,7 +132,8 @@ class CustomProductListV extends GetView<ProductsController> {
     );
   }
 
-  List<Widget> buildImageSliders(List<dynamic> imagesList) {
+  List<Widget> buildImageSliders(
+      List<dynamic> imagesList, BuildContext context) {
     return imagesList
         .map((item) => Container(
               child: Container(
@@ -142,8 +142,12 @@ class CustomProductListV extends GetView<ProductsController> {
                   borderRadius: const BorderRadius.all(Radius.circular(5.0)),
                   child: Stack(
                     children: <Widget>[
-                      Image.network(item.toString(),
-                          fit: BoxFit.cover, width: 1000.0),
+                      Image.network(
+                        item.toString(),
+                        fit: BoxFit.cover,
+                        width: MediaQuery.sizeOf(context).width / 2,
+                        height: MediaQuery.sizeOf(context).height,
+                      ),
                       Positioned(
                         bottom: 0.0,
                         left: 0.0,
@@ -152,8 +156,8 @@ class CustomProductListV extends GetView<ProductsController> {
                           decoration: const BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
-                                Color.fromARGB(200, 0, 0, 0),
-                                Color.fromARGB(0, 0, 0, 0)
+                                Color.fromARGB(255, 255, 255, 255),
+                                Color.fromARGB(0, 255, 255, 255)
                               ],
                               begin: Alignment.bottomCenter,
                               end: Alignment.topCenter,
@@ -162,14 +166,6 @@ class CustomProductListV extends GetView<ProductsController> {
                           padding: const EdgeInsets.symmetric(
                             vertical: 20.0,
                             horizontal: 20.0,
-                          ),
-                          child: Text(
-                            '${imagesList.indexOf(item)}',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold,
-                            ),
                           ),
                         ),
                       ),

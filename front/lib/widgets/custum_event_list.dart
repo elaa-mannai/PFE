@@ -47,7 +47,7 @@ class CustomEventList extends GetView<EventController> {
           padding: const EdgeInsets.all(8),
           child: Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 //event title
                 AutoSizeText(
@@ -59,22 +59,38 @@ class CustomEventList extends GetView<EventController> {
                     color: AppColor.goldColor,
                   ),
                 ),
+                //description
+                AutoSizeText(
+                  'Description: $description',
+                  presetFontSizes: [22, 18, 11],
+                  maxLines: 2,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                  ),
+                ),
                 //date debut && date fin
                 Row(
                   children: [
                     Expanded(
                       child: Column(
                         children: [
-                          AutoSizeText(controller.formattedate("$datedeb"),
-                              presetFontSizes: [18, 12, 10],
-                              maxLines: 1,
-                              style: TextStyle(
-                                  fontSize: 18, color: AppColor.blackColor)),
-                          AutoSizeText(controller.formattedate("$datefin"),
-                              presetFontSizes: [18, 12, 10],
-                              maxLines: 1,
-                              style: TextStyle(
-                                  fontSize: 18, color: AppColor.blackColor)),
+                          //datedebut
+                          AutoSizeText(
+                            controller.formattedate("$datedeb"),
+                            presetFontSizes: [18, 12, 10],
+                            maxLines: 1,
+                            style: TextStyle(
+                                fontSize: 18, color: AppColor.blackColor),
+                          ),
+                          //datefin
+                          AutoSizeText(
+                            controller.formattedate("$datefin"),
+                            presetFontSizes: [18, 12, 10],
+                            maxLines: 1,
+                            style: TextStyle(
+                                fontSize: 18, color: AppColor.blackColor),
+                          ),
                           //local
                           AutoSizeText(
                             'Loactaion: $local',

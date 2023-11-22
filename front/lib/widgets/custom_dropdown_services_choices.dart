@@ -55,7 +55,6 @@ class _CustomDropdownServicesState extends State<CustomDropdownServices> {
           value: selectedValue,
           onChanged: (String? value) {
             AccountInfoStorage.saveCatgorieName(value);
-
             setState(() {
               selectedValue = value;
             });
@@ -71,7 +70,6 @@ class _CustomDropdownServicesState extends State<CustomDropdownServices> {
             ),
             elevation: 2,
           ),
-          
           iconStyleData: const IconStyleData(
             icon: Icon(
               Icons.arrow_drop_down,
@@ -82,17 +80,16 @@ class _CustomDropdownServicesState extends State<CustomDropdownServices> {
           ),
           dropdownStyleData: DropdownStyleData(
             maxHeight: 200,
-            width: MediaQuery.sizeOf(context).width/2,
+            width: MediaQuery.sizeOf(context).width / 2,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(14),
-              color:AppColor.secondary,
+              color: AppColor.secondary,
             ),
-            offset:  Offset(30, 0),
+            offset: Offset(30, 0),
             scrollbarTheme: ScrollbarThemeData(
-              radius:  Radius.circular(40),
+              radius: Radius.circular(40),
               thickness: MaterialStateProperty.all<double>(6),
               thumbVisibility: MaterialStateProperty.all<bool>(true),
-              
             ),
           ),
           menuItemStyleData: const MenuItemStyleData(

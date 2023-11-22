@@ -1,9 +1,10 @@
-import 'package:dio/dio.dart' as dio;
+import 'dart:io';
+import 'dart:typed_data';
+import 'package:cloudinary/cloudinary.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:front/config/account_info_storage.dart';
-import 'package:front/config/app_api.dart';
-import 'package:front/models/json/categorie_get_by_id_json.dart';
+import 'package:front/controllers/products_controller.dart';
 import 'package:front/models/json/categorie_get_by_name_json.dart';
 import 'package:front/models/json/categories_json.dart';
 import 'package:front/models/json/favorite__create_json.dart';
@@ -31,12 +32,15 @@ import 'package:front/models/network/api_favorite_get_by_user_id_and_state.dart'
 import 'package:front/models/network/api_get_user_by_id.dart';
 import 'package:front/models/network/api_product_add.dart';
 import 'package:front/models/network/api_product_by_user_is_json.dart';
+import 'package:front/models/network/api_product_delete.dart';
 import 'package:front/models/network/api_product_get.dart';
 import 'package:front/models/network/api_product_get_by_id.dart';
 import 'package:front/models/network/api_products_get_by_user_id.dart';
-import 'package:front/views/product_detail.dart';
-import 'package:front/views/product_selection_by_services.dart';
-import 'package:get/get.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:multiple_images_picker/multiple_images_picker.dart';
+import 'package:path_provider/path_provider.dart';
+
+import 'package:front/models/json/categorie_get_by_id_json.dart';
 
 class ProductsController extends GetxController {
   ApiCategoriesGet apiCategoriesGet = ApiCategoriesGet();
@@ -50,30 +54,42 @@ class ProductsController extends GetxController {
   ApiProductAdd apiProductAdd = ApiProductAdd();
   ApiCategoriesGetByName apiCategoriesGetByName = ApiCategoriesGetByName();
   ApiProductsGetByUserId apiProductsGetByUserId = ApiProductsGetByUserId();
-
+  ApiProductDeleteById apiProductDeleteById = ApiProductDeleteById();
   ProductsByUserIdJson? productsByUserIdJson;
   ProductGetJson? productGetJson;
   ProductGetByIdJson? productGetByIdJson;
   ProductAddJson? productAddJson;
+
+  ApiFavoriteCreate apiFavoriteCreate = ApiFavoriteCreate();
+  ApiFavoriteDeleteById apiFavoriteDeleteById = ApiFavoriteDeleteById();
+  ApiFavoriteGetByUserId apiFavoriteGetByUserId = ApiFavoriteGetByUserId();
+  ApiFAvoriteGetById apiFAvoriteGetById = ApiFAvoriteGetById();
+  ApiFAvoriteGetState apiFAvoriteGetState = ApiFAvoriteGetState();
+  ApiFavoriteAll apiFavoriteAll = ApiFavoriteAll();
+  ApiFavoriteByUserIdAndState apiFavoriteByUserIdAndState =
+      ApiFavoriteByUserIdAndState();
+
+  FavoriteByUserIdJson? favoriteByUserIdJson = FavoriteByUserIdJson();
+  FavoriteAllJson? favoriteAllJson = FavoriteAllJson();
+  FavoriteByIdJson? favoriteByIdJson = FavoriteByIdJson();
+  FavoriteCreateJson? favoriteCreateJson = FavoriteCreateJson();
+  FavoriteGeByStatetJson? favoriteGeByStatetJson = FavoriteGeByStatetJson();
+  FavoriteByUserIdAndStateJson? favoriteByUserIdAndStateJson =
+      FavoriteByUserIdAndStateJson();
+
+  ApiProductGetByCategoryId apiProductGetByCategoryId =
+      ApiProductGetByCategoryId();
+  ProductsByCategoryIdJson? productsByCategoryIdJson =
+      ProductsByCategoryIdJson();
+
+  ApiUserById apiUserById = ApiUserById();
+  UserGetByIdJson? userGetByIdJson;
 
   TextEditingController productNameController = TextEditingController();
   TextEditingController productDescriptionController = TextEditingController();
   TextEditingController productPriceController = TextEditingController();
 
   List<String> imgList = [];
-
-  dio.Dio dio_ = dio.Dio(
-    dio.BaseOptions(
-        baseUrl: AppApi.baseUrl,
-        //  receiveDataWhenStatusError: true,
-        connectTimeout: Duration(seconds: 6000),
-        receiveTimeout: Duration(seconds: 6000),
-        headers: <String, String>{
-          //'Contentt-Type': 'application/x-www-form-urlencoded',
-          //  'Content-Type': 'application/json',
-          'Content-Type': 'multipart/form-data',
-        }),
-  );
 
   @override
   Future<void> onInit() async {
@@ -85,6 +101,8 @@ class ProductsController extends GetxController {
         .addAll(productGetJson!.data!.map((data) => data.description ?? ''));
     filteredItemsCat
         .addAll(productGetJson!.data!.map((data) => data.category!.name ?? ''));
+    filteredItemsImages
+        .addAll(productGetJson!.data!.map((data) => data.images ?? []));
 
     await getProductByCatgoryId();
     filteredItemsNameC.addAll(
@@ -93,6 +111,8 @@ class ProductsController extends GetxController {
         productsByCategoryIdJson!.data!.map((data) => data.description ?? ''));
     filteredItemsCatC.addAll(productsByCategoryIdJson!.data!
         .map((data) => data.category!.name ?? ''));
+    filteredItemsImagesC.addAll(
+        productsByCategoryIdJson!.data!.map((data) => data.images ?? []));
     //  createProduct();
     // Initialisations spécifiques à ce contrôleur
     super
@@ -223,16 +243,7 @@ class ProductsController extends GetxController {
     // update();
   }
 
-  ApiProductGetByCategoryId apiProductGetByCategoryId =
-      ApiProductGetByCategoryId();
-  ProductsByCategoryIdJson? productsByCategoryIdJson =
-      ProductsByCategoryIdJson();
-
   getProductByCatgoryId() async {
-    /* 
-    filteredItemsNameC.clear();
-    filteredItemsDesC.clear();
-    filteredItemsCatC.clear(); */
     print("product by categorie id ------------------------");
     apiProductGetByCategoryId.id =
         AccountInfoStorage.readCategorieId().toString();
@@ -245,39 +256,31 @@ class ProductsController extends GetxController {
 
         print(
             "lenght image list=====${productsByCategoryIdJson!.data!.length}");
-
-        /* if (imgList!.isNotEmpty) {
-        for (int i = 0; i < productGetJson!.data![i].images!.length; i++) {
-          print(imgList![i].nameproduct);
-          if (FavoriteProducts![i].favorite == true) {
-            listFavProd.add(FavoriteProducts![i].sId.toString());
-            print("list$listFavProd");
-          }
-        }
-      } */
       });
       return productsByCategoryIdJson!;
     } catch (error) {
       print("error product by categorie id ==== $error");
     }
+    update();
   }
 
 ///////to do
   getAllProductByUserId() async {
-    print("Product by user id ---------------------");
+    print("-------------------Product by user id ---------------------");
     apiProductsGetByUserId.id = AccountInfoStorage.readId().toString();
 
     return await apiProductsGetByUserId.getData().then((value) {
       print('value===========> $value');
       //////////the value is null
       productsByUserIdJson = value as ProductsByUserIdJson?;
+      
 
       if (productsByUserIdJson!.data != null) {
         print(
             "Product by user id =============== ${productsByUserIdJson!.data!.length}");
         return productsByUserIdJson;
       }
-
+      getAllProductByUserId();
       update();
       return null;
     }).onError((error, stackTrace) {
@@ -286,6 +289,7 @@ class ProductsController extends GetxController {
     });
   }
 
+  bool isUpload = false;
   createProduct() {
     print('************************create product***********************');
     Map<String, dynamic> data = {
@@ -317,12 +321,48 @@ class ProductsController extends GetxController {
     }
   }
 
-  ApiUserById apiUserById = ApiUserById();
-  UserGetByIdJson? userGetByIdJson;
+  updateProduct() async {
+    print("update product informations");
+    apiProductGetById.id = AccountInfoStorage.readProductId().toString();
+    return await apiProductGetById.updateData({
+      "nameproduct": productNameController.text,
+      "description": productDescriptionController.text,
+      "price": productPriceController.text,
+      "images": AccountInfoStorage.readProductListImage(),
+      "category": AccountInfoStorage.readCategorieName().toString(),
+    }).then((value) {
+      getAllProductByUserId();
+      //Get.snackbar("", "Success",
+      //       backgroundColor: AppColor.goldColor,
+      // titleText: Text(
+      //   "Notification Update",
+      //   style: TextStyle(
+      //     fontWeight: FontWeight.w600,
+      //     fontSize: 24,
+      //   ),
+      // ));
 
-  //////////////////////////////// Favorite  ////////////////////////////////
-  ///
-  ///
+      update();
+    }).onError((error, stackTrace) {
+      print('error login======> $error');
+    });
+  }
+
+  deleteProduct() {
+    print("delete product");
+    apiProductDeleteById.id = AccountInfoStorage.readProductId().toString();
+
+    apiProductDeleteById.deleteData().then((value) {
+      print('success Product delete');
+
+      update();
+    }).onError((error, stackTrace) {
+      print('erorr delete Product  === > $error');
+    });
+  }
+
+//////////////////////////////////////////
+
   bool? isFavorite;
 
   void favoriteIcon() {
@@ -330,25 +370,6 @@ class ProductsController extends GetxController {
     isFavorite = !isFavorite!;
     update();
   }
-
-  // List<Products?> savedFavProd = [];
-
-  ApiFavoriteCreate apiFavoriteCreate = ApiFavoriteCreate();
-  ApiFavoriteDeleteById apiFavoriteDeleteById = ApiFavoriteDeleteById();
-  ApiFavoriteGetByUserId apiFavoriteGetByUserId = ApiFavoriteGetByUserId();
-  ApiFAvoriteGetById apiFAvoriteGetById = ApiFAvoriteGetById();
-  ApiFAvoriteGetState apiFAvoriteGetState = ApiFAvoriteGetState();
-  ApiFavoriteAll apiFavoriteAll = ApiFavoriteAll();
-  ApiFavoriteByUserIdAndState apiFavoriteByUserIdAndState =
-      ApiFavoriteByUserIdAndState();
-
-  FavoriteByUserIdJson? favoriteByUserIdJson = FavoriteByUserIdJson();
-  FavoriteAllJson? favoriteAllJson = FavoriteAllJson();
-  FavoriteByIdJson? favoriteByIdJson = FavoriteByIdJson();
-  FavoriteCreateJson? favoriteCreateJson = FavoriteCreateJson();
-  FavoriteGeByStatetJson? favoriteGeByStatetJson = FavoriteGeByStatetJson();
-  FavoriteByUserIdAndStateJson? favoriteByUserIdAndStateJson =
-      FavoriteByUserIdAndStateJson();
 
   createFavorite() async {
     print(
@@ -425,6 +446,7 @@ class ProductsController extends GetxController {
     } catch (error) {
       print('error update FAvorite======> $error');
     }
+    update();
   }
 
   getAllFavoriteByUserId() async {
@@ -532,12 +554,13 @@ class ProductsController extends GetxController {
     return false;
   }
 
-  // List<String> items = ['Apple', 'Banana', 'Orange', 'Grapes', 'Watermelon'];
   List<String> filteredItemsName = [];
   List<String> filteredItemsDes = [];
   List<String> filteredItemsCat = [];
+  List<dynamic> filteredItemsImages = [];
 
   void filterList(String query) {
+    filteredItemsImages.clear();
     filteredItemsName.clear();
     filteredItemsDes.clear();
     filteredItemsCat.clear();
@@ -546,12 +569,12 @@ class ProductsController extends GetxController {
       print('--------filter-------');
 
       if (item.nameproduct!.toLowerCase().contains(query.toLowerCase()) ||
-              item.description!.toLowerCase().contains(query.toLowerCase())
-          //|| item.category!.name!.toLowerCase().contains(query.toLowerCase()
-          ) {
+          item.description!.toLowerCase().contains(query.toLowerCase()) ||
+          item.category!.name!.toLowerCase().contains(query.toLowerCase())) {
         filteredItemsName.add(item.nameproduct.toString());
         filteredItemsDes.add(item.description.toString());
         filteredItemsCat.add(item.category!.name.toString());
+        filteredItemsImages.add(item.images!.toList());
       }
       update();
     });
@@ -560,14 +583,17 @@ class ProductsController extends GetxController {
   List<String> filteredItemsNameC = [];
   List<String> filteredItemsDesC = [];
   List<String> filteredItemsCatC = [];
+  List<dynamic> filteredItemsImagesC = [];
 
   Future<void> filterList1(String query) async {
     filteredItemsNameC.clear();
     filteredItemsDesC.clear();
     filteredItemsCatC.clear();
+    filteredItemsImagesC.clear();
 
     productsByCategoryIdJson!.data!.forEach((item) {
       print('--------filter-------');
+      // print("length ${productsByCategoryIdJson!.data!.length}");
 
       if (item.nameproduct!.toLowerCase().contains(query.toLowerCase()) ||
               item.description!.toLowerCase().contains(query.toLowerCase())
@@ -576,8 +602,292 @@ class ProductsController extends GetxController {
         filteredItemsNameC.add(item.nameproduct.toString());
         filteredItemsDesC.add(item.description.toString());
         filteredItemsCatC.add(item.category!.name.toString());
+        filteredItemsImagesC.add(item.images!.toList());
       }
       update();
     });
   }
+
+///////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////
+  Future<String?> uploadToCloudinary(File? imageFile) async {
+    try {
+      final dio = Dio();
+      final apiKey = '872948247576765';
+      final uploadPreset = 'EventManagement';
+
+      FormData formData = FormData.fromMap({
+        'file': await MultipartFile.fromFile(imageFile!.path,
+            filename: '$imageFile'),
+        'upload_preset': uploadPreset,
+        'api_key': apiKey,
+      });
+
+      final response = await dio.post(
+        'https://api.cloudinary.com/v1_1/elaa/image/upload',
+        data: formData,
+      );
+      print("ttttttttttttttttttttttt${imageFile.path}");
+      if (response.statusCode == 200) {
+        final secureUrl = response.data['secure_url'];
+        print(" URL ${secureUrl}");
+        AccountInfoStorage.saveImage("$secureUrl");
+
+        return secureUrl;
+      }
+    } catch (e) {
+      print('Error uploading to Cloudinary: $e');
+    }
+    return null;
+  }
+
+////////////////////////////////////////////////////////////////////////////////
+  List<File>? imagefiles;
+  List<String?> uploadedUrls = [];
+
+  Future<List<String?>> uploadMultiImagesToCloudinary(
+      List<File> imageFiles) async {
+    print("uploadMultiImagesToCloudinary");
+    for (var imageFile in imageFiles) {
+      print("for boucle");
+      try {
+        print("try condition");
+
+        final dio = Dio();
+        final apiKey =
+            '872948247576765'; // Replace with your Cloudinary API key
+        final uploadPreset =
+            'EventManagement'; // Replace with your Cloudinary upload preset
+
+        FormData formData = FormData.fromMap({
+          'file': await MultipartFile.fromFile(imageFile.path,
+              filename: '${imageFile.path}'),
+          'upload_preset': uploadPreset,
+          'api_key': apiKey,
+        });
+        print("ressponse dio");
+        final response = await dio.post(
+          'https://api.cloudinary.com/v1_1/elaa/image/upload',
+          data: formData,
+        );
+        print("if ressponse status");
+
+        if (response.statusCode == 200) {
+          final secureUrl = await response.data['secure_url'];
+          print("Uploaded image URL: $secureUrl");
+          uploadedUrls.add(secureUrl);
+          AccountInfoStorage.saveProductListImage(uploadedUrls);
+          update();
+        }
+      } catch (e) {
+        print('Error uploading to Cloudinary: $e');
+      }
+    }
+
+    return uploadedUrls;
+  }
+
+  openImages() async {
+    print("openfunction");
+    final pickerImages =
+        MultipleImagesPicker.pickImages(maxImages: 6, enableCamera: true);
+
+    try {
+      var pickedAssets = await pickerImages;
+      print(
+          "picked images =========================================>$pickedAssets");
+
+      if (pickedAssets.isNotEmpty) {
+        List<File> pickedFiles = [];
+        for (var asset in pickedAssets) {
+          final ByteData byteData = await asset.getByteData();
+          final List<int> imageData = byteData.buffer.asUint8List();
+          final File file = File(
+              '${(await getTemporaryDirectory()).path}/${DateTime.now().millisecondsSinceEpoch}.png');
+          await file.writeAsBytes(imageData);
+          pickedFiles.add(file);
+        }
+
+        imagefiles = pickedFiles;
+        print("files === ${pickedFiles}");
+        print("files === ${pickerImages}");
+
+        await uploadMultiImagesToCloudinary(pickedFiles);
+
+        print("Success getting images");
+      } else {
+        print("No image is selected.");
+      }
+    } catch (e) {
+      print("Error while picking files: $e");
+    }
+    update();
+  }
+
+/////////////loading image vendor create product
+  bool isUploading = false;
+  void uploadImage() async {
+    print('uploadimage------------------');
+    isUploading = true;
+    print('isUploading------------------$isUploading');
+    update();
+    await openImages();
+    print('isUploading------------------$isUploading');
+    update();
+    isUploading = false;
+    print('isUploading------------------$isUploading');
+    isUpload = true;
+    update();
+  }
+////////////////////////////////////////////////////read image list
+  ///
+  ///
+  ///
+  ///
+
+  /*  final List<String> imgList = ["${AccountInfoStorage.readProductListImage()}"];
+
+
+final List<Widget>  imageSliders = imgList
+    .map((item) => Container(
+          child: Container(
+            margin: const EdgeInsets.all(5.0),
+            child: ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                child: Stack(
+                  children: <Widget>[
+                    Image.network(item, fit: BoxFit.cover, width: 1000.0),
+                    Positioned(
+                      bottom: 0.0,
+                      left: 0.0,
+                      right: 0.0,
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Color.fromARGB(200, 0, 0, 0),
+                              Color.fromARGB(0, 0, 0, 0)
+                            ],
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                          ),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10.0,
+                          horizontal: 20.0,
+                        ),
+                        child: Text(
+                          '${imgList.indexOf(item)}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )),
+          ),
+        ))
+    .toList();
+    
+///////////////multiple
+/*   Future<List<String?>> uploadMultiImagesToCloudinary(
+      List<XFile> imageFiles) async {
+    List<String> uploadedUrls = [];
+    print("uploadMultiImagesToCloudinary");
+    for (var imageFile in imageFiles) {
+      try {
+        final dio = Dio();
+        final apiKey = 'your_api_key'; // Replace with your Cloudinary API key
+        final uploadPreset =
+            'EventManagement'; // Replace with your Cloudinary upload preset
+
+        FormData formData = FormData.fromMap({
+          'file': await MultipartFile.fromFile(imageFile.path,
+              filename: '${imageFile.path}'),
+          'upload_preset': uploadPreset,
+          'api_key': apiKey,
+        });
+
+        final response = await dio.post(
+          'https://api.cloudinary.com/v1_1/elaa/image/upload',
+          data: formData,
+        );
+
+        if (response.statusCode == 200) {
+          final secureUrl = response.data['secure_url'];
+          print("Uploaded image URL: $secureUrl");
+          uploadedUrls.add(secureUrl);
+          AccountInfoStorage.saveProductListImage(uploadedUrls);
+        }
+      } catch (e) {
+        print('Error uploading to Cloudinary: $e');
+      }
+    }
+
+    return uploadedUrls;
+  }
+ */
+  /* final ImagePicker imgpicker = ImagePicker();
+  List<XFile>? imagefiles;
+  Future<List<String?>> uploadMultiImagesToCloudinary(
+      List<XFile> imageFiles) async {
+    List<String> uploadedUrls = [];
+    print("uploadMultiImagesToCloudinary");
+    for (var imageFile in imageFiles) {
+      try {
+        final dio = Dio();
+        final apiKey = 'your_api_key'; // Replace with your Cloudinary API key
+        final uploadPreset =
+            'EventManagement'; // Replace with your Cloudinary upload preset
+
+        FormData formData = FormData.fromMap({
+          'file': await MultipartFile.fromFile(imageFile.path,
+              filename: '${imageFile.path}'),
+          'upload_preset': uploadPreset,
+          'api_key': apiKey,
+        });
+
+        final response = await dio.post(
+          'https://api.cloudinary.com/v1_1/elaa/image/upload',
+          data: formData,
+        );
+
+        if (response.statusCode == 200) {
+          final secureUrl = response.data['secure_url'];
+          print("Uploaded image URL: $secureUrl");
+          uploadedUrls.add(secureUrl);
+          AccountInfoStorage.saveProductListImage(uploadedUrls);
+        }
+      } catch (e) {
+        print('Error uploading to Cloudinary: $e');
+      }
+    }
+
+    return uploadedUrls;
+  }
+
+  openImages() async {
+    try {
+      var pickedfiles = await imgpicker.pickMultiImage();
+      //you can use ImageCourse.camera for Camera capture
+      if (pickedfiles != null) {
+        imagefiles = pickedfiles;
+
+        uploadMultiImagesToCloudinary(pickedfiles.cast<XFile>());
+        AccountInfoStorage.readProductListImage();
+        print("success get images");
+      } else {
+        print("No image is selected.");
+      }
+    } catch (e) {
+      print("error while picking file.");
+    }
+  }
+ */
+}
+ */
 }

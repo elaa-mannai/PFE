@@ -9,26 +9,28 @@ import 'package:front/widgets/custom_favorite_list.dart';
 import 'package:get/get.dart';
 
 class CustomSearchBar extends GetView<ProductsController> {
-  final Function? function;
   final Function(String)? onChanged;
   final Future<Object?>? functionFuture;
-  final String? image, label;
+  final String? label;
+  final Function? ontap;
   final List<String>? name;
   final List<String>? desc;
-  final List<String>? category;
+  final List<String>? category, sid;
+  final List<dynamic>? image;
   final int? length;
-  const CustomSearchBar(
-      {this.label,
-      this.onChanged,
-      this.functionFuture,
-      this.length,
-      this.image,
-      this.name,
-      this.desc,
-      this.category,
-      Key? key,
-      this.function})
-      : super(key: key);
+  const CustomSearchBar({
+    this.label,
+    this.onChanged,
+    this.functionFuture,
+    this.length,
+    this.image,
+    this.sid,
+    this.name,
+    this.ontap,
+    this.desc,
+    this.category,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -116,8 +118,12 @@ class CustomSearchBar extends GetView<ProductsController> {
 
                                   return GestureDetector(
                                     child: CustomFavoriteList(
-                                      function: () {},
-                                      img: "$image", //'assets/images/logo2.png',
+                                      fun: () {
+                                        //  controller.getProductByCatgoryId();
+                                      },
+
+                                      img: image![
+                                          index], //'assets/images/logo2.png',
                                       productname: name![index],
                                       //     controller.filteredItemsName[index],
                                       Descriptiontext: desc![index],
@@ -130,13 +136,7 @@ class CustomSearchBar extends GetView<ProductsController> {
                                       widthBorder: 1,
                                     ),
                                     onTap: () {
-                                      print(
-                                          "*-------------------------------------------*get category by id*****************");
-
-                                      controller.getProductById();
-                                      Get.to(ProductDetail());
-                                      print(
-                                          "*************get category by id*****************");
+                                      ontap!();
                                     },
                                   );
                                 },

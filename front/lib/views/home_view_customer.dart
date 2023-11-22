@@ -69,7 +69,9 @@ class HomeView extends GetView<ProductsController> {
                     currentAccountPicture: CircleAvatar(
                       //get uesr photo from backend
                       backgroundImage: NetworkImage(
-                          AccountInfoStorage.readImage().toString()),
+                          "${AccountInfoStorage.readImage()}" == null
+                              ? "https://media.istockphoto.com/id/1300845620/fr/vectoriel/appartement-dic%C3%B4ne-dutilisateur-isol%C3%A9-sur-le-fond-blanc-symbole-utilisateur.jpg?s=612x612&w=0&k=20&c=BVOfS7mmvy2lnfBPghkN__k8OMsg7Nlykpgjn0YOHj0="
+                              : "${AccountInfoStorage.readImage()}"),
                       maxRadius: 25,
                     ),
                     decoration: BoxDecoration(color: AppColor.goldColor),
@@ -165,19 +167,28 @@ class HomeView extends GetView<ProductsController> {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: Text("Do you want to logout?"),
+                              backgroundColor: Colors.white,
+                              title: Text("Do you want to logout?",
+                                  style: TextStyle(color: AppColor.goldColor)),
                               actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    c.logOut();
-                                  },
-                                  child: Text('OK'),
-                                ),
                                 TextButton(
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   },
-                                  child: Text('Cancel'),
+                                  child: Text('Cancel',
+                                      style: TextStyle(
+                                          color: Colors.deepOrangeAccent)),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    c.logOut();
+                                    AccountInfoStorage.deleteImage();
+                                    AccountInfoStorage.deleteProductId();
+                                    AccountInfoStorage.deleteItems();
+                                  },
+                                  child: Text('OK',
+                                      style:
+                                          TextStyle(color: AppColor.secondary)),
                                 ),
                               ],
                             );
@@ -224,7 +235,7 @@ class HomeView extends GetView<ProductsController> {
                             Get.to(ProductSelectionByServices());
                             // Get.to(EventListView());
                             //  Get.to(ProductDetail());
-                            // Get.to(FavoriteView());
+                            //   Get.to(FavoriteView());
                             //  Get.to(ProfileView());
                           },
                         ),
@@ -287,10 +298,8 @@ class HomeView extends GetView<ProductsController> {
                                       AccountInfoStorage.saveCatgorieName(
                                           controller.categorieJson!.data![index]
                                               .name);
-
-                                      //  controller.getProductByCatgoryId();
-
-                                      Get.to(ProductByCategorie());
+                                      // controller.getProductByCatgoryId();
+                                      Get.to(ProductSelectionByServices());
                                     },
                                     text:
                                         '${controller.categorieJson!.data![index].name}',
@@ -343,7 +352,7 @@ class HomeView extends GetView<ProductsController> {
                           } else {
                             return Center(
                               child: Expanded(
-                                flex: 5,
+                                // flex: 5,
                                 child: GetBuilder<ProductsController>(
                                   builder: (controller) {
                                     return ListView.builder(
@@ -362,6 +371,9 @@ class HomeView extends GetView<ProductsController> {
                                             fun: () {
                                               controller.getProductById();
                                             },
+                                            ////// function to get the shape with current state
+                                            // icon: Icons.favorite_sharp,
+
                                             img: (controller.productGetJson!
                                                 .data![index].images),
                                             ServiceName:
@@ -370,8 +382,8 @@ class HomeView extends GetView<ProductsController> {
                                                 "${controller.productGetJson!.data![index].nameproduct}",
                                             Descriptiontext:
                                                 "${controller.productGetJson!.data![index].description}",
-                                            height: 200,
-                                            width: 200,
+                                            // height: 200,
+                                            // width: 100,
                                             colorBorder: AppColor.goldColor,
                                             widthBorder: 1,
                                           ),
@@ -388,35 +400,6 @@ class HomeView extends GetView<ProductsController> {
                                                 "*************get category by id*****************");
                                           },
                                         );
-                                        /* GestureDetector(
-                                          child: CustomBoxHomeDetailsProduct(
-                                            function: () {},
-                                            img: ["${controller.productGetByIdJson!.data!.images![index]}"],
-                                            /* '${controller.productGetJson!.data![index].images}', */
-                                            ServiceName:
-                                                "${controller.productGetJson!.data![index].category!.name}",
-                                            productname:
-                                                "${controller.productGetJson!.data![index].nameproduct}",
-                                            Descriptiontext:
-                                                "${controller.productGetJson!.data![index].description}",
-                                            height: 200,
-                                            width: 200,
-                                            colorBorder: AppColor.goldColor,
-                                            widthBorder: 1,
-                                          ),
-                                          onTap: () {
-                                            ////
-                                            print(
-                                                "*-------------------------------------------*get category by id*****************");
-                                            AccountInfoStorage.saveProductId(
-                                                controller.productGetJson!
-                                                    .data![index].sId);
-                                            controller.getProductById();
-                                            Get.to(ProductDetail());
-                                            print(
-                                                "*************get category by id*****************");
-                                          },
-                                        ); */
                                       },
                                     );
                                   },
@@ -467,10 +450,11 @@ class HomeView extends GetView<ProductsController> {
                       itemCount: 10,
                       itemBuilder: (BuildContext context, index) {
                         return CustomFavoriteList(
-                          function: () {},
                           icon: Icons.reviews,
-                          img:
-                              "${controller.productGetJson!.data![index].images}",
+                          fun: () {
+                            controller.getProductById();
+                          },
+                          img: (controller.productGetJson!.data![index].images),
                           ServiceName: "Catering",
                           Descriptiontext: '',
                           //  'Le lorem ipsum est, en imprimerie, une suite de mots sans signification utilisée à titre provisoire pour calibrer une mise en page, le texte définitif venant remplacer le faux-texte dès qul est prêt ou que la mise en page est achevée. Généralement, on utilise un texte en faux latin, le Lorem ipsum ou Lipsum',

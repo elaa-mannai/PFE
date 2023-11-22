@@ -32,15 +32,13 @@ class CategorieJson extends AbstractJsonResource {
 class Data {
   String? sId;
   String? name;
-  List<String>? products;
   int? iV;
 
-  Data({this.sId, this.name, this.products, this.iV});
+  Data({this.sId, this.name, this.iV});
 
   Data.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
-    products = json['products'].cast<String>();
     iV = json['__v'];
   }
 
@@ -48,7 +46,6 @@ class Data {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.sId;
     data['name'] = this.name;
-    data['products'] = this.products;
     data['__v'] = this.iV;
     return data;
   }

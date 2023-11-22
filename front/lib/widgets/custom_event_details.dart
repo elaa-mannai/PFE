@@ -1,7 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:front/config/account_info_storage.dart';
 import 'package:front/config/app_colors.dart';
 import 'package:front/controllers/event_contorller.dart';
+import 'package:front/views/guest-list.dart';
+import 'package:front/widgets/custom_dropdown_list.dart';
+import 'package:front/widgets/custom_input_text.dart';
 import 'package:get/get.dart';
 
 class CustomEventDetails extends GetView<EventController> {
@@ -25,50 +29,170 @@ class CustomEventDetails extends GetView<EventController> {
 
   @override
   Widget build(BuildContext context) {
-
     return Padding(
       padding: const EdgeInsets.all(8.0),
-       child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(24)),
-          border: Border.all(color: colorBorder!, width: widthBorder!),
-        ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           //event title
-          AutoSizeText(
-            'Event Name: $eventName',
-            presetFontSizes: [24, 18, 12],
-            maxLines: 2,
-            style: TextStyle(
-              fontSize: 20,
-              color: AppColor.goldColor,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              AutoSizeText(
+                'Event Name: $eventName',
+                presetFontSizes: [24, 18, 12],
+                maxLines: 2,
+                style: TextStyle(
+                  fontSize: 20,
+                  color: AppColor.goldColor,
+                ),
+              ),
+              PopupMenuButton<String>(
+                icon: Icon(Icons.more_vert, color: AppColor.secondary),
+                color: AppColor.secondary,
+                itemBuilder: (BuildContext context) => [
+                  PopupMenuItem<String>(
+                    value: 'update',
+                    child: Text('Update'),
+                  ),
+                  PopupMenuItem<String>(
+                    value: 'delete',
+                    child: Text('Delete'),
+                  ),
+                ],
+                onSelected: (value) {
+                  if (value == 'update') {
+                    Get.dialog(AlertDialog(
+                      title: Text("Update Event informations:",
+                          style: TextStyle(color: AppColor.goldColor)),
+                      backgroundColor: Colors.white,
+                      content: SingleChildScrollView(
+                        child: ListBody(
+                          children: <Widget>[
+                            //event name
+                            CustomInputText(
+                              controller: controller.eventTitleController,
+                              obscureText: false,
+                              label: "Event Name:",
+                            ),
+                            //eventdesc
+                            CustomInputText(
+                              controller: controller.descriptionController,
+                              obscureText: false,
+                              label: "Event description: ",
+                            ),
+                            //budget
+                            CustomInputText(
+                              controller: controller.budgetController,
+                              obscureText: false,
+                              label: "Budget: ",
+                            ),
+                            //date range
+                            ElevatedButton(
+                              style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(
+                                      AppColor.secondary)),
+                              child: Text('Pick event first and end date'),
+                              onPressed: () {
+                                controller.openRangeDatePicker(context);
+                                // Text(" ${controller.dateDebutController.text}");
+                              },
+                            ),
+                            //location
+                            CustomDropdownList(),
+                          ],
+                        ),
+                      ),
+                      actions: <Widget>[
+                        GetBuilder<EventController>(
+                          builder: (controller) {
+                            return TextButton(
+                              child: Text(
+                                'Update',
+                                style: TextStyle(
+                                    color: AppColor.secondary, fontSize: 20),
+                              ),
+                              onPressed: () {
+                                print("object update");
+                                controller.updateEvent();
+                                //     '${controller.guestByEventIdJson!.data![index].sId}');
+                                Get.to(GuestList());
+                                Navigator.of(context).pop();
+                              },
+                            );
+                          },
+                        )
+                      ],
+                    ));
+                  } else if (value == 'delete') {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            backgroundColor: Colors.white,
+                            title: Text("Do you want to delete this event?",
+                                style: TextStyle(color: AppColor.goldColor)),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('Cancel',
+                                    style: TextStyle(
+                                        color: Colors.deepOrangeAccent)),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  controller.deleteEvent(
+                                      '${controller.eventByIdJson!.data!.sId}');
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('OK',
+                                    style:
+                                        TextStyle(color: AppColor.secondary)),
+                              ),
+                            ],
+                          );
+                        });
+                  }
+                },
+              )
+            ],
           ),
           //date debut && date fin
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  AutoSizeText("Date dedut: ${controller.formattedate("$datedeb")}",
-              presetFontSizes: [20, 18, 12],
+                  //description
+                  AutoSizeText(
+                    'Description: $description',
+                    presetFontSizes: [20, 18, 12],
+                    maxLines: 2,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
+                  ),
+                  AutoSizeText(
+                      "Date dedut: ${controller.formattedate("$datedeb")}",
+                      presetFontSizes: [20, 18, 12],
                       maxLines: 1,
-                      style: TextStyle(
-                          fontSize: 18, color: AppColor.blackColor)),
-                  AutoSizeText("Date fin: ${controller.formattedate("$datefin")}",
-              presetFontSizes: [20, 18, 12],
+                      style:
+                          TextStyle(fontSize: 18, color: AppColor.blackColor)),
+                  AutoSizeText(
+                      "Date fin: ${controller.formattedate("$datefin")}",
+                      presetFontSizes: [20, 18, 12],
                       maxLines: 1,
-                      style: TextStyle(
-                          fontSize: 18, color: AppColor.blackColor)),
+                      style:
+                          TextStyle(fontSize: 18, color: AppColor.blackColor)),
                   //local
                   AutoSizeText(
                     'Loactaion: $local',
-              presetFontSizes: [20, 18, 12],
-                    maxLines: 2,
+                    presetFontSizes: [20, 18, 12],
+                    maxLines: 1,
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
@@ -77,8 +201,8 @@ class CustomEventDetails extends GetView<EventController> {
                   //budget
                   AutoSizeText(
                     'Budget: $budget',
-              presetFontSizes: [20, 18, 12],
-                    maxLines: 2,
+                    presetFontSizes: [20, 18, 12],
+                    maxLines: 1,
                     style: TextStyle(
                       fontSize: 18,
                       color: AppColor.secondary,
@@ -90,6 +214,6 @@ class CustomEventDetails extends GetView<EventController> {
           ),
         ],
       ),
-    ),);
+    );
   }
 }

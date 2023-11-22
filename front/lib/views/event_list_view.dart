@@ -3,6 +3,7 @@ import 'package:front/config/account_info_storage.dart';
 import 'package:front/config/app_colors.dart';
 import 'package:front/controllers/event_contorller.dart';
 import 'package:front/views/guest-list.dart';
+import 'package:front/views/home_view_customer.dart';
 import 'package:front/widgets/custom_backgroung_image.dart';
 import 'package:front/widgets/custom_dropdown_list.dart';
 import 'package:front/widgets/custom_text.dart';
@@ -26,7 +27,8 @@ class EventListView extends GetView<EventController> {
         surfaceTintColor: Colors.white,
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => HomeView()));
           },
           icon: Icon(
             Icons.arrow_back,
@@ -61,7 +63,7 @@ class EventListView extends GetView<EventController> {
               fontSize: 24,
             ),
             CustomText(
-              text: "Let's explore what’s happening nearby",
+              text: "Let's explore what’s your programs nearby",
               fontSize: 18,
               fontWeight: FontWeight.w400,
             ),
@@ -119,6 +121,7 @@ class EventListView extends GetView<EventController> {
                                       child: CustomEventList(
                                         eventName:
                                             "${controller.eventByUserIdJson!.data![index].titleevent}",
+                                            description:  "${controller.eventByUserIdJson!.data![index].description}",
                                         datedeb:
                                             "${controller.eventByUserIdJson!.data![index].dateDebut}",
                                         datefin:
@@ -127,7 +130,8 @@ class EventListView extends GetView<EventController> {
                                             "${controller.eventByUserIdJson!.data![index].local}",
                                         budget:
                                             "${controller.eventByUserIdJson!.data![index].budget}",
-                                            text: "${controller.eventByUserIdJson!.data![index].guests!.length}",
+                                        text:
+                                            "${controller.eventByUserIdJson!.data![index].guests!.length}",
                                         colorBorder: AppColor.goldColor,
                                         widthBorder: 1,
                                         function: () {},
@@ -195,7 +199,10 @@ class EventListView extends GetView<EventController> {
                     child: Text('Pick event first and end date'),
                     onPressed: () {
                       controller.openRangeDatePicker(context);
-                      Text(" ${controller.dateDebutController.text}");
+                      // controller.dateDebutController.text;
+                      // controller.dateFinController.text;
+                      // Text(
+                      //     " ${controller.dateDebutController.text} ${controller.dateFinController.text}");
                     },
                   ),
                   SizedBox(

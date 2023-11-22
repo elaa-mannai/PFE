@@ -21,9 +21,9 @@ class GuestList extends GetView<EventController> {
     ScrollController scrollController = ScrollController();
     ListTileTitleAlignment? titleAlignment;
 
-    controller.getAllGuestsByEventId();
-    controller.getGuestById();
-    controller.getGuests();
+    // controller.getAllGuestsByEventId();
+    // controller.getGuestById();
+    // controller.getGuests();
     // controller.getGuests();
     return Scaffold(
       appBar: AppBar(
@@ -58,6 +58,7 @@ class GuestList extends GetView<EventController> {
         image: 'assets/images/landpage.jpg',
         widget: Column(
           children: [
+            ////// dtails event
             Expanded(
               child: FutureBuilder(
                 future: controller.getAllEventByUserId(),
@@ -99,6 +100,7 @@ class GuestList extends GetView<EventController> {
                       return CustomEventDetails(
                         eventName:
                             "${controller.eventByIdJson!.data!.titleevent}",
+                            description:"${controller.eventByIdJson!.data!.description}" ,
                         datedeb: "${controller.eventByIdJson!.data!.dateDebut}",
                         datefin: "${controller.eventByIdJson!.data!.dateFin}",
                         local: "${controller.eventByIdJson!.data!.local}",
@@ -112,6 +114,7 @@ class GuestList extends GetView<EventController> {
                 },
               ),
             ),
+            ///// send message invitation part
             Column(
               children: [
                 Row(
@@ -124,7 +127,6 @@ class GuestList extends GetView<EventController> {
                     ),
                     TextButton(
                       onPressed: () {
-                        
                         // Add your button click logic here
                       },
                       style: TextButton.styleFrom(
@@ -138,6 +140,8 @@ class GuestList extends GetView<EventController> {
                     ),
                   ],
                 ),
+
+                /// separation line
                 Padding(
                   padding: EdgeInsets.all(5),
                   child: Container(
@@ -148,19 +152,19 @@ class GuestList extends GetView<EventController> {
                 ),
               ],
             ),
+            //// guest list
             Expanded(
               flex: 2,
               child: FutureBuilder(
-                future: controller.getAllEventByUserId(),
+                future: controller.getAllGuestsByEventId(),
                 builder: (ctx, snapshot) {
                   print('snapshot==============================>$snapshot');
                   // Checking if future is resolved or not
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     print("-----------------snapshot$snapshot");
                     return Center(
-                      child:
-                          CircularProgressIndicator(color: AppColor.secondary),
-                    );
+                        child: CircularProgressIndicator(
+                            color: AppColor.secondary));
                   } else {
                     print('snapshot==============================>$snapshot');
                     // If we got an error
@@ -178,11 +182,10 @@ class GuestList extends GetView<EventController> {
                       // Extracting data from snapshot object
                       print(
                           '-----------------------snapshotdata=======>$snapshot');
-                      return Center(
-                        child: Text(
-                          'No Guests for the moment! Wanna add you first guest for this event!',
-                          style: TextStyle(color: AppColor.secondary),
-                        ),
+                      return Text(
+                        'No Guests for the moment!\n Wanna add you first guest for this event!',
+                        style: TextStyle(color: AppColor.secondary),
+                        textAlign: TextAlign.center,
                       );
                     } else {
                       return GetBuilder<EventController>(
@@ -223,8 +226,10 @@ class GuestList extends GetView<EventController> {
                                       itemBuilder: (BuildContext context) =>
                                           <PopupMenuEntry<
                                               ListTileTitleAlignment>>[
+                                        ///// update
                                         PopupMenuItem(
                                           onTap: () {
+                                            AccountInfoStorage.saveGuestId("${controller.guestByEventIdJson!.data![index].sId}");
                                             print(
                                                 "sId update this element ${controller.guestByEventIdJson!.data![index].sId}");
                                             Get.dialog(AlertDialog(
@@ -240,7 +245,7 @@ class GuestList extends GetView<EventController> {
                                                     //guest name
                                                     CustomInputText(
                                                       controller: controller
-                                                          .guestNameConroller,
+                                                          .guestNameController,
                                                       obscureText: false,
                                                       label: "Name:",
                                                     ),
@@ -249,7 +254,7 @@ class GuestList extends GetView<EventController> {
                                                       controller: controller
                                                           .guestPhonenumberConroller,
                                                       obscureText: false,
-                                                      label: "Phone Number:",
+                                                      label: "Phone Number: ",
                                                     ),
                                                   ],
                                                 ),
@@ -302,16 +307,17 @@ class GuestList extends GetView<EventController> {
                                                         );
                                */
                                                         print("object update");
-                                                        controller.updateGuest(
-                                                            '${controller.guestByEventIdJson!.data![index].sId}');
-
                                                         controller
-                                                            .getAllGuestsByEventId();
+                                                            .updateGuest();
+      Get.to(GuestList());
+
+                                                        // controller
+                                                        //     .getAllGuestsByEventId();
                                                         Navigator.of(context)
                                                             .pop();
 
                                                         controller
-                                                            .guestNameConroller
+                                                            .guestNameController
                                                             .clear();
                                                         controller
                                                             .guestPhonenumberConroller
@@ -327,6 +333,7 @@ class GuestList extends GetView<EventController> {
                                           },
                                           child: Text('Update'),
                                         ),
+                                        ///// delete
                                         PopupMenuItem(
                                           onTap: () {
                                             // AccountInfoStorage.saveGuestId(controller
@@ -337,25 +344,36 @@ class GuestList extends GetView<EventController> {
                                               context: context,
                                               builder: (BuildContext context) {
                                                 return AlertDialog(
+                                                  backgroundColor: Colors.white,
                                                   title: Text(
-                                                      "Do you want to delete this guest?"),
+                                                      "Do you want to delete this guest?",
+                                                      style: TextStyle(
+                                                          color: AppColor
+                                                              .goldColor)),
                                                   actions: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      child: Text('Cancel',
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .deepOrangeAccent)),
+                                                    ),
                                                     TextButton(
                                                       onPressed: () {
                                                         controller.deleteGuest(
                                                             '${controller.guestByEventIdJson!.data![index].sId}');
                                                         //controller.getAllGuestsByEventId();
+                                                              Get.to(GuestList());
                                                         Navigator.of(context)
                                                             .pop();
                                                       },
-                                                      child: Text('OK'),
-                                                    ),
-                                                    TextButton(
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                      child: Text('Cancel'),
+                                                      child: Text('OK',
+                                                          style: TextStyle(
+                                                              color: AppColor
+                                                                  .secondary)),
                                                     ),
                                                   ],
                                                 );
@@ -403,7 +421,7 @@ class GuestList extends GetView<EventController> {
                 children: <Widget>[
                   //guest name
                   CustomInputText(
-                    controller: controller.guestNameConroller,
+                    controller: controller.guestNameController,
                     obscureText: false,
                     label: "Name:",
                   ),
@@ -432,9 +450,11 @@ class GuestList extends GetView<EventController> {
                     ),
                     onPressed: () {
                       controller.createGuests();
+                            Get.to(GuestList());
+
                       //controller.getAllGuestsByEventId();
                       Navigator.of(context).pop();
-                      controller.guestNameConroller.clear();
+                      controller.guestNameController.clear();
                       controller.guestPhonenumberConroller.clear();
                     },
                   );

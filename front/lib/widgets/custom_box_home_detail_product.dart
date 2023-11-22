@@ -16,7 +16,6 @@ class CustomBoxHomeDetailsProduct extends GetView<ProductsController> {
   final List<dynamic>? img;
   final IconData? icon;
   final dynamic Function()? fun;
-
   const CustomBoxHomeDetailsProduct(
       {Key? key,
       this.productname,
@@ -52,12 +51,14 @@ class CustomBoxHomeDetailsProduct extends GetView<ProductsController> {
           print("object$img");
           //  print("testing list${controller.productGetByIdJson!.data!.images[index]}");
           return Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.fromLTRB(5, 5, 5, 0),
             child: Container(
-              padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
+                color: AppColor.goldColor.withOpacity(0.1),
                 borderRadius: BorderRadius.all(Radius.circular(8)),
-                border: Border.all(color: colorBorder!, width: widthBorder!),
+                border: Border.all(
+                  color: colorBorder!.withOpacity(0.1),
+                ),
               ),
               child: Column(
                 children: [
@@ -66,10 +67,10 @@ class CustomBoxHomeDetailsProduct extends GetView<ProductsController> {
                   Expanded(
                     flex: 3,
                     child: CarouselSlider(
-                      items: buildImageSliders(img ?? []),
+                      items: buildImageSliders(img ?? [], context),
                       options: CarouselOptions(
                         autoPlay: true,
-                        aspectRatio: 2.0,
+                        aspectRatio: 1.2,
                         enlargeCenterPage: true,
                       ),
                     ),
@@ -78,12 +79,11 @@ class CustomBoxHomeDetailsProduct extends GetView<ProductsController> {
                   Expanded(
                     flex: 2,
                     child: Container(
-                      width: 200,
-                      //  width: MediaQuery.sizeOf(context).width,
-                      padding: EdgeInsets.all(10),
+                      width: MediaQuery.sizeOf(context).width / 2,
+                      // padding: EdgeInsets.all(5),
                       decoration: ShapeDecoration(
-                          shape: RoundedRectangleBorder(),
-                          color: AppColor.goldColor.withOpacity(0.1)),
+                        shape: RoundedRectangleBorder(),
+                      ),
                       child: Column(
                         children: [
                           //service name && fav icon
@@ -163,7 +163,8 @@ class CustomBoxHomeDetailsProduct extends GetView<ProductsController> {
     );
   }
 
-  List<Widget> buildImageSliders(List<dynamic> imagesList) {
+  List<Widget> buildImageSliders(
+      List<dynamic> imagesList, BuildContext context) {
     return imagesList
         .map((item) => Container(
               child: Container(
@@ -172,8 +173,12 @@ class CustomBoxHomeDetailsProduct extends GetView<ProductsController> {
                   borderRadius: const BorderRadius.all(Radius.circular(5.0)),
                   child: Stack(
                     children: <Widget>[
-                      Image.network(item.toString(),
-                          fit: BoxFit.cover, width: 1000.0),
+                      Image.network(
+                        item.toString(),
+                        fit: BoxFit.cover,
+                        width: MediaQuery.sizeOf(context).width / 2,
+                        height: MediaQuery.sizeOf(context).height,
+                      ),
                       Positioned(
                         bottom: 0.0,
                         left: 0.0,
@@ -182,8 +187,8 @@ class CustomBoxHomeDetailsProduct extends GetView<ProductsController> {
                           decoration: const BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
-                                Color.fromARGB(200, 0, 0, 0),
-                                Color.fromARGB(0, 0, 0, 0)
+                                Color.fromARGB(255, 255, 255, 255),
+                                Color.fromARGB(0, 255, 255, 255)
                               ],
                               begin: Alignment.bottomCenter,
                               end: Alignment.topCenter,
@@ -192,14 +197,6 @@ class CustomBoxHomeDetailsProduct extends GetView<ProductsController> {
                           padding: const EdgeInsets.symmetric(
                             vertical: 20.0,
                             horizontal: 20.0,
-                          ),
-                          child: Text(
-                            '${imagesList.indexOf(item)}',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold,
-                            ),
                           ),
                         ),
                       ),

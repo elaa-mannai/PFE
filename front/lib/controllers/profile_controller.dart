@@ -19,7 +19,7 @@ import 'package:front/views/home_view_customer.dart';
 import 'package:front/views/login_view.dart';
 import 'package:front/views/product_detail.dart';
 import 'package:front/views/vendors/home_view_vendor.dart';
-import 'package:front/controllers/image_cloudinary.dart';
+import 'package:front/controllers/products_controller.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -157,12 +157,13 @@ class ProfileColntroller extends GetxController {
     profilePicFile = file;
     print(
         "------------------------------------Image $file------------------------------------");
-    imageCloudinary.uploadToCloudinary(file);
+    productsController.uploadToCloudinary(file);
 
     update();
   }
 
-  ImageCloudinary imageCloudinary = ImageCloudinary();
+  ProductsController productsController = ProductsController();
+  // ImageCloudinary imageCloudinary = ImageCloudinary();
 
   // List<Products>? favProducts;
 

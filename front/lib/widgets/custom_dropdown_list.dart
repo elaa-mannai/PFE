@@ -57,8 +57,8 @@ class _CustomDropdownListState extends State<CustomDropdownList> {
             });
           },
           buttonStyleData: ButtonStyleData(
-            height: 40,
-            width: 600,
+            height: 50,
+            width: 500,
             padding: const EdgeInsets.only(left: 14, right: 14),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4),
@@ -68,15 +68,15 @@ class _CustomDropdownListState extends State<CustomDropdownList> {
           ),
           iconStyleData: const IconStyleData(
             icon: Icon(
-              Icons.arrow_forward_ios_outlined,
+              Icons.arrow_drop_down,
             ),
-            iconSize: 14,
-            iconEnabledColor: AppColor.goldColor,
+            iconSize: 30,
+            iconEnabledColor: Colors.white,
             iconDisabledColor: Colors.grey,
           ),
           dropdownStyleData: DropdownStyleData(
             maxHeight: 200,
-            width: 200,
+            width: MediaQuery.sizeOf(context).width / 2,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(14),
               color: AppColor.secondary,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front/config/app_colors.dart';
+import 'package:front/widgets/custom_backgroung_image.dart';
 import 'package:front/widgets/custom_text.dart';
 
 class BoxMessages extends StatelessWidget {
@@ -45,74 +46,79 @@ class BoxMessages extends StatelessWidget {
       ),
       body:
           // ? LoginScreen()
-          Container(
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
+           CustomBackgroungImage(
+        fit: BoxFit.cover,
+        image: 'assets/images/landpage.jpg',
+        widget:
+             Container(
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(185, 255, 255, 255),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                  ),
                 ),
-              ),
-              child: ListView.builder(
-                physics: BouncingScrollPhysics(),
-                itemCount: 1,
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                    child: ListTileTheme(
-                      minVerticalPadding: 30,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: ListTile(
-                          tileColor: Colors.white,
-                          onTap: () {
-                            // Provider.of<ChatRoom>(context, listen: false)
-                            //     .loadChatRoomById(
-                            //         chatRooms[index]['chatRoom']['id']);
-                            // Navigator.of(context).pushNamed(
-                            //     Routes.CHAT_ROOM.path,
-                            //     arguments: chatRooms[index]['chatRoom']
-                            //         ['id']);
-                          },
-                          title: Text(
-                            "vendor name",
-                            // chatRooms[index]['chatRoom']['name'],
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          leading:
-                              //  chatRooms[index]['chatRoom']
-                              //             ['imageUrl'] ==
-                              //         ''
-                              //     ?
-                              Container(
-                            height: 55,
-                            width: 55,
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
-                              borderRadius: BorderRadius.circular(60),
+                child: ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: 1,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      child: ListTileTheme(
+                        minVerticalPadding: 30,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: ListTile(
+                            tileColor: Colors.white,
+                            onTap: () {
+                              // Provider.of<ChatRoom>(context, listen: false)
+                              //     .loadChatRoomById(
+                              //         chatRooms[index]['chatRoom']['id']);
+                              // Navigator.of(context).pushNamed(
+                              //     Routes.CHAT_ROOM.path,
+                              //     arguments: chatRooms[index]['chatRoom']
+                              //         ['id']);
+                            },
+                            title: Text(
+                              "vendor name",
+                              // chatRooms[index]['chatRoom']['name'],
+                              style: TextStyle(color: AppColor.goldColor),
                             ),
-                            child: Icon(Icons.group_sharp),
-                          )
-                          // : ClipRRect(
-                          //     borderRadius: BorderRadius.circular(40),
-                          //     child: CachedNetworkImage(
-                          //       height: 55,
-                          //       width: 55,
-                          //       fit: BoxFit.cover,
-                          //       imageUrl: chatRooms[index]['chatRoom']
-                          //           ['imageUrl'],
-                          //     ),
-                          //   ),
-                          ),
-                    ),
-                  );
-                },
-              )
-              // : Center(
-              //     child: CircularProgressIndicator(),
-              //   ),
-              ),
+                            leading:
+                                //  chatRooms[index]['chatRoom']
+                                //             ['imageUrl'] ==
+                                //         ''
+                                //     ?
+                                Container(
+                              height: 55,
+                              width: 55,
+                              decoration: BoxDecoration(
+                                color: AppColor.secondary,
+                                borderRadius: BorderRadius.circular(60),
+                              ),
+                              child: Icon(Icons.group_sharp),
+                            )
+                            // : ClipRRect(
+                            //     borderRadius: BorderRadius.circular(40),
+                            //     child: CachedNetworkImage(
+                            //       height: 55,
+                            //       width: 55,
+                            //       fit: BoxFit.cover,
+                            //       imageUrl: chatRooms[index]['chatRoom']
+                            //           ['imageUrl'],
+                            //     ),
+                            //   ),
+                            ),
+                      ),
+                    );
+                  },
+                )
+                // : Center(
+                //     child: CircularProgressIndicator(),
+                //   ),
+                ),
+          ),
     );
   }
 }

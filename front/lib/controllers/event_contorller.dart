@@ -57,7 +57,7 @@ class EventController extends GetxController {
   TextEditingController locationController = TextEditingController();
   TextEditingController budgetController = TextEditingController();
 
-  TextEditingController guestNameConroller = TextEditingController();
+  TextEditingController guestNameController = TextEditingController();
   TextEditingController guestPhonenumberConroller = TextEditingController();
   TextEditingController guestInvitedConroller = TextEditingController();
 
@@ -70,7 +70,6 @@ class EventController extends GetxController {
   void onInit() {
     getEvents();
     // getGuests();
-    
 
     // print(
     //     '************************************create event**********************');
@@ -182,7 +181,7 @@ class EventController extends GetxController {
         dateFinController.text = secondDate.toString();
         print(firstDate);
         print(secondDate);
-        //return Text("${formattedate("$firstDate")}${formattedate("$firstDate")}");
+        // return Text("${formattedate("$firstDate")}${formattedate("$secondDate")}");
       },
       bottomPickerTheme: BottomPickerTheme.plumPlate,
       buttonSingleColor: AppColor.goldColor,
@@ -235,7 +234,7 @@ class EventController extends GetxController {
     print('************************create guest***********************');
 
     Map<String, dynamic> data = {
-      "name": guestNameConroller.text,
+      "name": guestNameController.text,
       "phonenumber": guestPhonenumberConroller.text.toString(),
       "invited": true,
       "events": AccountInfoStorage.readEventId(),
@@ -248,9 +247,10 @@ class EventController extends GetxController {
       //getEvents();
       // print('Guest created=======> ${guestJson!.data!.sId}');
       // getAllGuestsByEventId();
-      getGuests();
-      update();
+      getAllGuestsByEventId();
+      
       Get.to(GuestList());
+      update();
     }).onError((error, stackTrace) {
       print('error create event ==========> $error');
     });
@@ -261,8 +261,11 @@ class EventController extends GetxController {
     apiGuestDeleteById.id = id;
     apiGuestDeleteById.deleteData().then((value) {
       print('success guest delete');
-      //getAllGuestsByEventId();
+      //
+      update();
+      getAllGuestsByEventId();
       Get.to(GuestList());
+      update();
     }).onError((error, stackTrace) {
       print('erorr delete guest === > $error');
     });
@@ -273,7 +276,7 @@ class EventController extends GetxController {
     print("Guest by Event id ---------------------");
     try {
       apiGuestsGetByEventId.id = AccountInfoStorage.readEventId().toString();
-      await apiGuestsGetByEventId.getData().then((value) {
+      return await apiGuestsGetByEventId.getData().then((value) {
         print('+++++++++++++++++++++++++++++++++++++++++++++++++');
 
         guestByEventIdJson = value as GuestByEventIdJson?;
@@ -285,7 +288,7 @@ class EventController extends GetxController {
 
           return guestByEventIdJson!;
         }
-        // update();
+        update();
 
         return null;
       });
@@ -326,18 +329,19 @@ class EventController extends GetxController {
     });
   }
 
-  updateGuest(String id) {
-    print("update guest informations");
-    apiGuestGetById.id = id;
-    apiGuestGetById.updateData({
-      "name": guestNameConroller.text,
-      "phonenumber": guestPhonenumberConroller.text.toString(),
-      //"invited": true,
-      //"events": AccountInfoStorage.readEventId(),
+  updateEvent() async {
+    print("update event informations");
+    apiEventGetById.id = AccountInfoStorage.readEventId().toString();
+    return await apiEventGetById.updateData({
+      "titleevent": eventTitleController.text,
+      "description": descriptionController.text,
+      "date_debut": dateDebutController.text,
+      "date_fin": dateFinController.text,
+      "local": AccountInfoStorage.readProductLocal().toString(),
+      "budget": budgetController.text,
+      // "user": AccountInfoStorage.readId(),
     }).then((value) {
-      AccountInfoStorage.saveGuestName(guestGetByIdJson!.data!.name);
-      AccountInfoStorage.saveGuestPhonenumber(
-          guestGetByIdJson!.data!.phonenumber.toString());
+
       print("updated${guestGetByIdJson!.data}");
       Get.snackbar("", "Success",
           backgroundColor: AppColor.goldColor,
@@ -349,20 +353,55 @@ class EventController extends GetxController {
             ),
           ));
       getAllEventByUserId();
+      update();
+    }).onError((error, stackTrace) {
+      print("error update event by id=== >$error");
+    });
+  }
+
+  updateGuest() async {
+    print("update guest informations");
+    apiGuestGetById.id = AccountInfoStorage.readGuestId().toString();
+    return await apiGuestGetById.updateData({
+      "name": guestNameController.text,
+      "phonenumber": guestPhonenumberConroller.text.toString(),
+      //"invited": true,
+      //"events": AccountInfoStorage.readEventId(),
+    }).then((value) {
+      // AccountInfoStorage.saveGuestName(guestGetByIdJson!.data!.name);
+      // AccountInfoStorage.saveGuestPhonenumber(
+      //     guestGetByIdJson!.data!.phonenumber.toString());
+      // print("updated${guestGetByIdJson!.data}");
+      Get.snackbar("", "Success",
+          backgroundColor: AppColor.goldColor,
+          titleText: Text(
+            "Notification Update",
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 24,
+            ),
+          ));
+      getAllGuestsByEventId();
+      update();
     }).onError((error, stackTrace) {
       print("error update guest by id=== >$error");
     });
-    update();
   }
 
   ///// delete event ///////
   ApiEventDeleteById apiEventDeleteById = ApiEventDeleteById();
-  deleteEvent() {
+  deleteEvent(String id) {
+    apiEventDeleteById.id = id;
+    print("--------------------function delete event-------------------");
     apiEventGetById.id = AccountInfoStorage.readEventId().toString();
-    print("-------------------delete event ----------------------");
-    return apiEventDeleteById
-        .deleteData()
-        .then((value) {})
-        .onError((error, stackTrace) {});
+    return apiEventDeleteById.deleteData().then((value) {
+      print('success event delete');
+      // getAllEventByUserId();
+      update();
+      Get.to(GuestList());
+    }).onError((error, stackTrace) {
+      print('erorr delete guest === > $error');
+    });
+    update();
   }
 }

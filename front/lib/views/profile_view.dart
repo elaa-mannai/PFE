@@ -178,7 +178,7 @@ class ProfileView extends GetView<ProfileColntroller> {
                       ),
                       CustomButton(
                         text: 'Update',
-                        width: MediaQuery.sizeOf(context).width/2,
+                        width: MediaQuery.sizeOf(context).width / 2,
                         height: 50,
                         backgroundColor: AppColor.goldColor,
                         function: () {
@@ -189,14 +189,26 @@ class ProfileView extends GetView<ProfileColntroller> {
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 backgroundColor: Colors.white,
-                                title: Text("Confirme changes", style: TextStyle(color: AppColor.secondary)),
+                                title: Text("Confirme changes",
+                                    style:
+                                        TextStyle(color: AppColor.goldColor)),
                                 actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text('Cancel',
+                                        style: TextStyle(
+                                            color: Colors.deepOrangeAccent)),
+                                  ),
                                   TextButton(
                                     onPressed: () {
                                       controller.userUpdate();
                                       Navigator.of(context).pop();
                                     },
-                                    child: Text('OK', style: TextStyle(color: AppColor.goldColor)),
+                                    child: Text('OK',
+                                        style: TextStyle(
+                                            color: AppColor.goldColor)),
                                   ),
                                 ],
                               );

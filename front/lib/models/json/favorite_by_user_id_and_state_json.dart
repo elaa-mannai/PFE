@@ -1,7 +1,7 @@
 import 'package:front/models/json/abstract_json_resource.dart';
 
-class FavoriteByUserIdAndStateJson extends AbstractJsonResource{
- String? message;
+class FavoriteByUserIdAndStateJson extends AbstractJsonResource {
+  String? message;
   int? status;
   List<Data>? data;
 
@@ -70,7 +70,8 @@ class Products {
   Category? category;
   String? user;
   int? iV;
-  String? favorites;
+  Favorites? favorites;
+  String? location;
 
   Products(
       {this.sId,
@@ -81,7 +82,8 @@ class Products {
       this.category,
       this.user,
       this.iV,
-      this.favorites});
+      this.favorites,
+      this.location});
 
   Products.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -94,7 +96,10 @@ class Products {
         : null;
     user = json['user'];
     iV = json['__v'];
-    favorites = json['favorites'];
+    favorites = json['favorites'] != null
+        ? new Favorites.fromJson(json['favorites'])
+        : null;
+    location = json['location'];
   }
 
   Map<String, dynamic> toJson() {
@@ -109,7 +114,10 @@ class Products {
     }
     data['user'] = this.user;
     data['__v'] = this.iV;
-    data['favorites'] = this.favorites;
+    if (this.favorites != null) {
+      data['favorites'] = this.favorites!.toJson();
+    }
+    data['location'] = this.location;
     return data;
   }
 }
@@ -119,7 +127,7 @@ class Category {
   String? name;
   int? iV;
 
-  Category({this.sId, this.name, this.iV});
+  Category({ this.sId, this.name, this.iV});
 
   Category.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -131,6 +139,34 @@ class Category {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.sId;
     data['name'] = this.name;
+    data['__v'] = this.iV;
+    return data;
+  }
+}
+
+class Favorites {
+  String? sId;
+  bool? state;
+  String? user;
+  String? products;
+  int? iV;
+
+  Favorites({this.sId, this.state, this.user, this.products, this.iV});
+
+  Favorites.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    state = json['state'];
+    user = json['user'];
+    products = json['products'];
+    iV = json['__v'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['state'] = this.state;
+    data['user'] = this.user;
+    data['products'] = this.products;
     data['__v'] = this.iV;
     return data;
   }

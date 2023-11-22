@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/* import 'package:flutter/material.dart';
 import 'package:front/config/account_info_storage.dart';
 import 'package:front/config/app_colors.dart';
 import 'package:front/controllers/products_controller.dart';
@@ -24,6 +24,8 @@ class ProductByCategorie extends GetView<ProductsController> {
         surfaceTintColor: Colors.white,
         leading: IconButton(
             onPressed: () {
+              // controller.getProductByCatgoryId();
+              AccountInfoStorage.deleteCategorieId();
               Navigator.pop(context);
             },
             icon: Icon(
@@ -62,6 +64,7 @@ class ProductByCategorie extends GetView<ProductsController> {
                     functionFuture: controller.getProductByCatgoryId(),
                     length: controller.filteredItemsNameC.length,
                     name: controller.filteredItemsNameC,
+                    image: controller.filteredItemsImagesC,
                     category: controller.filteredItemsCatC,
                     desc: controller.filteredItemsDesC,
                   ));
@@ -72,3 +75,4 @@ class ProductByCategorie extends GetView<ProductsController> {
     );
   }
 }
+ */

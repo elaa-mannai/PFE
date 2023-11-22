@@ -33,7 +33,7 @@ class SignupView extends GetView<ProfileColntroller> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               // logo && description
-      
+
               Expanded(
                 flex: 2,
                 child: Column(
@@ -75,9 +75,9 @@ class SignupView extends GetView<ProfileColntroller> {
                         fontsize: 18,
                         fontsizeweight: FontWeight.bold,
                         function: () {
-                          
-                            controller.usernameController.clear();
-                            controller.passwordController.clear();
+                          controller.usernameController.clear();
+                          controller.emailController.clear();
+                          controller.passwordController.clear();
                           Get.to(LoginView());
                         },
                       ),
@@ -142,7 +142,7 @@ class SignupView extends GetView<ProfileColntroller> {
                           obscureText: false,
                         ),
                       ),
-      
+
                       Expanded(
                         child: GetBuilder<ProfileColntroller>(
                           builder: (controller) {
@@ -164,9 +164,10 @@ class SignupView extends GetView<ProfileColntroller> {
                           },
                         ),
                       ),
-                      
+
                       Expanded(
-                        child: GetBuilder<ProfileColntroller>(builder: (controller) {
+                        child: GetBuilder<ProfileColntroller>(
+                            builder: (controller) {
                           return CustomInputText(
                             controller: controller.passwordController,
                             label: 'Password',
@@ -176,7 +177,7 @@ class SignupView extends GetView<ProfileColntroller> {
                             obscureText: controller.isVisiblePassword,
                             function: () {
                               print("${controller.passwordController}");
-                      
+
                               print('********click password*********');
                               controller.showPassword();
                             },
@@ -187,12 +188,25 @@ class SignupView extends GetView<ProfileColntroller> {
                               if (input.length < 6) {
                                 return 'password must b >6';
                               }
+                              /* if (!input.contains(new RegExp(r'[A-Z]'))) {
+                                return 'Password must contain at least one uppercase letter';
+                              }
+                              if (!input.contains(new RegExp(r'[a-z]'))) {
+                                return 'Password must contain at least one lowercase letter';
+                              }
+                              if (!input.contains(new RegExp(r'[0-9]'))) {
+                                return 'Password must contain at least one numeric digit';
+                              }
+                              if (!input.contains(
+                                  new RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+                                return 'Password must contain at least one special character';
+                              } */
                               return null;
                             },
                           );
                         }),
                       ),
-      
+
                       Expanded(
                         child: GetBuilder<ProfileColntroller>(
                           builder: (controller) {
@@ -218,7 +232,7 @@ class SignupView extends GetView<ProfileColntroller> {
                           },
                         ),
                       ),
-      
+
                       //Roles item selection radio button
                       Expanded(
                         child: GetBuilder<ProfileColntroller>(
@@ -238,7 +252,7 @@ class SignupView extends GetView<ProfileColntroller> {
                 text: 'Sign up',
                 width: 150,
                 height: 50,
-                backgroundColor:  AppColor.secondary,
+                backgroundColor: AppColor.secondary,
                 function: () {
                   print('****************function signup**************');
                   if (formKey.currentState!.validate()) {
@@ -249,9 +263,9 @@ class SignupView extends GetView<ProfileColntroller> {
                   //  Get.to(ServiceChoices());
                   // }
                 },
-              ), //footer
-        
-        
+              ),
+
+              //footer
               Expanded(
                 flex: 1,
                 child: Column(

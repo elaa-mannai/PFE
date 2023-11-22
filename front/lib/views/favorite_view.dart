@@ -15,7 +15,8 @@ class FavoriteView extends GetView<ProductsController> {
 
   @override
   Widget build(BuildContext context) {
-    controller.getAllProductByUserId();
+    // controller.getAllProductByUserId();
+    // controller.getAllfavoriteByUserIdAndState();
     // print("favstate${AccountInfoStorage.readFavoriteState()}");
     return Scaffold(
       appBar: AppBar(
@@ -54,7 +55,7 @@ class FavoriteView extends GetView<ProductsController> {
               child: FutureBuilder(
                   future: controller.getAllfavoriteByUserIdAndState(),
                   builder: (context, snapshot) {
-                        // print("testing ${controller.favoriteByUserIdAndStateJson!.data!.length}");
+                    // print("testing ${controller.favoriteByUserIdAndStateJson!.data!.length}");
 
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       print("-----------------snapshot$snapshot");
@@ -96,18 +97,33 @@ class FavoriteView extends GetView<ProductsController> {
                                       SliverGridDelegateWithMaxCrossAxisExtent(
                                           maxCrossAxisExtent: 200,
                                           childAspectRatio: 2 / 2,
-                                          crossAxisSpacing: 20,
+                                          crossAxisSpacing: 10,
                                           mainAxisSpacing: 20),
-                                  itemCount:
-                                      controller.favoriteByUserIdAndStateJson!.data!.length,
+                                  itemCount: controller
+                                      .favoriteByUserIdAndStateJson!
+                                      .data!
+                                      .length,
                                   itemBuilder: (BuildContext ctx, index) {
                                     return GestureDetector(
                                       child: CustomFavoriteList(
-                                        FavoriteFunction: () {},
-                                        function: () {},
-                                        img: 'assets/images/logo2.png',
+                                        FavoriteFunction: () {
+                                          controller
+                                              .getAllfavoriteByUserIdAndState();
+                                        },
+                                        fun: () {
+                                          controller
+                                              .getAllfavoriteByUserIdAndState();
+                                        },
+                                        img: 
+                                          controller
+                                              .favoriteByUserIdAndStateJson!
+                                              .data![index]
+                                              .products!
+                                              .images
+                                        ,
                                         icon: Icons.favorite_sharp,
-                                        productname: "${controller.favoriteByUserIdAndStateJson!.data![index].products!.nameproduct}",
+                                        productname:
+                                            "${controller.favoriteByUserIdAndStateJson!.data![index].products!.nameproduct}",
                                         Descriptiontext:
                                             "${controller.favoriteByUserIdAndStateJson!.data![index].products!.description}",
                                         ServiceName:
@@ -118,6 +134,10 @@ class FavoriteView extends GetView<ProductsController> {
                                         widthBorder: 1,
                                       ),
                                       onTap: () {
+                                        AccountInfoStorage.saveProductId(
+                                          controller
+                                              .favoriteByUserIdAndStateJson!.data![index].products!.sId);
+                                    
                                         Get.to(ProductDetail());
                                       },
                                     );
@@ -137,5 +157,3 @@ class FavoriteView extends GetView<ProductsController> {
     );
   }
 }
-         
-      

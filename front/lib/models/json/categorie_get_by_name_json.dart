@@ -26,15 +26,13 @@ class CategorieGetByNameJson extends AbstractJsonResource {
 class ExistingCategorie {
   String? sId;
   String? name;
-  List<String>? products;
   int? iV;
 
-  ExistingCategorie({this.sId, this.name, this.products, this.iV});
+  ExistingCategorie({this.sId, this.name,  this.iV});
 
   ExistingCategorie.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
-    products = json['products'].cast<String>();
     iV = json['__v'];
   }
 
@@ -42,7 +40,6 @@ class ExistingCategorie {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.sId;
     data['name'] = this.name;
-    data['products'] = this.products;
     return data;
   }
 }

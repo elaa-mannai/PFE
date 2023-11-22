@@ -61,7 +61,11 @@ export class ProductsService {
 
   async removeProduct(productId: string) {
     const pdata= await this.productModel.findByIdAndDelete(productId);
+
     await this.categoryModel.updateOne({_id: pdata.category}, {$pull:{products:pdata._id}})
+    await this.userModel.updateOne({_id: pdata.user}, {$pull:{products:pdata._id}})
+
+    
     if (!pdata) {
       throw new NotFoundException('Product not found')
     }
@@ -71,7 +75,7 @@ export class ProductsService {
 
     async findAllProductsByuser(UserId: string):Promise<IProduct[]>
     {
-      const ProductsData= await this.productModel.find({user :UserId})
+      const ProductsData= await this.productModel.find({user :UserId}).populate('category').exec();
       if (!ProductsData || ProductsData.length ==0 ){
      return null
       }

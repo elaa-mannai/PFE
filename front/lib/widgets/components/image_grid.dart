@@ -1,9 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:front/config/account_info_storage.dart';
 import 'package:front/config/app_colors.dart';
 import 'package:front/controllers/products_controller.dart';
-import 'package:front/widgets/components/multiple_image.dart';
+import 'package:front/controllers/products_controller.dart';
+import 'package:front/views/home_view_customer.dart';
+import 'package:front/views/vendors/home_view_vendor.dart';
+import 'package:front/views/vendors/service_details.dart';
 import 'package:front/widgets/custom_backgroung_image.dart';
 import 'package:front/widgets/custom_button.dart';
+import 'package:front/widgets/custom_dropdown_list.dart';
 import 'package:front/widgets/custom_dropdown_services_choices.dart';
 import 'package:front/widgets/custom_input_text.dart';
 import 'package:get/get.dart';
@@ -12,9 +19,10 @@ import 'package:front/widgets/custom_text.dart';
 class CustomMultiImageChange extends GetView<ProductsController> {
   final Function? function;
   const CustomMultiImageChange({Key? key, this.function}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    // ImageCloudinary imageCloudinary = ImageCloudinary();
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -25,6 +33,7 @@ class CustomMultiImageChange extends GetView<ProductsController> {
             controller.productDescriptionController.clear();
             controller.productNameController.clear();
             controller.productPriceController.clear();
+            controller.imagefiles = null;
             Navigator.pop(context);
           },
           icon: Icon(
@@ -44,133 +53,167 @@ class CustomMultiImageChange extends GetView<ProductsController> {
           ],
         ),
       ),
-      body: CustomBackgroungImage(
-        fit: BoxFit.cover,
-        image: 'assets/images/landpage.jpg',
-        widget: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // const Spacer(flex: 2),
-            GetBuilder<ProductsController>(builder: (controller) {
-              return Expanded(
-                child: Column(
-                  children: [
-                    SingleChildScrollView(
-                      child: ListBody(
-                        children: <Widget>[
-                          //product title
-                          CustomInputText(
-                            controller: controller.productNameController,
-                            obscureText: false,
-                            label: "Product Name:",
-                          ),
-                          //description
-                          CustomInputText(
-                            controller: controller.productDescriptionController,
-                            obscureText: false,
-                            label: "Description:",
-                          ),
-                          //location dropdownlist
-                          CustomInputText(
-                            controller: controller.productPriceController,
-                            obscureText: false,
-                            label: "Price:",
-                          ),
-                          //addimages
-              
-                          MultipleImage(),
-              
-                          //categories
-                          CustomDropdownServices(),
-                        ],
+      body: SingleChildScrollView(
+        controller: ScrollController(),
+        child: CustomBackgroungImage(
+          fit: BoxFit.cover,
+          image: 'assets/images/landpage.jpg',
+          widget: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // const Spacer(flex: 2),
+              GetBuilder<ProductsController>(builder: (controller) {
+                return Expanded(
+                  child: Column(
+                    children: [
+                      SingleChildScrollView(
+                        child: ListBody(
+                          children: <Widget>[
+                            //product title
+                            CustomInputText(
+                              controller: controller.productNameController,
+                              obscureText: false,
+                              label: "Product Name:",
+                            ),
+                            //description
+                            CustomInputText(
+                              controller:
+                                  controller.productDescriptionController,
+                              obscureText: false,
+                              label: "Description:",
+                            ),
+                            //price
+                            CustomInputText(
+                              controller: controller.productPriceController,
+                              obscureText: false,
+                              label: "Price:",
+                            ),
+
+                            //addimages
+                            GetBuilder<ProductsController>(
+                                builder: (controller) {
+                              return Container(
+                                  alignment: Alignment.center,
+                                  padding: EdgeInsets.all(20),
+                                  child: Column(
+                                    children: [
+                                      //open button ----------------
+                                      CustomButton(
+                                          backgroundColor: AppColor.secondary,
+                                          height: 50,
+                                          width: 300,
+                                          // width: MediaQuery.sizeOf(context).width,
+                                          function: () {
+                                            controller.uploadImage();
+                                          },
+                                          text: "Open Images"),
+
+                                      if (controller.isUploading)
+                                        Column(
+                                          children: [
+                                            SizedBox(height: 10),
+                                            Text(
+                                              'Uploading images...',
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: AppColor.secondary),
+                                            ),
+                                            SizedBox(height: 10),
+                                            CircularProgressIndicator(
+                                                color: AppColor
+                                                    .secondary), // Loading indicator
+                                          ],
+                                        ),
+
+                                      // Display selected images
+                                      (controller.isUploading == false) &&
+                                              (controller.imagefiles != null)
+                                          ? Wrap(
+                                              children: controller.imagefiles!
+                                                  .map(
+                                                    (imageone) => Container(
+                                                      child: Card(
+                                                        child: Container(
+                                                          height: 100,
+                                                          width: 100,
+                                                          child: Image.file(
+                                                              File(imageone
+                                                                  .path)),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                  .toList(),
+                                            )
+                                          : Container(),
+                                    ],
+                                  ));
+                            }),
+                            //location dropdownlist
+                            CustomDropdownList(),
+                            SizedBox(height: 20),
+                            //categories
+                            CustomDropdownServices(),
+                          ],
+                        ),
                       ),
-                    ),
-                   
-                   
-                    CustomButton(
-                      text: 'Create new product',
-                      width: MediaQuery.sizeOf(context).width/2,
-                      height: 50,
-                      backgroundColor: AppColor.goldColor,
-                      function: () {
-                        //controller.userUpdate();
-                        print("alert dialog");
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              backgroundColor: Colors.white,
-                              title: Text("Confirme creation",
-                                  style: TextStyle(color: AppColor.secondary)),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    print(
-                                        "========================== product creation ======");
-                                    controller.createProduct();
-                                    controller.productDescriptionController
-                                        .clear();
-                                    controller.productNameController.clear();
-                                    controller.productPriceController.clear();
-                                    
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Text('OK',
-                                      style:
-                                          TextStyle(color: AppColor.goldColor)),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                    ),
-              
-                    
-                  ],
-                ),
-              );
-            })
-          ],
+                      CustomButton(
+                        text: 'Create new product',
+                        width: MediaQuery.sizeOf(context).width / 2,
+                        height: 50,
+                        backgroundColor: AppColor.goldColor,
+                        function: () {
+                          //controller.userUpdate();
+                          print("alert dialog");
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                backgroundColor: Colors.white,
+                                title: Text("Confirme creation",
+                                    style:
+                                        TextStyle(color: AppColor.secondary)),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      if (controller.isUpload) {
+                                        controller.createProduct();
+                                        controller.productDescriptionController
+                                            .clear();
+                                        controller.productNameController
+                                            .clear();
+                                        controller.productPriceController
+                                            .clear();
+                                        controller.imagefiles = null;
+                                        Navigator.of(context).pop();
+                                        Get.to(ServiceDetails());
+
+                                        print(
+                                            "-------------------product creation---------------");
+                                      } else
+                                        Navigator.of(context).pop();
+                                      print(
+                                          "==========================wait for image upload ======");
+                                    },
+                                    child: Text('OK',
+                                        style: TextStyle(
+                                            color: AppColor.goldColor)),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              })
+            ],
+          ),
         ),
       ),
     );
   }
 }
-
-
-
-
-
-/* 
-
-        AlertDialog(
-                title: Text("New Service to sell",
-                    style: TextStyle(color: AppColor.goldColor)),
-                backgroundColor: Colors.white,
-                content: 
-
-
-
-
-                actions: <Widget>[
-                  TextButton(
-                    child: Text(
-                      'Add',
-                      style: TextStyle(color: AppColor.secondary, fontSize: 20),
-                    ),
-                    onPressed: () {
-                      print(
-                          "========================== product creation ======");
-                      controller.createProduct();
-                      controller.productDescriptionController.clear();
-                      controller.productNameController.clear();
-                      controller.productPriceController.clear();
-                      Navigator.of(context).pop();
-
-                      //  Get.to(ServiceDetails());
-                    },
-                  ),
-                ],
-              ),
-       */

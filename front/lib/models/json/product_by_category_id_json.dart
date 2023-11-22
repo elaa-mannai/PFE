@@ -90,15 +90,13 @@ class Category {
   String? sId;
   String? name;
   int? iV;
-  List<String>? products;
 
-  Category({this.sId, this.name, this.iV, this.products});
+  Category({this.sId, this.name, this.iV});
 
   Category.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
     iV = json['__v'];
-    products = json['products'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
@@ -106,7 +104,6 @@ class Category {
     data['_id'] = this.sId;
     data['name'] = this.name;
     data['__v'] = this.iV;
-    data['products'] = this.products;
     return data;
   }
 }
