@@ -57,6 +57,7 @@ export class GuestsService {
     const data = await this.guestModel.findByIdAndDelete(id);
     console.log(data)
     
+    
     await this.eventModel.updateOne({_id: data.events}, {$pull:{guests:data._id}})
 
     if (!data) {

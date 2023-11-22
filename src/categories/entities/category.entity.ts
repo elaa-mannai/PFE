@@ -7,8 +7,8 @@ export class Category {
     @Prop({required:false})
     name:String
  
-    @Prop([{required:false, type: SchemaTypes.ObjectId, ref:'products'}])
-    products: Types.ObjectId[]
+    // @Prop([{required:false, type: SchemaTypes.ObjectId, ref:'products'}])
+    // products: Types.ObjectId[]
 
     
 }

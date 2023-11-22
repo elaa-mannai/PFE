@@ -57,6 +57,7 @@ export class UsersService {
       throw new NotFoundException("User not found ")
     }
     return updateUser
+    
   }
 
   async deleteUserById(userId: string): Promise<IUser> {
