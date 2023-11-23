@@ -32,9 +32,6 @@ export class Event {
     //// list product favorite
    @Prop({required:false, type: SchemaTypes.ObjectId, ref:'products'})
    products: Types.ObjectId[]
-   
-   @Prop({required:false, type: SchemaTypes.ObjectId, ref:'demande'})
-   demande: Types.ObjectId[]
 
 }
 

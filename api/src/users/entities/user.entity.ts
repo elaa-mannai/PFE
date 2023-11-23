@@ -51,10 +51,6 @@ export class User {
     @Prop([{ required: false , type: SchemaTypes.ObjectId, ref:'guests'}])
     guests: Types.ObjectId[]
 
-    @Prop([{ required: false , type: SchemaTypes.ObjectId, ref:'demande'}])
-    demande: Types.ObjectId[]
-
-    
   
 }
 
