@@ -3,7 +3,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
-import { UsersService } from './users/users.service';
 import { CategoriesModule } from './categories/categories.module';
 import { EventsModule } from './events/events.module';
 import { VendorsModule } from './vendors/vendors.module';
@@ -19,6 +18,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { join } from 'path';
 import { SocketModule } from './socket/socket.module';
 import { FavoriteModule } from './favorite/favorite.module';
+import { DemandeModule } from './demande/demande.module';
 
 @Module({
   imports: [MongooseModule.forRoot("mongodb://127.0.0.1:27017", { dbName: "Eventmanagment" }),
@@ -53,10 +53,11 @@ import { FavoriteModule } from './favorite/favorite.module';
     }
   }),
   FavoriteModule,
+  DemandeModule,
 
 ],
 
   controllers: [AppController],
-  providers: [AppService,],
+  providers: [AppService],
 })
 export class AppModule { }

@@ -119,6 +119,71 @@ class ProductDetail extends GetView<ProductsController> {
                                   ),
                                 ),
                               ),
+                              Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: GetBuilder<ProductsController>(
+                                      builder: (PController) {
+                                    return CustomBoxDetail(
+                                      issavedfunction: () {
+                                        AccountInfoStorage.saveProductId(
+                                            PController
+                                                .productGetByIdJson!.data!.sId
+                                                .toString());
+                                        print(
+                                            "object==================={PController.favoriteByUserIdJson!.data!.length}");
+                                        if (PController
+                                                .favoriteByUserIdJson!.data !=
+                                            null) {
+                                          print(
+                                              "test6666666666${PController.prodExiste(PController.favoriteByUserIdJson!.data!, PController.productGetByIdJson!.data!.sId)}");
+                                          if (PController.prodExiste(
+                                              PController
+                                                  .favoriteByUserIdJson!.data!,
+                                              PController.productGetByIdJson!
+                                                  .data!.sId)) {
+                                            print('if-----------------------');
+                                            AccountInfoStorage.saveFavoriteId(
+                                                PController.productGetByIdJson!
+                                                    .data!.favorites!.sId);
+                                            print(
+                                                "${AccountInfoStorage.readFavoriteId()}");
+                                            print(
+                                                'state from product=========${PController.productGetByIdJson!.data!.favorites!.state!}');
+                                            PController.updateFavorite(
+                                                !PController.productGetByIdJson!
+                                                    .data!.favorites!.state!);
+                                          } else {
+                                            print("else ");
+                                            PController.createFavorite();
+                                          }
+                                        } else {
+                                          print("else ");
+                                          PController.createFavorite();
+                                        }
+                                      },
+                                      icon: PController.productGetByIdJson!
+                                                  .data!.favorites ==
+                                              null
+                                          ? Icon(
+                                              Icons.favorite_border,
+                                              color: AppColor.goldColor,
+                                            )
+                                          : Icon(
+                                              PController.productGetByIdJson!
+                                                      .data!.favorites!.state!
+                                                  ? Icons.favorite
+                                                  : Icons.favorite_border,
+                                              color: PController
+                                                      .productGetByIdJson!
+                                                      .data!
+                                                      .favorites!
+                                                      .state!
+                                                  ? Colors.red
+                                                  : AppColor.goldColor,
+                                              size: 30,
+                                            ),
+                                    );
+                                  })),
 
                               //text for details
                               Padding(
@@ -230,135 +295,142 @@ class ProductDetail extends GetView<ProductsController> {
                           child: Column(
                             children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(child: SizedBox(width: 20)),
-                                                      PopupMenuButton<String>(
-                                icon: Icon(Icons.more_vert,
-                                    color: AppColor.secondary),
-                                color: AppColor.secondary,
-                                itemBuilder: (BuildContext context) => [
-                                  PopupMenuItem<String>(
-                                    value: 'update',
-                                    child: Text('Update'),
-                                  ),
-                                  PopupMenuItem<String>(
-                                    value: 'delete',
-                                    child: Text('Delete'),
-                                  ),
-                                ],
-                                onSelected: (value) {
-                                  //  AccountInfoStorage.saveProductId(
-                                  //     "${controller.productGetByIdJson!.data!.sId}");
-
-                                  /////update
-                                  // controller.getAllProductByUserId();
-                                  // AccountInfoStorage.readProductId();
-                                  if (value == 'update') {
-                                    Get.dialog(AlertDialog(
-                                      title: Text(
-                                          "Update Product informations:",
-                                          style: TextStyle(
-                                              color: AppColor.goldColor)),
-                                      backgroundColor: Colors.white,
-                                      content: SingleChildScrollView(
-                                        child: ListBody(
-                                          children: <Widget>[
-                                            //product title
-                                            CustomInputText(
-                                              controller: controller
-                                                  .productNameController,
-                                              obscureText: false,
-                                              label: "Product Name:",
-                                            ),
-                                            //description
-                                            CustomInputText(
-                                              controller: controller
-                                                  .productDescriptionController,
-                                              obscureText: false,
-                                              label: "Description:",
-                                            ),
-                                            //price
-                                            CustomInputText(
-                                              controller: controller
-                                                  .productPriceController,
-                                              obscureText: false,
-                                              label: "Price:",
-                                            ),
-                                          ],
-                                        ),
+                                  PopupMenuButton<String>(
+                                    icon: Icon(Icons.more_vert,
+                                        color: AppColor.secondary),
+                                    color: AppColor.secondary,
+                                    itemBuilder: (BuildContext context) => [
+                                      PopupMenuItem<String>(
+                                        value: 'update',
+                                        child: Text('Update'),
                                       ),
-                                      actions: <Widget>[
-                                        GetBuilder<ProductsController>(
-                                          builder: (controller) {
-                                            return TextButton(
-                                              child: Text(
-                                                'Update',
-                                                style: TextStyle(
-                                                    color: AppColor.secondary,
-                                                    fontSize: 20),
-                                              ),
-                                              onPressed: () {
-                                                print("object update");
-                                                controller.updateProduct();
+                                      PopupMenuItem<String>(
+                                        value: 'delete',
+                                        child: Text('Delete'),
+                                      ),
+                                    ],
+                                    onSelected: (value) {
+                                      //  AccountInfoStorage.saveProductId(
+                                      //     "${controller.productGetByIdJson!.data!.sId}");
 
-                                                Navigator.of(context).pop();
-                                                controller
-                                                    .productDescriptionController
-                                                    .clear();
-                                                controller.productNameController
-                                                    .clear();
-                                                controller
-                                                    .productPriceController
-                                                    .clear();
-                                                controller.imagefiles = null;
-                                                Get.to(ServiceDetails());
-                                              },
-                                            );
-                                          },
-                                        )
-                                      ],
-                                    ));
-                                  }
-                                  ///////detete
-                                  else if (value == 'delete') {
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            backgroundColor: Colors.white,
-                                            title: Text(
-                                                "Do you want to delete this Product?",
-                                                style: TextStyle(
-                                                    color: AppColor.goldColor)),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: Text('Cancel',
+                                      /////update
+                                      // controller.getAllProductByUserId();
+                                      // AccountInfoStorage.readProductId();
+                                      if (value == 'update') {
+                                        Get.dialog(AlertDialog(
+                                          title: Text(
+                                              "Update Product informations:",
+                                              style: TextStyle(
+                                                  color: AppColor.goldColor)),
+                                          backgroundColor: Colors.white,
+                                          content: SingleChildScrollView(
+                                            child: ListBody(
+                                              children: <Widget>[
+                                                //product title
+                                                CustomInputText(
+                                                  controller: controller
+                                                      .productNameController,
+                                                  obscureText: false,
+                                                  label: "Product Name:",
+                                                ),
+                                                //description
+                                                CustomInputText(
+                                                  controller: controller
+                                                      .productDescriptionController,
+                                                  obscureText: false,
+                                                  label: "Description:",
+                                                ),
+                                                //price
+                                                CustomInputText(
+                                                  controller: controller
+                                                      .productPriceController,
+                                                  obscureText: false,
+                                                  label: "Price:",
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          actions: <Widget>[
+                                            GetBuilder<ProductsController>(
+                                              builder: (controller) {
+                                                return TextButton(
+                                                  child: Text(
+                                                    'Update',
                                                     style: TextStyle(
-                                                        color: Colors
-                                                            .deepOrangeAccent)),
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  controller.deleteProduct();
-                                                  Navigator.of(context).pop();
-                                                  Get.to(ServiceDetails());
-                                                },
-                                                child: Text('OK',
+                                                        color:
+                                                            AppColor.secondary,
+                                                        fontSize: 20),
+                                                  ),
+                                                  onPressed: () {
+                                                    print("object update");
+                                                    controller.updateProduct();
+
+                                                    Navigator.of(context).pop();
+                                                    controller
+                                                        .productDescriptionController
+                                                        .clear();
+                                                    controller
+                                                        .productNameController
+                                                        .clear();
+                                                    controller
+                                                        .productPriceController
+                                                        .clear();
+                                                    controller.imagefiles =
+                                                        null;
+                                                    Get.to(ServiceDetails());
+                                                  },
+                                                );
+                                              },
+                                            )
+                                          ],
+                                        ));
+                                      }
+                                      ///////detete
+                                      else if (value == 'delete') {
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                backgroundColor: Colors.white,
+                                                title: Text(
+                                                    "Do you want to delete this Product?",
                                                     style: TextStyle(
                                                         color: AppColor
-                                                            .secondary)),
-                                              ),
-                                            ],
-                                          );
-                                        });
-                                  }
-                                },
-                              ),
-          
+                                                            .goldColor)),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: Text('Cancel',
+                                                        style: TextStyle(
+                                                            color: Colors
+                                                                .deepOrangeAccent)),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      controller
+                                                          .deleteProduct();
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      Get.to(ServiceDetails());
+                                                    },
+                                                    child: Text('OK',
+                                                        style: TextStyle(
+                                                            color: AppColor
+                                                                .secondary)),
+                                                  ),
+                                                ],
+                                              );
+                                            });
+                                      }
+                                    },
+                                  ),
                                 ],
                               ),
                               Column(
@@ -367,7 +439,8 @@ class ProductDetail extends GetView<ProductsController> {
                                 children: [
                                   //scroll images
                                   CarouselSlider(
-                                    items: buildImageSliders(imagesList, context),
+                                    items:
+                                        buildImageSliders(imagesList, context),
                                     options: CarouselOptions(
                                       autoPlay: true,
                                       aspectRatio: 1,
@@ -415,7 +488,8 @@ class ProductDetail extends GetView<ProductsController> {
                                     child: GetBuilder<ProductsController>(
                                         builder: (context) {
                                       return Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [

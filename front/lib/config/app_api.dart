@@ -3,7 +3,7 @@ import 'package:front/config/account_info_storage.dart';
 class AppApi {
   static const String baseUrl = "http://$ip/";
 
-  static const String ip = "192.168.2.56:3000";
+   static const String ip = "192.168.2.56:3000";
 //  static const String ip = "localhost:3000";
 //  static const String ip = "192.168.1.11:3000";
 
@@ -13,7 +13,9 @@ class AppApi {
   static String updatePasswordUrl =
       "${baseUrl}auth/updatepassword/${AccountInfoStorage.readId().toString()}";
   //static const String getImageUser = "${baseUrl}file/users/";
+  static const String deleteUserUrl = "${baseUrl}users/";
 
+  
   static const String getEventByUserUrl = "${baseUrl}events/user/";
   static const String createEventUrl = "${baseUrl}events/";
   static const String getEventUrl = "${baseUrl}events/";

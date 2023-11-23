@@ -23,17 +23,23 @@ class CustomTextPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       child: TextFormField(
         controller: controller!,
         decoration: InputDecoration(
           labelText: text,
-          border: OutlineInputBorder(),
-          prefixIcon: Icon(Icons.drive_file_rename_outline),
+          labelStyle: TextStyle(color: AppColor.goldColor),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(strokeAlign: 0, color: AppColor.secondary),
+          ),
+          prefixIcon: Icon(
+            Icons.drive_file_rename_outline,
+            color: AppColor.secondary,
+          ),
           suffixIcon: IconButton(
             icon: Icon(
               iconData,
-              color: AppColor.goldColor,
+              color: AppColor.secondary,
             ),
             onPressed: () {
               function!();
@@ -43,6 +49,9 @@ class CustomTextPassword extends StatelessWidget {
         style: TextStyle(color: Colors.black),
         obscureText: obscureText,
         validator: validator,
+        cursorColor: AppColor.goldColor,
+        undoController: UndoHistoryController(),
+
         //    autovalidateMode: AutovalidateMode.onUserInteraction,
       ),
     );

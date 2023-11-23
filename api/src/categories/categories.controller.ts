@@ -8,6 +8,7 @@ import { ApiTags } from '@nestjs/swagger/dist/decorators';
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) { }
 
+  
   @Post()
   async create(@Res() response, @Body() createCategoryDto: CreateCategoryDto) {
     try {

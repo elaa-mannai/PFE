@@ -24,9 +24,12 @@ export class Product {
 
     @Prop({required:false, type: SchemaTypes.ObjectId, ref:'users'})
     user: Types.ObjectId
+
     @Prop({required:false, type: SchemaTypes.ObjectId, ref:'favorites'})
     favorites: Types.ObjectId
-
+    
+    @Prop({required:false, type: SchemaTypes.ObjectId, ref:'demande'})
+    demande: Types.ObjectId
 
     
 }

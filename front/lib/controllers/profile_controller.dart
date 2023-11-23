@@ -13,11 +13,13 @@ import 'package:front/models/network/api_get_user_by_id.dart';
 import 'package:front/models/network/api_loginn.dart';
 import 'package:front/models/network/api_signup.dart';
 import 'package:front/models/network/api_user_all.dart';
+import 'package:front/models/network/api_user_delete.dart';
 import 'package:front/views/admin/home_view_admin.dart';
 import 'package:front/views/favorite_view.dart';
 import 'package:front/views/home_view_customer.dart';
 import 'package:front/views/login_view.dart';
 import 'package:front/views/product_detail.dart';
+import 'package:front/views/signup_view.dart';
 import 'package:front/views/vendors/home_view_vendor.dart';
 import 'package:front/controllers/products_controller.dart';
 import 'package:get/get.dart';
@@ -50,6 +52,8 @@ class ProfileColntroller extends GetxController {
   bool passwordsMatch = true;
   bool isVisiblePassword = true;
   bool confirmPassword = true;
+  bool confirmPassword1 = true;
+  bool confirmPassword2 = true;
   ProductsController productsControlle = ProductsController();
   void viderControllers() {
     confirmPasswordController.text = '';
@@ -68,6 +72,16 @@ class ProfileColntroller extends GetxController {
       },
     ),
   );
+
+  @override
+  void onInit() {
+    //logOut();
+
+    //createEvent();
+    // Initialisations spécifiques à ce contrôleur
+    super
+        .onInit(); // N'oubliez pas d'appeler super.onInit() pour respecter le cycle de vie de GetX.
+  }
 
   String InputValidator() {
     print('Validate password');
@@ -110,10 +124,21 @@ class ProfileColntroller extends GetxController {
     update();
   }
 
+  void showConfirmPassword1() {
+    confirmPassword1 = !confirmPassword1;
+    update();
+  }
+
+  void showConfirmPassword2() {
+    confirmPassword2 = !confirmPassword2;
+    update();
+  }
+
   void showConfirmPassword() {
     print('confirm password');
     confirmPassword = !confirmPassword;
-    update(); // rebuild
+    update();
+    // rebuild
   }
 
 //////////////////////////calendar selection /////////////////////
@@ -329,14 +354,19 @@ class ProfileColntroller extends GetxController {
 
   resetpasswordUser() {}
 
-  @override
-  void onInit() {
-    //logOut();
+  ApiUserDeleteById apiUserDeleteById = ApiUserDeleteById();
+  deleteUser() {
 
-    //createEvent();
-    // Initialisations spécifiques à ce contrôleur
-    super
-        .onInit(); // N'oubliez pas d'appeler super.onInit() pour respecter le cycle de vie de GetX.
+    /////// add a state to desactivation user
+    apiUserDeleteById.id = AccountInfoStorage.readId().toString();
+    apiUserDeleteById.deleteData().then((value) {
+      print('success user delete');
+      Get.to(SignupView());
+      update();
+    }).onError((error, stackTrace) {
+      print('erorr delete user === > $error');
+    });
+    update();
   }
 
   logOut() {

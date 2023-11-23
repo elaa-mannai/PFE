@@ -3,6 +3,7 @@ import 'package:front/config/app_colors.dart';
 import 'package:front/controllers/products_controller.dart';
 import 'package:front/controllers/profile_controller.dart';
 import 'package:front/models/json/login_user_json.dart';
+import 'package:front/views/favorite_view.dart';
 import 'package:front/views/test/ChatScreen.dart';
 import 'package:front/widgets/custom_text.dart';
 import 'package:get/get.dart';
@@ -48,7 +49,12 @@ class CustomBoxDetail extends StatelessWidget {
                     color: AppColor.goldColor,
                     size: 30,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    ////// send demande to vendor // open list event // select event // confirm  (save id event ; id product)
+                    /// pending
+                    ///vendor confirmation --> yes // no
+                    ///
+                  },
                 ),
                 CustomText(
                   fontSize: 10,
@@ -84,11 +90,10 @@ class CustomBoxDetail extends StatelessWidget {
               children: [
                 IconButton(
                   onPressed: () {
-                    print('******************favorite custom box detail******************');
-                     issavedfunction!();
-                    // controller.createFavorite();
-                    // saveProductIdInUserId
-                    //Get.to(FavoriteView());
+                    print(
+                        '******************favorite custom box detail******************');
+                    issavedfunction!();
+                    Get.to(FavoriteView());
                   },
                   icon: icon!,
                 ),

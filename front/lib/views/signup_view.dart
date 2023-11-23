@@ -33,7 +33,6 @@ class SignupView extends GetView<ProfileColntroller> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               // logo && description
-
               Expanded(
                 flex: 2,
                 child: Column(
@@ -283,20 +282,51 @@ class SignupView extends GetView<ProfileColntroller> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Image(
-                            image: AssetImage('assets/images/twitter.png'),
-                            width: 35,
-                            height: 35,
+                          GestureDetector(
+                            onTap: () {
+                              print("twitter connection!");
+                            },
+                            child: Image(
+                              image: AssetImage('assets/images/twitter.png'),
+                              width: 35,
+                              height: 35,
+                            ),
                           ),
-                          Image(
-                            image: AssetImage('assets/images/fb.png'),
-                            width: 35,
-                            height: 35,
+                          GestureDetector(
+                            onTap: () async {
+                              print("facebook connection!");
+                          /*     try {
+                                final LoginResult result =
+                                    await FacebookAuth.instance.login();
+
+                                if (result.status == LoginStatus.success) {
+                                  // The user has successfully logged in with Facebook
+                                  print(
+                                      'Facebook login successful! User ID: ${result.accessToken!.userId}');
+                                } else {
+                                  // Facebook login failed
+                                  print(
+                                      'Facebook login failed. Error message: ${result.message}');
+                                }
+                              } catch (e) {
+                                print('Error during Facebook login: $e');
+                              } */
+                            },
+                            child: Image(
+                              image: AssetImage('assets/images/fb.png'),
+                              width: 35,
+                              height: 35,
+                            ),
                           ),
-                          Image(
-                            image: AssetImage('assets/images/gmail.png'),
-                            width: 35,
-                            height: 35,
+                          GestureDetector(
+                            onTap: () {
+                              print("gmail connection!");
+                            },
+                            child: Image(
+                              image: AssetImage('assets/images/gmail.png'),
+                              width: 35,
+                              height: 35,
+                            ),
                           ),
                         ],
                       ),

@@ -67,6 +67,7 @@ class ProductSelectionByServices extends GetView<ProductsController> {
                     desc: controller.filteredItemsDes,
                     ontap: () {
                     /////////////////////// fix this one
+                    
                       Get.to(ProductDetail());
                       print("*************get category by id*****************");
                     },

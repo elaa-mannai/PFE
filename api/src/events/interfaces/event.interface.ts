@@ -9,6 +9,7 @@ export interface IEvent extends Document {
     readonly local:string
     readonly budget:number
     readonly user: string
+    readonly demande:string
    /* readonly guests:string[]
     readonly guests:string
        //// list product favorite

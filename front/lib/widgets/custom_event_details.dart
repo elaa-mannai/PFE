@@ -137,7 +137,7 @@ class CustomEventDetails extends GetView<EventController> {
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
-                                child: Text('Cancel',
+                                child: Text('No, Keep It!',
                                     style: TextStyle(
                                         color: Colors.deepOrangeAccent)),
                               ),
@@ -147,7 +147,7 @@ class CustomEventDetails extends GetView<EventController> {
                                       '${controller.eventByIdJson!.data!.sId}');
                                   Navigator.of(context).pop();
                                 },
-                                child: Text('OK',
+                                child: Text('Yes, Delete It!',
                                     style:
                                         TextStyle(color: AppColor.secondary)),
                               ),

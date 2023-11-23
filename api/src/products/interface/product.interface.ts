@@ -10,5 +10,6 @@ export interface IProduct extends Document {
     readonly category: string
     readonly user: string
     readonly favorites: string
+    readonly demande:string
 
 }
