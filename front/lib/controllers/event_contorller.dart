@@ -404,4 +404,33 @@ class EventController extends GetxController {
     });
     update();
   }
+
+
+AddtoServiceList()async{
+  print('************************create Service***********************');
+
+    Map<String, dynamic> data = {
+      "name": guestNameController.text,
+      "phonenumber": guestPhonenumberConroller.text.toString(),
+      "invited": true,
+      "events": AccountInfoStorage.readEventId(),
+    };
+
+    print("guest data =============== $data");
+    apiGuestCreate.postData(data).then((value) {
+      print('success+++++++++++++++> $value');
+      guestJson = value as GuestJson?;
+      //getEvents();
+      // print('Guest created=======> ${guestJson!.data!.sId}');
+      // getAllGuestsByEventId();
+      getAllGuestsByEventId();
+      
+      Get.to(GuestList());
+      update();
+    }).onError((error, stackTrace) {
+      print('error create event ==========> $error');
+    });
+}
+
+
 }

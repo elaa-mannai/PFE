@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:front/config/app_colors.dart';
 import 'package:front/controllers/event_contorller.dart';
 import 'package:front/views/guest-list.dart';
+import 'package:front/views/service_check_view.dart';
 import 'package:front/widgets/custom_text.dart';
 import 'package:get/get.dart';
 import 'package:flutter_image_stack/flutter_image_stack.dart';
@@ -122,7 +123,9 @@ class CustomEventList extends GetView<EventController> {
                           // services data which are related to each event
                           TextButton(
                             onPressed: () {
-                              // Get.to(TestView());
+                              Get.to(ServiceCheckView());
+
+                              ///// update the added services in the other interface 
                             },
                             child: FlutterImageStack(
                               showTotalCount: true,

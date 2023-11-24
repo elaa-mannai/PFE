@@ -135,6 +135,7 @@ class EventListView extends GetView<EventController> {
                                         colorBorder: AppColor.goldColor,
                                         widthBorder: 1,
                                         function: () {},
+                                        
                                       ),
                                       onTap: () {
                                         print(

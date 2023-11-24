@@ -4,6 +4,7 @@ import 'package:front/controllers/products_controller.dart';
 import 'package:front/controllers/profile_controller.dart';
 import 'package:front/models/json/login_user_json.dart';
 import 'package:front/views/favorite_view.dart';
+import 'package:front/views/select_event.dart';
 import 'package:front/views/test/ChatScreen.dart';
 import 'package:front/widgets/custom_text.dart';
 import 'package:get/get.dart';
@@ -54,6 +55,7 @@ class CustomBoxDetail extends StatelessWidget {
                     /// pending
                     ///vendor confirmation --> yes // no
                     ///
+                    Get.to(SelectEvent());
                   },
                 ),
                 CustomText(
