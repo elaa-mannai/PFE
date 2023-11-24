@@ -26,7 +26,7 @@ export class DemandeService {
 
   async create(createDemandeDto: CreateDemandeDto):Promise<IDemande> {
 const newD = new this.demandeModel(createDemandeDto)
-await this.userModel.updateOne({_id: createDemandeDto.user},
+await this.userModel.updateOne({_id: createDemandeDto.users},
   {$push:{demande:newD._id}}).populate;
   await this.eventModel.updateOne({_id: createDemandeDto.events},
     {$push:{demande:newD._id}}).populate;
@@ -72,4 +72,23 @@ await this.userModel.updateOne({_id: createDemandeDto.user},
     }
     return pdata
   }
+  ///////////////////////////////////////////////////
+
+  // async findAllDemandeByuser(UserId: string):Promise<IDemande[]>
+  // {
+  //   const data= await this.demandeModel.find({user :UserId})
+  //   if (!data || data.length ==0 ){
+  //  return null
+  //   }
+  //     return data;
+  //   }
+
+  // async findAllDemandeByEvent(eventid: string):Promise<IDemande[]>
+  // {
+  //   const data= await this.demandeModel.find({events :eventid})
+  //   if (!data || data.length ==0 ){
+  //  return null
+  //   }
+  //     return data;
+  //   }
 }

@@ -1,5 +1,4 @@
 import 'package:front/models/json/abstract_json_resource.dart';
-import 'package:front/models/json/favorite_by_user_id_and_state_json.dart';
 
 class ProductGetByIdJson extends AbstractJsonResource {
   String? message;

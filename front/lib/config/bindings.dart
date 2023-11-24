@@ -1,3 +1,4 @@
+import 'package:front/controllers/demande_controller.dart';
 import 'package:front/controllers/event_contorller.dart';
 import 'package:front/controllers/products_controller.dart';
 import 'package:front/controllers/profile_controller.dart';
@@ -9,5 +10,6 @@ class AllBindings extends Bindings {
     Get.put<ProfileColntroller>(ProfileColntroller());
     Get.put<ProductsController>(ProductsController());
     Get.put<EventController>(EventController());
+    Get.put<DemandeController>(DemandeController());
   }
 }

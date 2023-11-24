@@ -11,10 +11,10 @@ import 'package:get/get.dart';
 import 'package:get/utils.dart';
 
 class CustomBoxDetail extends StatelessWidget {
-  final Function? function, issavedfunction;
+  final Function? function, issavedfunction,sendDemandeFunction;
   final Icon? icon;
   const CustomBoxDetail(
-      {Key? key, this.function, this.icon, this.issavedfunction})
+      {Key? key, this.function,this.sendDemandeFunction, this.icon, this.issavedfunction})
       : super(key: key);
 
   @override
@@ -55,7 +55,10 @@ class CustomBoxDetail extends StatelessWidget {
                     /// pending
                     ///vendor confirmation --> yes // no
                     ///
-                    Get.to(SelectEvent());
+                     print(
+                        '******************send demande custom box detail******************');
+                    sendDemandeFunction!();
+                   Get.to(SelectEvent());
                   },
                 ),
                 CustomText(

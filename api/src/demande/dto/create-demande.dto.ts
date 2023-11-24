@@ -15,7 +15,7 @@ state:boolean
 })
 @IsString()
 // @IsNotEmpty()
-user: string
+users: string
 
 @ApiProperty({
     type: String,

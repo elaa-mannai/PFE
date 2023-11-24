@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:front/config/account_info_storage.dart';
 import 'package:front/config/app_colors.dart';
+import 'package:front/controllers/event_contorller.dart';
 import 'package:front/controllers/products_controller.dart';
 import 'package:front/controllers/profile_controller.dart';
 import 'package:front/views/vendors/service_details.dart';
@@ -123,19 +124,20 @@ class ProductDetail extends GetView<ProductsController> {
                                   padding: EdgeInsets.all(8.0),
                                   child: GetBuilder<ProductsController>(
                                       builder: (PController) {
+                                    EventController Econtroller =
+                                        EventController();
                                     return CustomBoxDetail(
+                                      sendDemandeFunction: () {
+                                        AccountInfoStorage.saveProductId(
+                                            "${PController.productGetByIdJson!.data!.sId}");
+                                            
+                                      },
                                       issavedfunction: () {
                                         AccountInfoStorage.saveProductId(
-                                            PController
-                                                .productGetByIdJson!.data!.sId
-                                                .toString());
-                                        print(
-                                            "object==================={PController.favoriteByUserIdJson!.data!.length}");
+                                            "${PController.productGetByIdJson!.data!.sId}");
                                         if (PController
                                                 .favoriteByUserIdJson!.data !=
                                             null) {
-                                          print(
-                                              "test6666666666${PController.prodExiste(PController.favoriteByUserIdJson!.data!, PController.productGetByIdJson!.data!.sId)}");
                                           if (PController.prodExiste(
                                               PController
                                                   .favoriteByUserIdJson!.data!,
@@ -145,10 +147,6 @@ class ProductDetail extends GetView<ProductsController> {
                                             AccountInfoStorage.saveFavoriteId(
                                                 PController.productGetByIdJson!
                                                     .data!.favorites!.sId);
-                                            print(
-                                                "${AccountInfoStorage.readFavoriteId()}");
-                                            print(
-                                                'state from product=========${PController.productGetByIdJson!.data!.favorites!.state!}');
                                             PController.updateFavorite(
                                                 !PController.productGetByIdJson!
                                                     .data!.favorites!.state!);

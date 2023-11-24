@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:front/config/account_info_storage.dart';
 import 'package:front/config/app_colors.dart';
+import 'package:front/controllers/demande_controller.dart';
 import 'package:front/controllers/event_contorller.dart';
 import 'package:front/views/home_view_customer.dart';
 import 'package:front/widgets/custom_backgroung_image.dart';
@@ -15,6 +16,7 @@ class SelectEvent extends GetView<EventController> {
 
   @override
   Widget build(BuildContext context) {
+    DemandeController Dcontroller = DemandeController();
     ScrollController scrollController = ScrollController();
     //controller.getAllEventByUserId();
     //  controller.getEventById(AccountInfoStorage.saveEventId(controller.eventByIdJson!.data!.sId.toString()));
@@ -129,9 +131,12 @@ class SelectEvent extends GetView<EventController> {
                                             "${controller.eventByUserIdJson!.data![index].guests!.length}",
                                         colorBorder: AppColor.goldColor,
                                         widthBorder: 1,
-                                        function: () {},
                                       ),
                                       onTap: () {
+                                        print("tapped on event");
+                                        AccountInfoStorage.saveEventId(
+                                            "${controller.eventByUserIdJson!.data![index].sId}");
+
                                         showDialog(
                                             context: context,
                                             builder: (BuildContext context) {
@@ -156,8 +161,8 @@ class SelectEvent extends GetView<EventController> {
                                                   ),
                                                   TextButton(
                                                     onPressed: () {
-                                                      controller
-                                                          .AddtoServiceList();
+                                                      Dcontroller
+                                                          .createDemande();
                                                       Navigator.of(context)
                                                           .pop();
                                                     },
