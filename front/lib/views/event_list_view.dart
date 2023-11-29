@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:front/config/account_info_storage.dart';
 import 'package:front/config/app_colors.dart';
+import 'package:front/controllers/demande_controller.dart';
 import 'package:front/controllers/event_contorller.dart';
 import 'package:front/views/guest-list.dart';
 import 'package:front/views/home_view_customer.dart';
@@ -121,7 +122,8 @@ class EventListView extends GetView<EventController> {
                                       child: CustomEventList(
                                         eventName:
                                             "${controller.eventByUserIdJson!.data![index].titleevent}",
-                                            description:  "${controller.eventByUserIdJson!.data![index].description}",
+                                        description:
+                                            "${controller.eventByUserIdJson!.data![index].description}",
                                         datedeb:
                                             "${controller.eventByUserIdJson!.data![index].dateDebut}",
                                         datefin:
@@ -135,7 +137,6 @@ class EventListView extends GetView<EventController> {
                                         colorBorder: AppColor.goldColor,
                                         widthBorder: 1,
                                         function: () {},
-                                        
                                       ),
                                       onTap: () {
                                         print(

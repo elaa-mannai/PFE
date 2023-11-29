@@ -38,7 +38,11 @@ class AccountInfoStorage {
 
   static const keyFavoriteId = "favoriteId";
   static const keyFavoriteState = "favoriteState";
-  static const keyFavoriteUser = "keyFavoriteUser";
+  static const keyFavoriteUser = "favoriteUser";
+
+  static const keyDemandeId = "demandeId";
+  static const keyDemandeState = "demandeState";
+  static const keyDemandeUser = "demandeUser";
 
   static saveTokenUser(String? tokenUser) {
     SecureStorage.writeSecureData(key: keyTokenUser, value: tokenUser!);
@@ -56,8 +60,8 @@ class AccountInfoStorage {
     return SecureStorage.readSecureData(keyId);
   }
 
-  static deleteUserId(){
-     print("deleted user id ");
+  static deleteUserId() {
+    print("deleted user id ");
     return SecureStorage.deleteSecureData(keyId);
   }
 
@@ -100,8 +104,9 @@ class AccountInfoStorage {
   static String? readItems() {
     return SecureStorage.readSecureData(keyitems);
   }
-  static deleteItems(){
-     print("deleted user items ");
+
+  static deleteItems() {
+    print("deleted user items ");
     return SecureStorage.deleteSecureData(keyitems);
   }
 
@@ -112,7 +117,6 @@ class AccountInfoStorage {
   static String? readImage() {
     return SecureStorage.readSecureData(Keyimage);
   }
-
 
   static deleteImage() {
     print("deleted user image ");
@@ -206,6 +210,7 @@ class AccountInfoStorage {
   static String? readProductLocal() {
     return SecureStorage.readSecureData(keyproductLocal);
   }
+
   static deleteProductLocal() {
     print("deleted");
     return SecureStorage.deleteSecureData(keyproductLocal);
@@ -218,7 +223,6 @@ class AccountInfoStorage {
   static String? readCategorieName() {
     return SecureStorage.readSecureData(keycategorieName);
   }
-  
 
   static saveCatgorieId(String? categorieId) {
     SecureStorage.writeSecureData(key: keycategorieId, value: categorieId!);
@@ -227,12 +231,11 @@ class AccountInfoStorage {
   static String? readCategorieId() {
     return SecureStorage.readSecureData(keycategorieId);
   }
-   static deleteCategorieId() {
+
+  static deleteCategorieId() {
     print("deleted");
     return SecureStorage.deleteSecureData(keycategorieId);
   }
-
-
 
   static saveCatgorieProducts(String? categorieProducts) {
     SecureStorage.writeSecureData(
@@ -348,5 +351,30 @@ class AccountInfoStorage {
 
   static String? readFavoriteUser() {
     return SecureStorage.readSecureData(keyFavoriteUser);
+  }
+
+  
+  static saveDemandeId(String? demandeId) {
+    SecureStorage.writeSecureData(key: keyDemandeId, value: demandeId!);
+  }
+
+  static String? readDemandeId() {
+    return SecureStorage.readSecureData(keyDemandeId);
+  }
+
+  static saveDemandeState(String? demandeState) {
+    SecureStorage.writeSecureData(key: keyDemandeState, value: demandeState!);
+  }
+
+  static String? readDemandeState() {
+    return SecureStorage.readSecureData(keyDemandeId);
+  }
+
+  static saveDemandeUser(String? demandeUser) {
+    SecureStorage.writeSecureData(key: keyDemandeUser, value: demandeUser!);
+  }
+
+  static String? readDemandeUser() {
+    return SecureStorage.readSecureData(keyDemandeUser);
   }
 }

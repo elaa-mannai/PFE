@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, Res, Query } from '@nestjs/common';
 import { DemandeService } from './demande.service';
 import { CreateDemandeDto } from './dto/create-demande.dto';
 import { UpdateDemandeDto } from './dto/update-demande.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { response } from 'express';
+import { IDemande } from './interface/demande.interface';
 
 @Controller('demande')
 @ApiTags('demande')
@@ -27,6 +28,44 @@ export class DemandeController {
     })
   } 
  }
+
+ @Get('stateAndUserId/:id/state')
+ async GetDemandeByUserIdAndStateUrl(@Query('state') state : boolean,@Param('id') UserId: string ,@Res() response): Promise<IDemande>{
+ try{
+  const favoriteDate = await this.demandeService.getDemandeByUserIdAndStateUrl(UserId, state)
+  return response.status(HttpStatus.OK).json({
+    message:"DemandeByUserIdAndStateUrl found successfully",
+    status:HttpStatus.OK,
+    data:favoriteDate
+  })
+ }catch
+  (error){
+    return response.status(HttpStatus.BAD_REQUEST).json({
+      message:error.message,
+      status:HttpStatus.BAD_REQUEST,
+      data:null
+    })
+ } 
+ }
+
+ @Get("user/:id")
+async getAllDemandebyUser(@Param('id') userId: string ,@Res() response) {
+  try{
+    const DemandeByuser=await this.demandeService.findAllDemandeByuser(userId);
+    return response.status(HttpStatus.OK).json({
+      message:'All Demande by User data found successfully',
+      status:HttpStatus.OK,
+      data:DemandeByuser
+    })
+  }catch (err){
+    return response.status(HttpStatus.BAD_REQUEST).json({
+      message:err,
+      status:HttpStatus.BAD_REQUEST,
+      data:null
+    })
+  }
+}
+
 
   @Get()
   async findAll(@Res() response) {

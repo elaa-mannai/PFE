@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Req,Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateLoginDto } from './dto/createlogin.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger/dist';
@@ -6,10 +6,13 @@ import { UpdateUserDto } from 'src/users/dto/update-user.dto';
 import { CreateEmailDto } from './dto/createemail.dto';
 import { Request } from 'express';
 import { AccessTokenGuard } from 'src/common/guards/accessTokenGuard';
+import { AuthGuard } from '@nestjs/passport';
+import { UsersService } from 'src/users/users.service';
 @Controller('auth')
 @ApiTags('auth')
 export class AuthController {
-    constructor(private readonly authService: AuthService) { }
+    constructor(private readonly authService: AuthService,
+        private readonly userService: UsersService) { }
 
     @Post('signin')
     async signIn(@Body() data: CreateLoginDto) {
@@ -42,4 +45,33 @@ export class AuthController {
     }
 
 
-}
+ /*    @Get('auth/google/callback')
+    @UseGuards(AuthGuard('google'))
+   async googleAuthRedirect(@Req() req, @Res() res) {
+      // Handle the Google Sign-In callback
+      const user = req.user;
+
+      const existingUser = await this.userService.findByGoogleId(user.id);
+
+if (existingUser) {
+      // User already exists, update user details if needed
+      await this.userService.updateUser(existingUser.id ,{displayName: user.displayName, refreshToken: user.refreshToken});
+    } else {
+      // User doesn't exist, create a new user in the database
+      await this.userService.createUser({
+        items:  user.items,
+        username:  user.username,
+        email:  user.email,
+        password:  user.password,
+        googleId:  user.googleId, 
+        displayName:  user.displayName, refreshToken:  user.refreshToken,
+        city: user.city,
+        adress: user.adress,
+        image: user.image,
+        phone:user.phone},);
+      
+      
+      res.redirect('/LoginView'); // Redirect to the desired page after authentication
+    }
+
+} */}

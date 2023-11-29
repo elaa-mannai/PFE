@@ -1,15 +1,15 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:front/config/app_colors.dart';
+import 'package:front/controllers/demande_controller.dart';
 import 'package:front/controllers/event_contorller.dart';
-import 'package:front/views/guest-list.dart';
+import 'package:front/controllers/products_controller.dart';
 import 'package:front/views/service_check_view.dart';
 import 'package:front/widgets/custom_text.dart';
 import 'package:get/get.dart';
-import 'package:flutter_image_stack/flutter_image_stack.dart';
 
 class CustomEventList extends GetView<EventController> {
-  final String? eventName;
+  final String? eventName, textService;
   final String? datedeb, datefin, description, local, budget, text;
   final Function? function;
   final double? widthBorder;
@@ -25,6 +25,7 @@ class CustomEventList extends GetView<EventController> {
     this.colorBorder,
     this.datedeb,
     this.datefin,
+    this.textService,
     this.description,
     this.local,
     this.budget,
@@ -34,6 +35,9 @@ class CustomEventList extends GetView<EventController> {
   @override
   Widget build(BuildContext context) {
     //   ScrollController scrollController = ScrollController();
+    ProductsController Pcontroller = ProductsController();
+        DemandeController Dcontroller = DemandeController();
+    Dcontroller.getDemandeByUserIdAndStateUrl();
 
     controller.getAllGuestsByEventId;
 
@@ -41,7 +45,7 @@ class CustomEventList extends GetView<EventController> {
       padding: EdgeInsets.fromLTRB(2, 15, 2, 15),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(24)),
+          borderRadius: BorderRadius.all(Radius.circular(18)),
           border: Border.all(color: colorBorder!, width: widthBorder!),
         ),
         child: Padding(
@@ -115,7 +119,7 @@ class CustomEventList extends GetView<EventController> {
                         ],
                       ),
                     ),
-
+                  // Pack of services
                     Expanded(
                       child: Column(
                         children: [
@@ -123,41 +127,33 @@ class CustomEventList extends GetView<EventController> {
                           // services data which are related to each event
                           TextButton(
                             onPressed: () {
+                              // AccountInfoStorage.saveDemandeState(Pcontroller.userGetByIdJson.data.)
                               Get.to(ServiceCheckView());
 
-                              ///// update the added services in the other interface 
+                              ///// update the added services in the other interface
                             },
-                            child: FlutterImageStack(
-                              showTotalCount: true,
-                              ////// get services data /////////
-                              imageList: _images,
-                              totalCount: 10,
-                              itemRadius: 40,
-                              itemCount: 1,
-                              itemBorderWidth: 1,
-                              extraCountTextStyle:
-                                  TextStyle(color: Colors.white),
-                              itemBorderColor: AppColor.secondary,
-                              backgroundColor: AppColor.secondary,
-                            ),
+                            child: Text( "r",
+                            // child: Text( "${Dcontroller.demandeByUserIdAndStateJson!.data!.length}",
+                          style: TextStyle(color: Colors.black),
+                        )
                           ),
                           SizedBox(height: 10),
                         ],
                       ),
                     ),
-
                     ////////////////////////////////////////////////////////////
                     ///problem that it only get one event by id
-
-                    Column(
-                      children: [
-                        CustomText(text: "Guest List:"),
-                        Text(
-                          text!,
-                          style: TextStyle(color: Colors.black),
-                        ),
-                        SizedBox(height: 10),
-                      ],
+                    Expanded(
+                      child: Column(
+                        children: [
+                          CustomText(text: "Guest List:"),
+                          Text(
+                            text!,
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          SizedBox(height: 10),
+                        ],
+                      ),
                     ),
                   ],
                 ),

@@ -404,6 +404,7 @@ class EventController extends GetxController {
     });
     // update();
   }
+
   
   
 }

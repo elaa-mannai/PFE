@@ -12,7 +12,31 @@ export class CreateUserDto {
   //  @IsNotEmpty()
     items: string
     
+  /*   @ApiProperty({
+        type: String,
+        description: 'this is a required property'
+    })    
+    @IsString()
+  //  @IsNotEmpty()
+    googleId: string
    
+    @ApiProperty({
+        type: String,
+        description: 'this is a required property'
+    })
+    @IsString()
+   // @IsNotEmpty()
+   displayName: string
+    
+   @ApiProperty({
+    type: String,
+    description: 'this is a required property'
+})
+@IsString()
+// @IsNotEmpty()
+refreshToken: string
+ */
+
     @ApiProperty({
         type: String,
         description: 'this is a required property'

@@ -25,6 +25,7 @@ class ProductSelectionByServices extends GetView<ProductsController> {
         leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
+              AccountInfoStorage.deleteCategorieId();
             },
             icon: Icon(
               Icons.arrow_back,
@@ -55,19 +56,18 @@ class ProductSelectionByServices extends GetView<ProductsController> {
                   flex: 1,
                   child: CustomSearchBar(
                     onChanged: (query) {
-                      controller.filterList(query);
-                      
+                      controller.filterList1(query);
                     },
                     label: 'Search',
-                    functionFuture: controller.getProducts(),
-                    image: controller.filteredItemsImages,
-                    length: controller.filteredItemsName.length,
-                    name: controller.filteredItemsName,
-                    category: controller.filteredItemsCat,
-                    desc: controller.filteredItemsDes,
+                    functionFuture: controller.getProductByCatgoryId(),
+                    image: controller.filteredItemsImagesC,
+                    length: controller.filteredItemsNameC.length,
+                    name: controller.filteredItemsNameC,
+                    category: controller.filteredItemsCatC,
+                    desc: controller.filteredItemsDesC,
                     ontap: () {
-                    /////////////////////// fix this one
-                    
+                      /////////////////////// fix this one
+
                       Get.to(ProductDetail());
                       print("*************get category by id*****************");
                     },

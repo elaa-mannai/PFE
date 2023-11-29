@@ -3,9 +3,9 @@ import 'package:front/config/account_info_storage.dart';
 class AppApi {
   static const String baseUrl = "http://$ip/";
 
-  static const String ip = "192.168.2.56:3000";
-  //static const String ip = "localhost:3000";
-  // static const String ip = "192.168.1.11:3000";
+  //  static const String ip = "192.168.1.3:3000";
+  static const String ip = "localhost:3000";
+  //  static const String ip = "192.168.1.11:3000";
 
   static const String loginUrl = "${baseUrl}auth/signin";
   static const String signupUrl = "${baseUrl}users/";
@@ -53,12 +53,10 @@ class AppApi {
   static const String createDemande = "${baseUrl}demande/";
   static const String getAllDemande = "${baseUrl}demande/";
   static const String getDemandeById = "${baseUrl}demande/";
-    static const String getDemandeByUserId = "${baseUrl}demande/user";
-    static const String getDemandeByStateId = "${baseUrl}demande/state";
-      static const String getDemandeByUserIdAndStateUrl =
+  static const String getDemandeByUserId = "${baseUrl}demande/user";
+  static const String getDemandeByStateId = "${baseUrl}demande/state";
+  static const String getDemandeByUserIdAndStateUrl =
       "${baseUrl}demande/stateAndUserId/";
-
-
 
   static const String Logout = "${baseUrl}auth/logout";
 

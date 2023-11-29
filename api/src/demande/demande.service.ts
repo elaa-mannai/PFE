@@ -35,8 +35,21 @@ await this.userModel.updateOne({_id: createDemandeDto.users},
   return await newD.save()
   }
 
+    
+  async getDemandeByUserIdAndStateUrl(userId: string, state : boolean):Promise<IDemande[]>{
+    const DemandeByUserIdAndStateUrl= await this.demandeModel.find({users :userId,state}).populate({path: 'products', populate:[{path:'user'}]}).populate({path:'users'}).populate({path:'events'}).exec(); 
+  
+
+    if (!DemandeByUserIdAndStateUrl || DemandeByUserIdAndStateUrl.length ==0 ){
+   return null
+    }
+      return DemandeByUserIdAndStateUrl;
+  }
+
+
   async findAll(): Promise<IDemande[]> {
-    const data = await this.demandeModel.find()
+    const data = await this.demandeModel.find().populate({path: 'products', populate:[{path:'user'}]}).populate({path:'users'}).populate({path:'events'}).exec(); 
+  
     if (!data || data.length === 0) {
       //throw new NotFoundException("Demande Data not found")
       return null
@@ -74,14 +87,14 @@ await this.userModel.updateOne({_id: createDemandeDto.users},
   }
   ///////////////////////////////////////////////////
 
-  // async findAllDemandeByuser(UserId: string):Promise<IDemande[]>
-  // {
-  //   const data= await this.demandeModel.find({user :UserId})
-  //   if (!data || data.length ==0 ){
-  //  return null
-  //   }
-  //     return data;
-  //   }
+  async findAllDemandeByuser(UserId: string):Promise<IDemande[]>
+  {
+    const data= await this.demandeModel.find({users :UserId})
+    if (!data || data.length ==0 ){
+   return null
+    }
+      return data;
+    }
 
   // async findAllDemandeByEvent(eventid: string):Promise<IDemande[]>
   // {
@@ -91,4 +104,6 @@ await this.userModel.updateOne({_id: createDemandeDto.users},
   //   }
   //     return data;
   //   }
+
+
 }

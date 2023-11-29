@@ -20,7 +20,12 @@ export class SocketEvents {
     }
     //connection
     handleConnection(client: Socket) {
-        this.createRoom("room", client);
+        //this.createRoom("room", client);
+        client.on("message", (socket) => {
+            // join a single room
+        //    socket.join("room1");
+        console.log(`connect================${socket.id}`)
+        })
         console.log(`client connected: ${client.id}`);
 
     }
@@ -34,6 +39,7 @@ export class SocketEvents {
     @SubscribeMessage('message')
     handleEvent(@MessageBody() data: string, room: string, @ConnectedSocket() client: Socket) {
         this.server.emit('message', client.id, { room: room, message: data },)
+        // this.server.emit('message', data)
     }
 
 }

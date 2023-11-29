@@ -5,7 +5,6 @@ import 'package:front/controllers/products_controller.dart';
 import 'package:front/controllers/profile_controller.dart';
 import 'package:front/views/event_list_view.dart';
 import 'package:front/views/favorite_view.dart';
-import 'package:front/views/product-by-categorie.dart';
 import 'package:front/views/product_detail.dart';
 import 'package:front/views/product_selection_by_services.dart';
 import 'package:front/views/profile_view.dart';
@@ -232,11 +231,11 @@ class HomeView extends GetView<ProductsController> {
                           text: 'View All',
                           icon: Icons.arrow_forward,
                           function: () {
-                            Get.to(ProductSelectionByServices());
-                            // Get.to(EventListView());
+                            // Get.to(ProductSelectionByServices());
+                            //  Get.to(EventListView());
                             //  Get.to(ProductDetail());
-                            //   Get.to(FavoriteView());
-                            //  Get.to(ProfileView());
+                            // Get.to(FavoriteView());
+                             Get.to(ProfileView());
                           },
                         ),
                       )
@@ -295,9 +294,12 @@ class HomeView extends GetView<ProductsController> {
                                       AccountInfoStorage.saveCatgorieId(
                                           controller
                                               .categorieJson!.data![index].sId);
-                                      AccountInfoStorage.saveCatgorieName(
+                                      print("id cat ${AccountInfoStorage.readCategorieId()}");
+/*                                       AccountInfoStorage.saveCatgorieName(
                                           controller.categorieJson!.data![index]
                                               .name);
+                                      print("id cat ${AccountInfoStorage.readCategorieName()}");
+ */
                                       // controller.getProductByCatgoryId();
                                       Get.to(ProductSelectionByServices());
                                     },

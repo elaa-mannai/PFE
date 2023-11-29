@@ -42,30 +42,33 @@ class _ChatScreenState extends State<ChatScreen> {
   void sendMessage() {
     String message = messageController.text.trim();
     if (message.isNotEmpty) {
-      socket!.emit('chat_message', message);
+      socket!.emit('message', message);
       messageController.clear();
     }
 
-    Map<String, dynamic> messages = {
-      'message': message,
-      'senderId': profileColntroller.loginUserJson!.user!.sId,
-      /* 'receiverId': receiverId,
-    */
-      'time': DateTime.now().millisecondsSinceEpoch,
-    };
-    socket!.emit('sendNewMessage', messages);
+    // Map<String, dynamic> messages = {
+    //   'message': message,
+    //   // 'senderId': profileColntroller.loginUserJson!.user!.sId,
+    //   /* 'receiverId': receiverId,
+    // */
+    //   // 'time': DateTime.now().millisecondsSinceEpoch,
+    // };
+    // socket!.emit('sendNewMessage', messages);
 
-    print("mmmmm $messages");
+    // print("mmmmm $messages");
 
-    print("list messages ${messages.length}");
+    // print("list messages ${messages.length}");
   }
 
   void listenToMessages() {
-    socket!.on('chat_message', (data) {
-      final messageText = data['message']; // Extract message content
+    socket!.on('message', (data) {
+      //   final messageText = data['message']; // Extract message content
+      print('data message========> $data');
       setState(() {
-        messages.add(messageText); // Add the message to the list
+        messages.add(data);
+        // Add the message to the list
       });
+      print('list message =======>$messages');
     });
   }
 
@@ -137,7 +140,9 @@ class _ChatScreenState extends State<ChatScreen> {
                       Icons.send,
                       color: AppColor.goldColor,
                     ),
-                    onPressed: sendMessage),
+                    onPressed: () {
+                      sendMessage();
+                    }),
               ],
             ),
           ],

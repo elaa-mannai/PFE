@@ -10,12 +10,10 @@ import { IEvent } from 'src/events/interfaces/event.interface';
 @Injectable()
 export class UsersService {
 
-  async findOneByUsername(username: string): Promise<IUser> {
-    const user = this.userModel.findOne({ username });
-    return user
-  }
+ 
   
   constructor(@InjectModel('users') private userModel: Model<IUser>) { }
+
 
 
   async createUser(createUserDto: CreateUserDto): Promise<IUser> {
@@ -24,8 +22,15 @@ export class UsersService {
     return await newUser.save()
   }
 
+   async findOneByUsername(username: string): Promise<IUser> {
+    const user = this.userModel.findOne({ username });
+    return user
+  }
 
-
+ /*  async findByGoogleId(googleId: string): Promise<IUser | null> {
+    return this.userModel.findOne({ googleId }).exec();
+  }
+ */
   async findAllUsers(): Promise<IUser[]> {
     const userData = await this.userModel.find().exec()
     if (!userData || userData.length === 0) {
@@ -35,7 +40,7 @@ export class UsersService {
   }
 
   async findOneUser(userId: string): Promise<IUser> {
-    const exsitingUser = await (await this.userModel.findById(userId).exec()).populate('favorites');
+    const exsitingUser = await this.userModel.findById(userId).populate({path:'demande'}).populate({path:'favorites'}).exec();
     if (!exsitingUser) {
       throw new NotFoundException("User not found")
     }
