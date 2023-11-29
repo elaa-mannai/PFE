@@ -14,7 +14,6 @@ export class User {
     @Prop({ required:false, enum:[ Customer.name, Vendor.name, Admin.name]})
     items:string
 
-
     @Prop({ required: false })
     username: string
 

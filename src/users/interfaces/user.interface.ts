@@ -9,6 +9,7 @@ export interface IUser extends Document{
     readonly phone:string
     readonly adress:string
     readonly image:string
+    // readonly googleId: String,
     readonly refreshToken:string
 
 }

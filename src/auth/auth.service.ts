@@ -48,13 +48,13 @@ export class AuthService {
 
 
     async logout(userId: string) {
-        this.usersService.updateUser(userId, { refreshToken: null })
+        this.usersService.updateUser(userId, { refreshToken: null /* , displayName :null */})
     }
 
 
     async updateRefreshToken(userId: string, refreshToken: string) {
         const hashedRefreshToken = await argon2.hash(refreshToken)
-        await this.usersService.updateUser(userId, { refreshToken: hashedRefreshToken })
+        await this.usersService.updateUser(userId, { refreshToken: hashedRefreshToken/* , displayName:null */ })
     }
 
 
