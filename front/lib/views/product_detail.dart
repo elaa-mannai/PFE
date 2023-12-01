@@ -121,16 +121,15 @@ class ProductDetail extends GetView<ProductsController> {
                                 ),
                               ),
                               Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: GetBuilder<ProductsController>(
-                                      builder: (PController) {
+                                padding: EdgeInsets.all(8.0),
+                                child: GetBuilder<ProductsController>(
+                                  builder: (PController) {
                                     EventController Econtroller =
                                         EventController();
                                     return CustomBoxDetail(
                                       sendDemandeFunction: () {
                                         AccountInfoStorage.saveProductId(
                                             "${PController.productGetByIdJson!.data!.sId}");
-                                            
                                       },
                                       issavedfunction: () {
                                         AccountInfoStorage.saveProductId(
@@ -181,7 +180,9 @@ class ProductDetail extends GetView<ProductsController> {
                                               size: 30,
                                             ),
                                     );
-                                  })),
+                                  },
+                                ),
+                              ),
 
                               //text for details
                               Padding(

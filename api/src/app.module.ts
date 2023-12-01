@@ -20,6 +20,7 @@ import { join } from 'path';
 import { SocketModule } from './socket/socket.module';
 import { FavoriteModule } from './favorite/favorite.module';
 import { DemandeModule } from './demande/demande.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [MongooseModule.forRoot("mongodb://127.0.0.1:27017", { dbName: "Eventmanagment" }),
@@ -57,6 +58,7 @@ import { DemandeModule } from './demande/demande.module';
   }),
   FavoriteModule,
   DemandeModule,
+  ChatModule,
 
 ],
 

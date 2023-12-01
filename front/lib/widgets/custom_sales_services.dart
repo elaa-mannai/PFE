@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:front/config/app_colors.dart';
 import 'package:front/widgets/custom_text.dart';
+import 'package:get/state_manager.dart';
 
-class CustumSalesServices extends StatelessWidget {
-  final String text1;
+class CustumSalesServices extends GetView {
+  final String customername;
   final String text;
-  final String productnumber;
-  final String price;
+  final String productname;
+  final String status;
   final Function function;
 
   const CustumSalesServices(
       {Key? key,
-      required this.text1,
+      required this.customername,
       required this.text,
-      required this.productnumber,
-      required this.price,
+      required this.productname,
+      required this.status,
       required this.function})
       : super(key: key);
 
@@ -24,18 +25,20 @@ class CustumSalesServices extends StatelessWidget {
       padding: EdgeInsets.only(left: 25),
       child: Row(
         children: [
-          Expanded(flex: 2,child: CustomText(fontSize: 18, fontWeight: FontWeight.w300, text: '$text1'),),
-          SizedBox(width: 40),
+          // customer name
+          Expanded(flex: 2,child: CustomText(fontSize: 18, fontWeight: FontWeight.w300, text: productname),),
+          // SizedBox(width: 20),
+          /// product name
           Expanded(
             child: CustomText(
                 fontSize: 18,
                 fontWeight: FontWeight.w300,
-                text: '$productnumber'),
+                text: customername),
           ),
         //  SizedBox(width: 30),
           Expanded(
             child: CustomText(
-                fontSize: 18, fontWeight: FontWeight.w300, text: '$price dt'),
+                fontSize: 18, fontWeight: FontWeight.w300, text: '$status '),
           ),
           //SizedBox(width: 15),
           Expanded(
@@ -46,7 +49,7 @@ class CustumSalesServices extends StatelessWidget {
                 onPrimary: Colors.white, // foreground
               ),
               onPressed: () {
-                function!();
+                function();
               },
               child: Icon(Icons.arrow_right_rounded)!,
             ),

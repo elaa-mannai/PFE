@@ -34,38 +34,35 @@ class Data {
   String? nameproduct;
   String? description;
   int? price;
+  String? location;
   List<dynamic>? images;
   Category? category;
   String? user;
   int? iV;
-  String? favorites;
-  String? location;
 
   Data(
       {this.sId,
       this.nameproduct,
       this.description,
       this.price,
+      this.location,
       this.images,
       this.category,
       this.user,
-      this.iV,
-      this.favorites,
-      this.location});
+      this.iV});
 
   Data.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     nameproduct = json['nameproduct'];
     description = json['description'];
     price = json['price'];
+    location = json['location'];
     images = json['images'].cast<dynamic>();
     category = json['category'] != null
         ? new Category.fromJson(json['category'])
         : null;
     user = json['user'];
     iV = json['__v'];
-    favorites = json['favorites'];
-    location = json['location'];
   }
 
   Map<String, dynamic> toJson() {
@@ -74,14 +71,13 @@ class Data {
     data['nameproduct'] = this.nameproduct;
     data['description'] = this.description;
     data['price'] = this.price;
+    data['location'] = this.location;
     data['images'] = this.images;
     if (this.category != null) {
       data['category'] = this.category!.toJson();
     }
     data['user'] = this.user;
     data['__v'] = this.iV;
-    data['favorites'] = this.favorites;
-    data['location'] = this.location;
     return data;
   }
 }

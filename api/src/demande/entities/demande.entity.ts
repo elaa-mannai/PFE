@@ -6,6 +6,8 @@ export class Demande {
     @Prop({required:false})
     state:Boolean
 
+    @Prop({required:false, type: SchemaTypes.ObjectId, ref:'users'})
+    vendor: Types.ObjectId
  
     @Prop({required:false, type: SchemaTypes.ObjectId, ref:'products'})
     products: Types.ObjectId

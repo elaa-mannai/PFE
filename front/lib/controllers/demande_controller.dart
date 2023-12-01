@@ -4,6 +4,7 @@ import 'package:front/models/json/demande_create_json.dart';
 import 'package:front/models/json/demande_get_all_json.dart';
 import 'package:front/models/json/demande_get_by_id_json.dart';
 import 'package:front/models/network/api_demande_by_user_id_and_state.dart';
+import 'package:front/models/network/api_demande_by_user_id_and_state_fasle.dart';
 import 'package:front/models/network/api_demande_create.dart';
 import 'package:front/models/network/api_demande_get.dart';
 import 'package:front/models/network/api_demande_get_by_id.dart';
@@ -15,6 +16,8 @@ class DemandeController extends GetxController {
   ApiDemandeGetById apiDemandeGetById = ApiDemandeGetById();
   ApiDemandeByUserIdAndState apiDemandeByUserIdAndState =
       ApiDemandeByUserIdAndState();
+  ApiDemandeByUserIdAndStateFasle apiDemandeByUserIdAndStateFasle =
+      ApiDemandeByUserIdAndStateFasle();
 
   GetDemandeByIdJson? getDemandeByIdJson;
   GetAllDemandeJson? getAllDemandeJson;
@@ -26,6 +29,7 @@ class DemandeController extends GetxController {
     Map<String, dynamic> data = {
       "state": false,
       "users": AccountInfoStorage.readId(),
+      "vendor": AccountInfoStorage.readDemandeVendor(),
       "products": AccountInfoStorage.readProductId(),
       "events": AccountInfoStorage.readEventId(),
     };
@@ -66,6 +70,8 @@ class DemandeController extends GetxController {
     });
   }
 
+ 
+
   getDemandeByUserIdAndStateUrl() async {
     print(
         "-------------------------demandeByUserIdAndStateJson---------------------");
@@ -98,4 +104,41 @@ class DemandeController extends GetxController {
       print('error demandeByUserIdAndStateJson======> $error');
     }
   }
+
+ /*  getDemandeByUserIdAndStateFalseUrl() async {
+    print(
+        "-------------------------demandeByUserIdAndStateFalseJson---------------------");
+    apiDemandeByUserIdAndStateFasle.id = AccountInfoStorage.readDemandeVendor().toString();
+    apiDemandeByUserIdAndStateFasle.state =
+        AccountInfoStorage.readDemandeState().toString();
+
+    try {
+      return await apiDemandeByUserIdAndStateFasle
+          .getDataByUserIdAndState()
+          .then((value) {
+        print('value demandeByUserIdAndStateJson===========> $value');
+        //////////the value is null
+        demandeByUserIdAndStateJson = value as DemandeByUserIdAndStateJson?;
+        print(
+            '----------------------------------------------demande----${demandeByUserIdAndStateJson!.data}');
+
+        if (demandeByUserIdAndStateJson!.data != null) {
+          print(
+              '++++++++++length++++++++++++${demandeByUserIdAndStateJson!.data!.length}');
+          return demandeByUserIdAndStateJson!;
+        }
+
+        print(
+            '----------------------------------------------demandeByUserIdAndStateJson----');
+
+        update();
+      });
+    } catch (error) {
+      print('error demandeByUserIdAndStateJson======> $error');
+    }
+  }
+ */
+
+
+
 }

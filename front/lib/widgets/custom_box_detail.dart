@@ -55,6 +55,7 @@ class CustomBoxDetail extends StatelessWidget {
                     /// pending
                     ///vendor confirmation --> yes // no
                     ///
+                    ///
                      print(
                         '******************send demande custom box detail******************');
                     sendDemandeFunction!();

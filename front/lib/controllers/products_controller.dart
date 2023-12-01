@@ -591,13 +591,15 @@ class ProductsController extends GetxController {
     filteredItemsCatC.clear();
     filteredItemsImagesC.clear();
 
+  print('Query: $query');
+
     productsByCategoryIdJson!.data!.forEach((item) {
       print('--------filter-------');
       // print("length ${productsByCategoryIdJson!.data!.length}");
-
+ print('Item: $item');
       if (item.nameproduct!.toLowerCase().contains(query.toLowerCase()) ||
               item.description!.toLowerCase().contains(query.toLowerCase())
-          //|| item.category!.name!.toLowerCase().contains(query.toLowerCase()
+          // || item.category!.name!.toLowerCase().contains(query.toLowerCase())
           ) {
         filteredItemsNameC.add(item.nameproduct.toString());
         filteredItemsDesC.add(item.description.toString());

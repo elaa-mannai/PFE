@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:front/config/account_info_storage.dart';
 import 'package:front/config/app_colors.dart';
+import 'package:front/controllers/demande_controller.dart';
 import 'package:front/controllers/profile_controller.dart';
+import 'package:front/models/json/demande_by_user_id_and_state_json.dart';
 import 'package:front/views/login_view.dart';
 import 'package:front/views/profile_view.dart';
+import 'package:front/views/vendors/demande_list.dart';
 import 'package:front/views/vendors/pending_demande.dart';
-import 'package:front/views/vendors/profile_view_vendor.dart';
 import 'package:front/views/vendors/service_details.dart';
 import 'package:front/widgets/custom_backgroung_image.dart';
 import 'package:front/widgets/custom_sales_box.dart';
@@ -19,6 +21,10 @@ class HomeViewVendor extends GetView<ProfileColntroller> {
   @override
   Widget build(BuildContext context) {
     ScrollController scrollController = ScrollController();
+
+    DemandeController Dcontroller = DemandeController();
+    Dcontroller.getDemandeByUserIdAndStateUrl();
+
     controller.getUserById();
     return Scaffold(
       appBar: AppBar(
@@ -80,17 +86,17 @@ class HomeViewVendor extends GetView<ProfileColntroller> {
                   Get.to(ServiceDetails());
                 },
               ),
-              /*  ListTile(
+              ListTile(
                 leading: Icon(
-                  Icons.favorite,
+                  Icons.list_alt_outlined,
                 ),
-                title: Text('Favorite list'),
+                title: Text('Demande list'),
                 onTap: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => FavoriteView()));
+                      MaterialPageRoute(builder: (context) => DemandeList()));
                 },
               ),
-              ListTile(
+              /* ListTile(
                 leading: Icon(
                   Icons.settings,
                 ),
@@ -197,14 +203,14 @@ class HomeViewVendor extends GetView<ProfileColntroller> {
                           child: CustomText(
                               fontSize: 18,
                               fontWeight: FontWeight.w400,
-                              text: "Quantity"),
+                              text: "Customer Name"),
                         ),
                         SizedBox(width: 10),
                         Expanded(
                           child: CustomText(
                               fontSize: 18,
                               fontWeight: FontWeight.w400,
-                              text: "Price"),
+                              text: "Status"),
                         ),
                         SizedBox(width: 60),
                       ]),
@@ -223,24 +229,67 @@ class HomeViewVendor extends GetView<ProfileColntroller> {
               //// list Services
               Expanded(
                 flex: 5,
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    // controller: scrollController,
-                    scrollDirection: Axis.vertical,
-                    ///// get the last 8 demande
-                    itemCount: 18,
-                    itemBuilder: (BuildContext context, index) {
-                      return CustumSalesServices(
-                        text1: 'Product Name',
-                        productnumber: "20",
-                        price: "200",
-                        text: "check",
-                        function: () {
-                          Get.to(PendingDemande());
-                        },
-                      );
+                child: FutureBuilder(
+                    future: Dcontroller.getDemandeByUserIdAndStateUrl(),
+                    builder: (ctx, snapshot) {
+                      // Checking if future is resolved or not
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        print("-----------------snapshot$snapshot");
+                        return Center(
+                          child: CircularProgressIndicator(
+                              color: AppColor.secondary),
+                        );
+                      } else {
+                        // If we got an error
+                        if (snapshot.hasError) {
+                          return Center(
+                            child: Text(
+                              '${snapshot.error} occurred',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          );
+
+                          // if we got our data
+                        }
+
+                        if (snapshot.data == null) {
+                          // Extracting data from snapshot object
+                          print(
+                              '-----------------------snapshotdata=======>$snapshot');
+                          return Center(
+                            child: Text(
+                              'There is no demande for the moment!!',
+                              style: TextStyle(color: AppColor.secondary),
+                            ),
+                          );
+                        } else {
+                          return GetBuilder<DemandeController>(
+                              builder: (controller) {
+                            return ListView.builder(
+                                shrinkWrap: true,
+                                // controller: scrollController,
+                                scrollDirection: Axis.vertical,
+                                ///// get the last 8 demande
+                                itemCount: controller
+                                    .demandeByUserIdAndStateJson!.data!.length,
+                                itemBuilder: (BuildContext context, index) {
+                                  return CustumSalesServices(
+                                    productname: 'Product Name',
+                                    customername: "Customer name",
+                                    status: "waiting",
+                                    text: "check",
+                                    function: () {
+                                      Get.to(PendingDemande());
+                                    },
+                                  );
+                                });
+                          });
+                        }
+                      }
                     }),
               ),
+
+              //  (controller.userGetByIdJson.data.items == 'Vendor') ? true : false;
             ],
           ),
         ),
@@ -248,3 +297,121 @@ class HomeViewVendor extends GetView<ProfileColntroller> {
     );
   }
 }
+
+
+
+/*  Expanded(
+                    flex: 1,
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: CustomText(
+                              fontSize: 32,
+                              fontWeight: FontWeight.w500,
+                              text: 'List demanded services'),
+                        ),
+                        //  barre de titre
+                        Expanded(
+                          child: Row(children: [
+                            SizedBox(width: 10),
+                            Expanded(
+                              flex: 2,
+                              child: CustomText(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                  text: "Product Name"),
+                            ),
+                            // SizedBox(width: 10),
+                            Expanded(
+                              child: CustomText(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                  text: "Customer Name"),
+                            ),
+                            SizedBox(width: 10),
+                            Expanded(
+                              child: CustomText(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                  text: "Status"),
+                            ),
+                            SizedBox(width: 60),
+                          ]),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(5),
+                          child: Container(
+                            width: MediaQuery.sizeOf(context).width,
+                            height: 1,
+                            color: AppColor.secondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  //// list Services
+                  Expanded(
+                    flex: 5,
+                    child: FutureBuilder(
+                        future: Dcontroller.getDemandeByUserIdAndStateUrl(),
+                        builder: (ctx, snapshot) {
+                          // Checking if future is resolved or not
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            print("-----------------snapshot$snapshot");
+                            return Center(
+                              child: CircularProgressIndicator(
+                                  color: AppColor.secondary),
+                            );
+                          } else {
+                            // If we got an error
+                            if (snapshot.hasError) {
+                              return Center(
+                                child: Text(
+                                  '${snapshot.error} occurred',
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                              );
+
+                              // if we got our data
+                            }
+
+                            if (snapshot.data == null) {
+                              // Extracting data from snapshot object
+                              print(
+                                  '-----------------------snapshotdata=======>$snapshot');
+                              return Center(
+                                child: Text(
+                                  'There is no product for the moment. \n addProduct and make the best sells !!',
+                                  style: TextStyle(color: AppColor.secondary),
+                                ),
+                              );
+                            } else {
+                              return GetBuilder<DemandeController>(
+                                  builder: (controller) {
+                                return ListView.builder(
+                                    shrinkWrap: true,
+                                    // controller: scrollController,
+                                    scrollDirection: Axis.vertical,
+                                    ///// get the last 8 demande
+                                    itemCount: controller
+                                        .demandeByUserIdAndStateJson!
+                                        .data!
+                                        .length,
+                                    itemBuilder: (BuildContext context, index) {
+                                      return CustumSalesServices(
+                                        productname: 'Product Name',
+                                        customername: "Customer name",
+                                        status: "waiting",
+                                        text: "check",
+                                        function: () {
+                                          Get.to(PendingDemande());
+                                        },
+                                      );
+                                    });
+                              });
+                            }
+                          }
+                        }),
+                  ),
+                */

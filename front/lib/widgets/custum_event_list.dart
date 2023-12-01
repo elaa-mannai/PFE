@@ -132,8 +132,8 @@ class CustomEventList extends GetView<EventController> {
 
                               ///// update the added services in the other interface
                             },
-                            child: Text( "r",
-                            // child: Text( "${Dcontroller.demandeByUserIdAndStateJson!.data!.length}",
+                            
+                             child: Text( "${Dcontroller.demandeByUserIdAndStateJson!.data!.length}",
                           style: TextStyle(color: Colors.black),
                         )
                           ),

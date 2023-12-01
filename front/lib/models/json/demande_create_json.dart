@@ -23,19 +23,29 @@ class CreateDemandeJson extends AbstractJsonResource{
     return data;
   }
 }
-
 class Data {
   bool? state;
+  String? vendor;
   String? products;
+  String? users;
   String? events;
   String? sId;
   int? iV;
 
-  Data({this.state, this.products, this.events, this.sId, this.iV});
+  Data(
+      {this.state,
+      this.vendor,
+      this.products,
+      this.users,
+      this.events,
+      this.sId,
+      this.iV});
 
   Data.fromJson(Map<String, dynamic> json) {
     state = json['state'];
+    vendor = json['vendor'];
     products = json['products'];
+    users = json['users'];
     events = json['events'];
     sId = json['_id'];
     iV = json['__v'];
@@ -44,11 +54,12 @@ class Data {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['state'] = this.state;
+    data['vendor'] = this.vendor;
     data['products'] = this.products;
+    data['users'] = this.users;
     data['events'] = this.events;
     data['_id'] = this.sId;
     data['__v'] = this.iV;
     return data;
   }
-
 }

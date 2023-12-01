@@ -191,10 +191,11 @@ class CustomMultiImageChange extends GetView<ProductsController> {
 
                                         print(
                                             "-------------------product creation---------------");
-                                      } else
+                                      } else {
                                         Navigator.of(context).pop();
-                                      print(
-                                          "==========================wait for image upload ======");
+                                        print(
+                                            "==========================wait for image upload ======");
+                                      }
                                     },
                                     child: Text('OK',
                                         style: TextStyle(

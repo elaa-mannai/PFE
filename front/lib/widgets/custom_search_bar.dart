@@ -86,7 +86,6 @@ class CustomSearchBar extends GetView<ProductsController> {
 
                       // if we got our data
                     }
-
                     if (snapshot.data == null) {
                       // Extracting data from snapshot object
                       print(

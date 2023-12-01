@@ -4,7 +4,6 @@ import 'package:front/config/app_colors.dart';
 import 'package:front/controllers/products_controller.dart';
 import 'package:front/views/product_detail.dart';
 import 'package:front/widgets/custom_backgroung_image.dart';
-import 'package:front/widgets/custom_favorite_list.dart';
 import 'package:front/widgets/custom_search_bar.dart';
 import 'package:front/widgets/custom_text.dart';
 import 'package:get/get.dart';
@@ -17,6 +16,8 @@ class ProductSelectionByServices extends GetView<ProductsController> {
     // ScrollController scrollController = ScrollController();
 
     //controller.getCategorieById(controller.categorieGetByIdJson!.data!.sId.toString());
+    controller.getProducts();
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -26,6 +27,8 @@ class ProductSelectionByServices extends GetView<ProductsController> {
             onPressed: () {
               Navigator.pop(context);
               AccountInfoStorage.deleteCategorieId();
+              AccountInfoStorage.deleteCategorieName();
+              controller.getProducts();
             },
             icon: Icon(
               Icons.arrow_back,
@@ -56,15 +59,15 @@ class ProductSelectionByServices extends GetView<ProductsController> {
                   flex: 1,
                   child: CustomSearchBar(
                     onChanged: (query) {
-                      controller.filterList1(query);
+                      controller.filterList(query);
                     },
                     label: 'Search',
-                    functionFuture: controller.getProductByCatgoryId(),
-                    image: controller.filteredItemsImagesC,
-                    length: controller.filteredItemsNameC.length,
-                    name: controller.filteredItemsNameC,
-                    category: controller.filteredItemsCatC,
-                    desc: controller.filteredItemsDesC,
+                    functionFuture: controller.getProducts(),
+                    image: controller.filteredItemsImages,
+                    length: controller.filteredItemsName.length,
+                    name: controller.filteredItemsName,
+                    category: controller.filteredItemsCat,
+                    desc: controller.filteredItemsDes,
                     ontap: () {
                       /////////////////////// fix this one
 

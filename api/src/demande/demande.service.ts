@@ -24,14 +24,18 @@ export class DemandeService {
   
     }
 
+    
   async create(createDemandeDto: CreateDemandeDto):Promise<IDemande> {
 const newD = new this.demandeModel(createDemandeDto)
 await this.userModel.updateOne({_id: createDemandeDto.users},
   {$push:{demande:newD._id}}).populate;
-  await this.eventModel.updateOne({_id: createDemandeDto.events},
+  await this.userModel.updateOne({_id: createDemandeDto.vendor},
     {$push:{demande:newD._id}}).populate;
-    await this.productModel.updateOne({_id: createDemandeDto.products},
+    await this.eventModel.updateOne({_id: createDemandeDto.events},
       {$push:{demande:newD._id}}).populate;
+        await this.productModel.updateOne({_id: createDemandeDto.products},
+          {$push:{demande:newD._id}}).populate;
+
   return await newD.save()
   }
 
@@ -95,6 +99,20 @@ await this.userModel.updateOne({_id: createDemandeDto.users},
     }
       return data;
     }
+
+  //   async findAllDemandeByVendor(userId: string):Promise<IDemande[]>{
+  // try{
+  //   const data= await this.demandeModel.find({ 'products.user': userId }).exec()
+  //   if (!data || data.length ==0 ){
+  //  return null
+  //   }
+  //     return data;
+  // }catch(error)
+  // {
+  //   console.error(error);
+  //   throw error;
+  // }
+  //   }
 
   // async findAllDemandeByEvent(eventid: string):Promise<IDemande[]>
   // {

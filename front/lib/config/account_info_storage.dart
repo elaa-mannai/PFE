@@ -43,6 +43,7 @@ class AccountInfoStorage {
   static const keyDemandeId = "demandeId";
   static const keyDemandeState = "demandeState";
   static const keyDemandeUser = "demandeUser";
+  static const keyDemandeVendor = "demandeVendor";
 
   static saveTokenUser(String? tokenUser) {
     SecureStorage.writeSecureData(key: keyTokenUser, value: tokenUser!);
@@ -237,6 +238,11 @@ class AccountInfoStorage {
     return SecureStorage.deleteSecureData(keycategorieId);
   }
 
+  static deleteCategorieName() {
+    print("deleted");
+    return SecureStorage.deleteSecureData(keycategorieName);
+  }
+
   static saveCatgorieProducts(String? categorieProducts) {
     SecureStorage.writeSecureData(
         key: keycategorieProduct, value: categorieProducts!);
@@ -353,7 +359,6 @@ class AccountInfoStorage {
     return SecureStorage.readSecureData(keyFavoriteUser);
   }
 
-  
   static saveDemandeId(String? demandeId) {
     SecureStorage.writeSecureData(key: keyDemandeId, value: demandeId!);
   }
@@ -376,5 +381,13 @@ class AccountInfoStorage {
 
   static String? readDemandeUser() {
     return SecureStorage.readSecureData(keyDemandeUser);
+  }
+
+  static saveDemandeVendor(String? demandeVendor) {
+    SecureStorage.writeSecureData(key: keyDemandeVendor, value: demandeVendor!);
+  }
+
+  static String? readDemandeVendor() {
+    return SecureStorage.readSecureData(keyDemandeVendor);
   }
 }
