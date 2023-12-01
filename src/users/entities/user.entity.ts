@@ -50,6 +50,9 @@ export class User {
     @Prop([{ required: false , type: SchemaTypes.ObjectId, ref:'guests'}])
     guests: Types.ObjectId[]
 
+    @Prop([{ required: false , type: SchemaTypes.ObjectId, ref:'chats'}])
+    chats: Types.ObjectId[]
+
   
 }
 

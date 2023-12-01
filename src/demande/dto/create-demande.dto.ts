@@ -23,6 +23,14 @@ users: string
 })
 @IsString()
 // @IsNotEmpty()
+vendor: string
+
+@ApiProperty({
+    type: String,
+    description: 'this is a required property'
+})
+@IsString()
+// @IsNotEmpty()
 products: string
 
 @ApiProperty({

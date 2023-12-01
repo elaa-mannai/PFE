@@ -20,6 +20,7 @@ async function bootstrap() {
     .addTag('factures')
     .addTag('guests')
     .addTag('favorites')
+    .addTag('chats')
 
     .addBearerAuth(
       {

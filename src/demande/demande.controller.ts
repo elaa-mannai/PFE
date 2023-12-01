@@ -66,6 +66,23 @@ async getAllDemandebyUser(@Param('id') userId: string ,@Res() response) {
   }
 }
 
+// @Get("userVendor/:id")
+// async getAllDemandebyVendor(@Param('id') userId: string ,@Res() response) {
+//   try{
+//     const DemandeByuser=await this.demandeService.findAllDemandeByVendor(userId);
+//     return response.status(HttpStatus.OK).json({
+//       message:'All Demande by User Vendor data found successfully',
+//       status:HttpStatus.OK,
+//       data:DemandeByuser
+//     })
+//   }catch (err){
+//     return response.status(HttpStatus.BAD_REQUEST).json({
+//       message:err,
+//       status:HttpStatus.BAD_REQUEST,
+//       data:null
+//     })
+//   }
+// }
 
   @Get()
   async findAll(@Res() response) {
