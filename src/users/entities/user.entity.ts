@@ -1,6 +1,5 @@
 import { Schema, Prop, SchemaFactory } from "@nestjs/mongoose";
 import * as argon2 from 'argon2'
-import { timeStamp } from "console";
 import { HydratedDocument, SchemaTypes, Types } from 'mongoose';
 import { Admin } from "src/admin/entities/admin.entity";
 import { Customer } from "src/customers/entities/customer.entity";
@@ -34,6 +33,9 @@ export class User {
 
     @Prop({ required: false })
     image: string
+
+    @Prop({ required: false })
+    FCMToken: string
   
     @Prop({ required: false })
     refreshToken: string
@@ -46,10 +48,7 @@ export class User {
 
     @Prop([{ required: false , type: SchemaTypes.ObjectId, ref:'products'}])
     products: Types.ObjectId[]
-
-    @Prop([{ required: false , type: SchemaTypes.ObjectId, ref:'guests'}])
-    guests: Types.ObjectId[]
-
+   
     @Prop([{ required: false , type: SchemaTypes.ObjectId, ref:'chats'}])
     chats: Types.ObjectId[]
 

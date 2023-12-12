@@ -27,15 +27,15 @@ export class CreateUserDto {
     @IsString()
    // @IsNotEmpty()
    displayName: string
-    
+     */
    @ApiProperty({
     type: String,
     description: 'this is a required property'
 })
 @IsString()
 // @IsNotEmpty()
-refreshToken: string
- */
+FCMToken: string
+
 
     @ApiProperty({
         type: String,

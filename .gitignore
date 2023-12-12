@@ -1,6 +1,7 @@
 
 /node_modules
 /dist
+/eventmangaement-firebase-adminsdk-yl0ia-c536dcfde7.json
 .env
 # Miscellaneous
 *.class

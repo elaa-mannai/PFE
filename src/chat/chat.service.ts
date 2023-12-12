@@ -11,21 +11,26 @@ export class ChatService {
 
   constructor(  
     @InjectModel('chats')
-    private chatboxModel: Model<IChat>,
+    private chatModel: Model<IChat>,
   
     @InjectModel('users')
   private userModel: Model<IUser>,
 ){}
 
  async create(createChatDto: CreateChatDto):Promise<IChat> {
-  const newchat = new this.chatboxModel(createChatDto)
+  const newchat = new this.chatModel(createChatDto)
+
+  // await newchat.save()
+
   await this.userModel.updateOne({_id:createChatDto.sender}, {$push:{chats:newchat._id}});
   await this.userModel.updateOne({_id:createChatDto.reciever}, {$push:{chats:newchat._id}});
+  // await this.userModel.updateOne({_id:createChatDto.message}, {$push:{chats:newchat._id}});
+
   return await newchat.save()
 }
 
   async findAll():Promise<IChat[]> {
-    const data = await this.chatboxModel.find()
+    const data = await this.chatModel.find()
   
     if (!data || data.length === 0) {
       return null
@@ -33,7 +38,7 @@ export class ChatService {
     return  data;  }
 
  async findOneByIdChat(idSender: string):Promise<IChat> {
-  const data = await this.chatboxModel.findById(idSender)
+  const data = await this.chatModel.findById(idSender)
   if (!data) {
     throw new NotFoundException("Chat not found")
   }
@@ -41,7 +46,7 @@ export class ChatService {
 }
 
 async findOneByReciever(idReciever: string):Promise<IChat> {
-  const data = await this.chatboxModel.findOne({reciever:idReciever})
+  const data = await this.chatModel.findOne({reciever:idReciever})
   if (!data) {
     throw new NotFoundException("Chat not found")
   }
@@ -49,7 +54,7 @@ async findOneByReciever(idReciever: string):Promise<IChat> {
 }
 
 async findOneBySender(idSender: string):Promise<IChat> {
-  const data = await this.chatboxModel.findOne({sender:idSender})
+  const data = await this.chatModel.findOne({sender:idSender})
   if (!data) {
     throw new NotFoundException("Chat not found")
   }
@@ -58,7 +63,7 @@ async findOneBySender(idSender: string):Promise<IChat> {
 
 
 async findByRecieverAndSender(idReciever: string,idSender: string):Promise<IChat[]> {
-  const data = await this.chatboxModel.find({reciever:idReciever, sender:idSender})
+  const data = await this.chatModel.find({reciever:idReciever, sender:idSender})
   if (!data) {
     throw new NotFoundException("Chat not found")
   }

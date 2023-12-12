@@ -26,7 +26,7 @@ export class ProductsService {
     await this.categoryModel.updateOne({_id:createProductDto.category},
        {$push:{products:newP._id}}).populate;
     await this.userModel.updateOne({ _id: createProductDto.user },
-        { $push: { products: newP._id } })
+        { $push: { products: newP._id } }).populate;
   
     return await newP.save()
   }
@@ -43,7 +43,7 @@ export class ProductsService {
  
   async findOneProduct(productId: string): Promise<IProduct> {
     // const pdata = await this.productModel.findById(productId).populate({path:'products', populate:[{path: 'favorites'},{path :'category'}]}).exec(); 
-    const pdata = await this.productModel.findById(productId).populate('category')
+    const pdata = await this.productModel.findById(productId).populate('category').populate('user')
     .populate('favorites')
     .exec();
     if (!pdata) {
@@ -62,8 +62,8 @@ export class ProductsService {
   async removeProduct(productId: string) {
     const pdata= await this.productModel.findByIdAndDelete(productId);
 
-    await this.categoryModel.updateOne({_id: pdata.category}, {$pull:{products:pdata._id}})
-    await this.userModel.updateOne({_id: pdata.user}, {$pull:{products:pdata._id}})
+    // await this.categoryModel.updateOne({_id: pdata.category}, {$pull:{products:pdata._id}})
+    // await this.userModel.updateOne({_id: pdata.user}, {$pull:{products:pdata._id}})
 
     
     if (!pdata) {

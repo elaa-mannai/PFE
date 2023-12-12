@@ -48,6 +48,44 @@ export class DemandeController {
  } 
  }
 
+ @Get('stateAndVendorId/:id/state')
+ async GetDemandeByVendorAndState(@Query('state') state : boolean,@Param('id') VendorId: string ,@Res() response): Promise<IDemande>{
+ try{
+  const favoriteDate = await this.demandeService.findAllDemandeByVendorAndState(VendorId, state)
+  return response.status(HttpStatus.OK).json({
+    message:"DemandeByUserIdAndStateUrl found successfully",
+    status:HttpStatus.OK,
+    data:favoriteDate
+  })
+ }catch
+  (error){
+    return response.status(HttpStatus.BAD_REQUEST).json({
+      message:error.message,
+      status:HttpStatus.BAD_REQUEST,
+      data:null
+    })
+ } 
+ }
+
+ @Get('demandebyvendorid/:id')
+ async GetDemandeByVendorIdUrl(@Param('id') UserId: string ,@Res() response): Promise<IDemande>{
+ try{
+  const favoriteDate = await this.demandeService.findAllDemandeByVendor(UserId)
+  return response.status(HttpStatus.OK).json({
+    message:"demandebyvendorid found successfully",
+    status:HttpStatus.OK,
+    data:favoriteDate
+  })
+ }catch
+  (error){
+    return response.status(HttpStatus.BAD_REQUEST).json({
+      message:error.message,
+      status:HttpStatus.BAD_REQUEST,
+      data:null
+    })
+ } 
+ }
+
  @Get("user/:id")
 async getAllDemandebyUser(@Param('id') userId: string ,@Res() response) {
   try{
