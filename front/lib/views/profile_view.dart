@@ -5,6 +5,7 @@ import 'package:front/controllers/profile_controller.dart';
 import 'package:front/views/box_messages.dart';
 import 'package:front/widgets/custom_backgroung_image.dart';
 import 'package:front/widgets/custom_button.dart';
+import 'package:front/widgets/custom_dropdown_list.dart';
 import 'package:front/widgets/custom_image_change.dart';
 import 'package:front/widgets/custom_input_text.dart';
 import 'package:front/widgets/custom_text.dart';
@@ -168,14 +169,16 @@ class ProfileView extends GetView<ProfileColntroller> {
                         label: 'Phone number',
                         iconData: Icons.phone,
                         obscureText: false,
+                        specifykeyboard:  TextInputType.number,
                         controller: controller.phonenumberController,
                       ),
-                      CustomInputText(
+                         CustomDropdownList(),
+                      /* CustomInputText(
                         label: 'Adresse',
                         iconData: Icons.location_city,
                         obscureText: false,
                         controller: controller.adresseController,
-                      ),
+                      ), */
                       CustomButton(
                         text: 'Update',
                         width: MediaQuery.sizeOf(context).width / 2,

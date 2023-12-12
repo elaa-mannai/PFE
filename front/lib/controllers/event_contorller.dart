@@ -181,7 +181,17 @@ class EventController extends GetxController {
         dateFinController.text = secondDate.toString();
         print(firstDate);
         print(secondDate);
-        // return Text("${formattedate("$firstDate")}${formattedate("$secondDate")}");
+
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Start Date: ${formattedate("$firstDate")}'),
+            Text('End Date: ${formattedate("$secondDate")}'),
+          ],
+        );
+
+        // return Text(
+        //     "${formattedate("$firstDate")}${formattedate("$secondDate")}");
       },
       bottomPickerTheme: BottomPickerTheme.plumPlate,
       buttonSingleColor: AppColor.goldColor,
@@ -212,11 +222,12 @@ class EventController extends GetxController {
       print('success+++++++++++++++> $value');
       eventJson = value as EventJson?;
       AccountInfoStorage.saveEventId(eventJson!.data!.sId.toString());
+      getAllEventByUserId();
 
-      getEvents();
+      // getEvents();
       // print('event created=======> ${eventJson!.data!.sId}');
 
-      Get.to(EventListView());
+      Get.to(EventListView(fromProductDetail: false));
       update();
     }).onError((error, stackTrace) {
       print('error create event ==========> $error');
@@ -248,7 +259,7 @@ class EventController extends GetxController {
       // print('Guest created=======> ${guestJson!.data!.sId}');
       // getAllGuestsByEventId();
       getAllGuestsByEventId();
-      
+
       Get.to(GuestList());
       update();
     }).onError((error, stackTrace) {
@@ -341,7 +352,6 @@ class EventController extends GetxController {
       "budget": budgetController.text,
       // "user": AccountInfoStorage.readId(),
     }).then((value) {
-
       print("updated${guestGetByIdJson!.data}");
       Get.snackbar("", "Success",
           backgroundColor: AppColor.goldColor,
@@ -404,7 +414,4 @@ class EventController extends GetxController {
     });
     // update();
   }
-
-  
-  
 }

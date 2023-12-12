@@ -4,7 +4,7 @@ import { SchemaTypes, Types } from "mongoose"
 @Schema()
 export class Chat {
     @Prop({required:false})
-    message:String
+    message:String[]
     // @Prop({required:false, type: SchemaTypes.ObjectId, ref:'users'})
     // users:Types.ObjectId
 

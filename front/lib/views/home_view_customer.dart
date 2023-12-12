@@ -99,7 +99,8 @@ class HomeView extends GetView<ProductsController> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => EventListView()));
+                              builder: (context) =>
+                                  EventListView(fromProductDetail: false)));
                     },
                   ),
 
@@ -232,7 +233,7 @@ class HomeView extends GetView<ProductsController> {
                           text: 'View All',
                           icon: Icons.arrow_forward,
                           function: () {
-                             Get.to(ProductSelectionByServices());
+                            Get.to(ProductSelectionByServices());
                             //  Get.to(EventListView());
                             //  Get.to(ProductDetail());
                             // Get.to(FavoriteView());
@@ -295,14 +296,15 @@ class HomeView extends GetView<ProductsController> {
                                       AccountInfoStorage.saveCatgorieId(
                                           controller
                                               .categorieJson!.data![index].sId);
-                                      print("id cat ${AccountInfoStorage.readCategorieId()}");
+                                      print(
+                                          "id cat ${AccountInfoStorage.readCategorieId()}");
                                       AccountInfoStorage.saveCatgorieName(
                                           controller.categorieJson!.data![index]
                                               .name);
-                                      print("id cat ${AccountInfoStorage.readCategorieName()}");
+                                      print(
+                                          "id cat ${AccountInfoStorage.readCategorieName()}");
 
                                       // controller.getProductByCatgoryId();
-                                      Get.to(ProductByCategorie());
                                     },
                                     text:
                                         '${controller.categorieJson!.data![index].name}',
@@ -392,6 +394,9 @@ class HomeView extends GetView<ProductsController> {
                                           ),
                                           onTap: () {
                                             ////
+                                            // AccountInfoStorage.saveDemandeVendor(
+                                            //     "${controller.productGetByIdJson!.data!.user!.sId}");
+
                                             print(
                                                 "*-------------------------------------------*get category by id*****************");
                                             AccountInfoStorage.saveProductId(

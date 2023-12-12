@@ -82,11 +82,12 @@ class ServiceCheckView extends GetView<DemandeController> {
                             itemCount: controller
                                 .demandeByUserIdAndStateJson!.data!.length,
                             itemBuilder: (BuildContext context, index) {
+                              ///// put this part with the state of true or false to make the icon change like the favorite function with update 
                               return CustomServiceList(
                                 fun: () {
                                   controller.getDemandeByUserIdAndStateUrl();
                                 },
-                                img: (controller.demandeByUserIdAndStateJson!.data![index].products!.images),
+                                // img: [],//(controller.demandeByUserIdAndStateJson!.data![index].products!.images),
                                 Vname:'${controller.demandeByUserIdAndStateJson!.data![index].products!.user!.username}',
                                 Vnumber:
                                    '${controller.demandeByUserIdAndStateJson!.data![index].products!.user!.phone}',

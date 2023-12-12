@@ -1,26 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:front/config/app_colors.dart';
+import 'package:front/controllers/demande_controller.dart';
 import 'package:front/controllers/products_controller.dart';
 import 'package:front/controllers/profile_controller.dart';
 import 'package:front/models/json/login_user_json.dart';
 import 'package:front/views/favorite_view.dart';
-import 'package:front/views/select_event.dart';
+import 'package:front/config/account_info_storage.dart';
 import 'package:front/views/test/ChatScreen.dart';
 import 'package:front/widgets/custom_text.dart';
 import 'package:get/get.dart';
-import 'package:get/utils.dart';
 
 class CustomBoxDetail extends StatelessWidget {
-  final Function? function, issavedfunction,sendDemandeFunction;
+  final Function? function, issavedfunction, sendDemandeFunction;
   final Icon? icon;
   const CustomBoxDetail(
-      {Key? key, this.function,this.sendDemandeFunction, this.icon, this.issavedfunction})
+      {Key? key,
+      this.function,
+      this.sendDemandeFunction,
+      this.icon,
+      this.issavedfunction})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     ProfileColntroller profileColntroller = ProfileColntroller();
     ProductsController controller = ProductsController();
+    DemandeController dController = DemandeController();
     return Container(
       width: 600,
       height: 70,
@@ -56,10 +61,10 @@ class CustomBoxDetail extends StatelessWidget {
                     ///vendor confirmation --> yes // no
                     ///
                     ///
-                     print(
+                    // dController.createDemande();
+                    print(
                         '******************send demande custom box detail******************');
                     sendDemandeFunction!();
-                   Get.to(SelectEvent());
                   },
                 ),
                 CustomText(
@@ -80,7 +85,9 @@ class CustomBoxDetail extends StatelessWidget {
                     size: 30,
                   ),
                   onPressed: () {
-                    Get.to(ChatScreen());
+                    function!();
+
+                    
                   },
                 ),
                 CustomText(

@@ -1,12 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:front/config/account_info_storage.dart';
 import 'package:front/config/bindings.dart';
+import 'package:front/views/admin/home_view_admin.dart';
 import 'package:front/views/login_view.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 Future<void> main() async {
   await GetStorage.init();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  ).then((value) {
+    print('success firebase');
+    _initializeFCM();
+  });
   runApp(const MyApp());
+}
+
+void _initializeFCM() {
+  FirebaseMessaging.instance.requestPermission();
+  FirebaseMessaging.instance.getToken().then((token) {
+    print("FCM Token: $token");
+    // Store the token on your server for sending targeted messages
+    AccountInfoStorage.saveFCMTokenUser(token);
+    print("savedfcm ${AccountInfoStorage.readFCMTokenUser()}");
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -23,10 +44,12 @@ class MyApp extends StatelessWidget {
         ),
         //  home: ProductDetail());
         //  home: MyImageWidget());
-        home: LoginView());
+        home: LoginView()
+      // home: HomeViewAdmin()
+      );
     //https://github.com/ahmeriqbal7aa/flutter_send_sms/blob/master/lib/main.dart
-    
-     //home: ChatScreen());
+
+    //home: ChatScreen());
   }
 }
 

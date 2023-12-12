@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "404214584937",
+    "project_id": "eventmangaement",
+    "storage_bucket": "eventmangaement.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:404214584937:android:e007e4ceb0a7d732cb34f8",
+        "android_client_info": {
+          "package_name": "com.example.front"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9fW7n-nYI1B1HKrsPSoqMWeS6JgWkz_E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

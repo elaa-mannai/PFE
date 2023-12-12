@@ -1,9 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:front/config/account_info_storage.dart';
 import 'package:front/config/app_colors.dart';
 import 'package:front/controllers/demande_controller.dart';
 import 'package:front/controllers/event_contorller.dart';
 import 'package:front/controllers/products_controller.dart';
+import 'package:front/views/guest-list.dart';
 import 'package:front/views/service_check_view.dart';
 import 'package:front/widgets/custom_text.dart';
 import 'package:get/get.dart';
@@ -36,7 +38,7 @@ class CustomEventList extends GetView<EventController> {
   Widget build(BuildContext context) {
     //   ScrollController scrollController = ScrollController();
     ProductsController Pcontroller = ProductsController();
-        DemandeController Dcontroller = DemandeController();
+    DemandeController Dcontroller = DemandeController();
     Dcontroller.getDemandeByUserIdAndStateUrl();
 
     controller.getAllGuestsByEventId;
@@ -119,24 +121,26 @@ class CustomEventList extends GetView<EventController> {
                         ],
                       ),
                     ),
-                  // Pack of services
+                    // Pack of services
                     Expanded(
                       child: Column(
                         children: [
                           CustomText(text: "Pack of services:"),
                           // services data which are related to each event
                           TextButton(
-                            onPressed: () {
-                              // AccountInfoStorage.saveDemandeState(Pcontroller.userGetByIdJson.data.)
-                              Get.to(ServiceCheckView());
+                              onPressed: () {
+                               
+                                // AccountInfoStorage.saveDemandeState(Pcontroller.userGetByIdJson.data.)
+                                Get.to(ServiceCheckView());
 
-                              ///// update the added services in the other interface
-                            },
-                            
-                             child: Text( "${Dcontroller.demandeByUserIdAndStateJson!.data!.length}",
-                          style: TextStyle(color: Colors.black),
-                        )
-                          ),
+                                ///// update the added services in the other interface
+                              },
+                              child: Text(
+                                'data',
+
+                                //  Text( "${Dcontroller.demandeByUserIdAndStateJson!.data!.length}",
+                                style: TextStyle(color: Colors.black),
+                              )),
                           SizedBox(height: 10),
                         ],
                       ),
@@ -144,15 +148,22 @@ class CustomEventList extends GetView<EventController> {
                     ////////////////////////////////////////////////////////////
                     ///problem that it only get one event by id
                     Expanded(
-                      child: Column(
-                        children: [
-                          CustomText(text: "Guest List:"),
-                          Text(
-                            text!,
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          SizedBox(height: 10),
-                        ],
+                      child: GestureDetector(
+                        child: Column(
+                          children: [
+                            CustomText(text: "Guest List:"),
+                            Text(
+                              text!,
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            SizedBox(height: 10),
+                          ],
+                        ),
+                        onTap: () {
+                          controller.getEventById(
+                              "${AccountInfoStorage.readEventId()}");
+                          Get.to(GuestList());
+                        },
                       ),
                     ),
                   ],

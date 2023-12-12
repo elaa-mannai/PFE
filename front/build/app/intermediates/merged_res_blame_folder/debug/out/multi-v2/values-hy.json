@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.front.app-mergeDebugResources-35:/values-hy/values-hy.xml",
+            "outputFile": "com.example.front.app-mergeDebugResources-38:/values-hy/values-hy.xml",
             "map": [
                 {
                     "source": "C:\\Users\\elaa1\\.gradle\\caches\\transforms-3\\e255c6ce9910a673f2619b479a7d74a8\\transformed\\jetified-exoplayer-core-2.18.7\\res\\values-hy\\values-hy.xml",

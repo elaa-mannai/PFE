@@ -73,6 +73,7 @@ class BoxMessages extends StatelessWidget {
                     child: ListTile(
                         tileColor: Colors.white,
                         onTap: () {
+                          //////////////// getchatwith 2 users id and save the ids
                           Get.to(ChatScreen());
                           // Provider.of<ChatRoom>(context, listen: false)
                           //     .loadChatRoomById(

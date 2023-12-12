@@ -1479,6 +1479,7 @@ layout support_simple_spinner_dropdown_item
 layout thumb_item
 menu menu_photo_album
 mipmap ic_launcher
+raw firebase_common_keep
 string abc_action_bar_home_description
 string abc_action_bar_up_description
 string abc_action_menu_overflow_description
@@ -1567,6 +1568,7 @@ string fab_transformation_sheet_behavior
 string fallback_menu_item_copy_link
 string fallback_menu_item_open_in_browser
 string fallback_menu_item_share_link
+string fcm_fallback_notification_channel_label
 string hide_bottom_view_on_scroll_behavior
 string image
 string msg_error

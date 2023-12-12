@@ -3,11 +3,9 @@ import 'package:front/config/account_info_storage.dart';
 import 'package:front/config/app_colors.dart';
 import 'package:front/controllers/demande_controller.dart';
 import 'package:front/controllers/profile_controller.dart';
-import 'package:front/models/json/demande_by_user_id_and_state_json.dart';
 import 'package:front/views/login_view.dart';
 import 'package:front/views/profile_view.dart';
 import 'package:front/views/vendors/demande_list.dart';
-import 'package:front/views/vendors/pending_demande.dart';
 import 'package:front/views/vendors/service_details.dart';
 import 'package:front/widgets/custom_backgroung_image.dart';
 import 'package:front/widgets/custom_sales_box.dart';
@@ -23,8 +21,10 @@ class HomeViewVendor extends GetView<ProfileColntroller> {
     ScrollController scrollController = ScrollController();
 
     DemandeController Dcontroller = DemandeController();
-    Dcontroller.getDemandeByUserIdAndStateUrl();
-
+    // Dcontroller.getDemandeByUserIdAndStateUrl();
+    Dcontroller.getDemande();
+    Dcontroller.getDemandeByVendorIdAndStateUrl();
+    Dcontroller.getDemandeByVendorId();
     controller.getUserById();
     return Scaffold(
       appBar: AppBar(
@@ -147,150 +147,162 @@ class HomeViewVendor extends GetView<ProfileColntroller> {
           ),
         ),
       ),
-      body: CustomBackgroungImage(
-        fit: BoxFit.cover,
-        image: 'assets/images/landpage.jpg',
-        widget: Expanded(
-          child: Column(
-            children: [
-              //Sales%
-              Row(
-                children: [
-                  Expanded(
-                    child: CustomSalesBox(
-                        text1: 'Sales', text2: "This mounth", money: "139 "),
-                  ),
-
-                  //Earning%
-                  Expanded(
-                    child: CustomSalesBox(
-                        text1: 'Earning', text2: "This mounth", money: "199 "),
-                  ),
-                ],
-              ),
-              SizedBox(width: 5),
-
-              TextButton(
-                  onPressed: () {
-                    Get.to(ServiceDetails());
-                  },
-                  child: Text("viex")),
-
-              // Services Commandes
-              Expanded(
-                flex: 1,
-                child: Column(
+      body: SingleChildScrollView(
+        child: CustomBackgroungImage(
+          fit: BoxFit.cover,
+          image: 'assets/images/landpage.jpg',
+          widget: Expanded(
+            child: Column(
+              children: [
+                //Sales%
+                Row(
                   children: [
                     Expanded(
-                      child: CustomText(
-                          fontSize: 32,
-                          fontWeight: FontWeight.w500,
-                          text: 'List demanded services'),
+                      child: CustomSalesBox(
+                          text1: 'Sales', text2: "This mounth", money: "139 "),
                     ),
-                    //  barre de titre
+
+                    //Earning%
                     Expanded(
-                      child: Row(children: [
-                        SizedBox(width: 10),
-                        Expanded(
-                          flex: 2,
-                          child: CustomText(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400,
-                              text: "Product Name"),
-                        ),
-                        // SizedBox(width: 10),
-                        Expanded(
-                          child: CustomText(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400,
-                              text: "Customer Name"),
-                        ),
-                        SizedBox(width: 10),
-                        Expanded(
-                          child: CustomText(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400,
-                              text: "Status"),
-                        ),
-                        SizedBox(width: 60),
-                      ]),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(5),
-                      child: Container(
-                        width: MediaQuery.sizeOf(context).width,
-                        height: 1,
-                        color: AppColor.secondary,
-                      ),
+                      child: CustomSalesBox(
+                          text1: 'Earning',
+                          text2: "This mounth",
+                          money: "199 "),
                     ),
                   ],
                 ),
-              ),
-              //// list Services
-              Expanded(
-                flex: 5,
-                child: FutureBuilder(
-                    future: Dcontroller.getDemandeByUserIdAndStateUrl(),
-                    builder: (ctx, snapshot) {
-                      // Checking if future is resolved or not
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        print("-----------------snapshot$snapshot");
-                        return Center(
-                          child: CircularProgressIndicator(
-                              color: AppColor.secondary),
-                        );
-                      } else {
-                        // If we got an error
-                        if (snapshot.hasError) {
-                          return Center(
-                            child: Text(
-                              '${snapshot.error} occurred',
-                              style: TextStyle(fontSize: 18),
-                            ),
-                          );
+                SizedBox(width: 5),
 
-                          // if we got our data
-                        }
+                TextButton(
+                    onPressed: () {
+                      Get.to(DemandeList());
+                    },
+                    child: Text("viex")),
 
-                        if (snapshot.data == null) {
-                          // Extracting data from snapshot object
-                          print(
-                              '-----------------------snapshotdata=======>$snapshot');
+                // Services Commandes
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: CustomText(
+                            fontSize: 32,
+                            fontWeight: FontWeight.w500,
+                            text: 'List demanded services'),
+                      ),
+                      //  barre de titre
+                      Expanded(
+                        child: Row(children: [
+                          SizedBox(width: 10),
+                          Expanded(
+                            // flex: 2,
+                            child: CustomText(
+                                // fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                                text: "Products"),
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: CustomText(
+                                // fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                                text: "Buyers "),
+                          ),
+                          // SizedBox(width: 5),
+                          Expanded(
+                            child: CustomText(
+                                // fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                                text: "Status"),
+                          ),
+                          SizedBox(width: 50),
+                        ]),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                        child: Container(
+                          width: MediaQuery.sizeOf(context).width,
+                          height: 1,
+                          color: AppColor.secondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                //// list Services
+                Expanded(
+                  flex: 5,
+                  child: FutureBuilder(
+                      future: Dcontroller.getDemandeByVendorId(),
+                      builder: (ctx, snapshot) {
+                        // Checking if future is resolved or not
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          print("-----------------snapshot$snapshot");
                           return Center(
-                            child: Text(
-                              'There is no demande for the moment!!',
-                              style: TextStyle(color: AppColor.secondary),
-                            ),
+                            child: CircularProgressIndicator(
+                                color: AppColor.secondary),
                           );
                         } else {
-                          return GetBuilder<DemandeController>(
-                              builder: (controller) {
-                            return ListView.builder(
+                          // If we got an error
+                          if (snapshot.hasError) {
+                            return Center(
+                              child: Text(
+                                '${snapshot.error} occurred',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            );
+
+                            // if we got our data
+                          }
+                          if (snapshot.data == null) {
+                            // Extracting data from snapshot object
+                            print(
+                                '-----------------------snapshotdata=======>$snapshot');
+                            return Center(
+                              child: Text(
+                                'There is no demande for the moment!!',
+                                style: TextStyle(color: AppColor.secondary),
+                              ),
+                            );
+                          } else {
+                            return GetBuilder<DemandeController>(
+                                builder: (controller) {
+                              return 
+                              ListView.builder(
                                 shrinkWrap: true,
-                                // controller: scrollController,
+                                controller: scrollController,
                                 scrollDirection: Axis.vertical,
                                 ///// get the last 8 demande
                                 itemCount: controller
-                                    .demandeByUserIdAndStateJson!.data!.length,
+                                    .demandeByVendorIdJson!
+                                    .data!
+                                    .length,
                                 itemBuilder: (BuildContext context, index) {
                                   return CustumSalesServices(
-                                    productname: 'Product Name',
-                                    customername: "Customer name",
+                                    productname:
+                                       '${controller.demandeByVendorIdJson!.data![index].products}',
+                                    customername:
+                                      '${controller.demandeByVendorIdJson!.data![index].users}',
+                                    //////////////make icons to be changed with demande status
                                     status: "waiting",
-                                    text: "check",
+                                    color: AppColor.goldColor,
+                                    icon: Icons.abc,
                                     function: () {
-                                      Get.to(PendingDemande());
+                                      Get.to(DemandeList());
                                     },
                                   );
-                                });
-                          });
+                                },
+                              );
+                            });
+                          }
                         }
-                      }
-                    }),
-              ),
+                      }),
+                ),
 
-              //  (controller.userGetByIdJson.data.items == 'Vendor') ? true : false;
-            ],
+                //  (controller.userGetByIdJson.data.items == 'Vendor') ? true : false;
+              ],
+            ),
           ),
         ),
       ),

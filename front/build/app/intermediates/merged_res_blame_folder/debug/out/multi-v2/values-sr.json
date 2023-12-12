@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.front.app-mergeDebugResources-35:/values-sr/values-sr.xml",
+            "outputFile": "com.example.front.app-mergeDebugResources-38:/values-sr/values-sr.xml",
             "map": [
                 {
                     "source": "C:\\Users\\elaa1\\.gradle\\caches\\transforms-3\\ed6cbc00c9224cd33adf3577c30731c8\\transformed\\appcompat-1.0.0\\res\\values-sr\\values-sr.xml",

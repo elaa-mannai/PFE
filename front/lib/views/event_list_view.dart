@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:front/config/account_info_storage.dart';
 import 'package:front/config/app_colors.dart';
+import 'package:front/controllers/demande_controller.dart';
 import 'package:front/controllers/event_contorller.dart';
 import 'package:front/views/guest-list.dart';
 import 'package:front/views/home_view_customer.dart';
+import 'package:front/views/product_detail.dart';
 import 'package:front/widgets/custom_backgroung_image.dart';
 import 'package:front/widgets/custom_dropdown_list.dart';
 import 'package:front/widgets/custom_text.dart';
@@ -12,12 +14,16 @@ import 'package:front/widgets/custom_input_text.dart';
 import 'package:get/get.dart';
 
 class EventListView extends GetView<EventController> {
-  EventListView({Key? key}) : super(key: key);
+  final bool fromProductDetail;
+
+  EventListView({Key? key, required this.fromProductDetail}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     ScrollController scrollController = ScrollController();
-    //controller.getAllEventByUserId();
+    DemandeController Dcontroller = DemandeController();
+    controller.getAllEventByUserId();
+
     //  controller.getEventById(AccountInfoStorage.saveEventId(controller.eventByIdJson!.data!.sId.toString()));
     //controller.createEvent();
     //controller.formattedate("${controller.eventsJson!.message}");
@@ -109,7 +115,6 @@ class EventListView extends GetView<EventController> {
                         child: GetBuilder<EventController>(
                           builder: (controller) {
                             // controller.getAllGuestsByEventId();
-
                             return ListView.builder(
                                 shrinkWrap: true,
                                 controller: scrollController,
@@ -117,27 +122,35 @@ class EventListView extends GetView<EventController> {
                                 itemCount:
                                     controller.eventByUserIdJson!.data!.length,
                                 itemBuilder: (BuildContext context, index) {
+                                  AccountInfoStorage.saveEventId(controller
+                                      .eventByUserIdJson!.data![index].sId
+                                      .toString());
+                                  AccountInfoStorage.saveId(controller
+                                      .eventByUserIdJson!.data![index].user
+                                      .toString());
+                                  /*  controller.getEventById(
+                                      "${AccountInfoStorage.readEventId()}"); */
                                   return GestureDetector(
-                                      child: CustomEventList(
-                                        eventName:
-                                            "${controller.eventByUserIdJson!.data![index].titleevent}",
-                                        description:
-                                            "${controller.eventByUserIdJson!.data![index].description}",
-                                        datedeb:
-                                            "${controller.eventByUserIdJson!.data![index].dateDebut}",
-                                        datefin:
-                                            "${controller.eventByUserIdJson!.data![index].dateFin}",
-                                        local:
-                                            "${controller.eventByUserIdJson!.data![index].local}",
-                                        budget:
-                                            "${controller.eventByUserIdJson!.data![index].budget}",
-                                        text:
-                                            "${controller.eventByUserIdJson!.data![index].guests!.length}",
-                                        colorBorder: AppColor.goldColor,
-                                        widthBorder: 1,
-                                        function: () {},
-                                      ),
-                                      onTap: () {
+                                    child: CustomEventList(
+                                      eventName:
+                                          "${controller.eventByUserIdJson!.data![index].titleevent}",
+                                      description:
+                                          "${controller.eventByUserIdJson!.data![index].description}",
+                                      datedeb:
+                                          "${controller.eventByUserIdJson!.data![index].dateDebut}",
+                                      datefin:
+                                          "${controller.eventByUserIdJson!.data![index].dateFin}",
+                                      local:
+                                          "${controller.eventByUserIdJson!.data![index].local}",
+                                      budget:
+                                          "${controller.eventByUserIdJson!.data![index].budget}",
+                                      text:
+                                          "${controller.eventByUserIdJson!.data![index].guests!.length}",
+                                      colorBorder: AppColor.goldColor,
+                                      widthBorder: 1,
+                                      function: () {},
+                                    ),
+                                    /*  onTap: () {
                                         print(
                                             "////////////////////////////////////////event by id to get guest user////////////////////////////////////////");
                                         AccountInfoStorage.saveEventId(
@@ -147,8 +160,55 @@ class EventListView extends GetView<EventController> {
                                         controller.getEventById(
                                             "${AccountInfoStorage.readEventId()}");
 
-                                        // Get.to(GuestList());
-                                      });
+                                        //  Get.to(GuestList());
+                                      } */
+
+                                    onTap: () {
+                                      print("tapped on event");
+                                      AccountInfoStorage.saveEventId(
+                                          "${controller.eventByUserIdJson!.data![index].sId}");
+                                      if (fromProductDetail) {
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                backgroundColor: Colors.white,
+                                                title: Text(
+                                                    "Do you want to delete this Product?",
+                                                    style: TextStyle(
+                                                        color: AppColor
+                                                            .goldColor)),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: Text(
+                                                        'No, don\'t add!',
+                                                        style: TextStyle(
+                                                            color: Colors
+                                                                .deepOrangeAccent)),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Dcontroller
+                                                          .createDemande();
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      Get.to(HomeView());
+                                                    },
+                                                    child: Text('Yes, Add It!',
+                                                        style: TextStyle(
+                                                            color: AppColor
+                                                                .secondary)),
+                                                  ),
+                                                ],
+                                              );
+                                            });
+                                      }
+                                    },
+                                  );
                                 });
                           },
                         ),
@@ -191,6 +251,7 @@ class EventListView extends GetView<EventController> {
                     controller: controller.budgetController,
                     obscureText: false,
                     label: "Budget:",
+                    specifykeyboard: TextInputType.number,
                   ),
                   //Dates begin and last
                   ElevatedButton(
@@ -224,8 +285,8 @@ class EventListView extends GetView<EventController> {
                     ),
                     onPressed: () {
                       controller.createEvent();
-                      Get.to(EventListView());
                       Navigator.of(context).pop();
+                      controller.getAllEventByUserId();
                     },
                   );
                 },

@@ -66,7 +66,7 @@ export class ChatController {
   }
   }
 
-  @Get('Chat/:id')
+  @Get('/:id')
   async findOneByIdChat(@Param('id') id: string, @Res() response) {
     try {
       const Pdata = await this.chatService.findOneByIdChat(id)
@@ -84,6 +84,7 @@ export class ChatController {
       })
     }  
   }
+
   @Get('Reciever/:idReciever')
   async findOneByRecier(@Param('idReciever') idReciever: string, @Res() response) {
     try {
@@ -131,4 +132,5 @@ export class ChatController {
   remove(@Param('id') id: string) {
     return this.chatService.remove(+id);
   }
+  
 }

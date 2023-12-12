@@ -3,9 +3,11 @@ import 'package:front/config/account_info_storage.dart';
 class AppApi {
   static const String baseUrl = "http://$ip/";
 
-   // static const String ip = "192.168.3.55:3000";
-  //static const String ip = "localhost:3000";
-   static const String ip = "192.168.1.11:3000";
+  // static const String ip = "192.168.3.55:3000";
+  static const String ip = "localhost:3000";
+  //  static const String ip = "192.168.1.11:3000";
+
+  static const String sendNotif = "${baseUrl}users/sendnotif";
 
   static const String loginUrl = "${baseUrl}auth/signin";
   static const String signupUrl = "${baseUrl}users/";
@@ -21,6 +23,12 @@ class AppApi {
   static const String deleteEventUrl = "${baseUrl}events/";
 
   static const String createFactureUrl = "${baseUrl}factures/";
+
+  static const String createNewChat = "${baseUrl}chats/";
+  static const String getAllChat = "${baseUrl}chats";
+  static const String getChatBySendor = "${baseUrl}chats/sender";
+  static const String getChatByReciever = "${baseUrl}chats/reciever";
+  static const String getChatBySendorAndReciever = "${baseUrl}chats/reciever";
 
   static const String getCategoriesUrl = "${baseUrl}categories/";
   static const String getCategorieByNameUrl = "${baseUrl}categories/getbyname";
@@ -53,10 +61,14 @@ class AppApi {
   static const String createDemande = "${baseUrl}demande/";
   static const String getAllDemande = "${baseUrl}demande/";
   static const String getDemandeById = "${baseUrl}demande/";
-  static const String getDemandeByUserId = "${baseUrl}demande/user";
+  static const String getDemandeByVendorId =
+      "${baseUrl}demande/demandebyvendorid/";
+  static const String getDemandeByUserId = "${baseUrl}demande/user/";
   static const String getDemandeByStateId = "${baseUrl}demande/state";
   static const String getDemandeByUserIdAndStateUrl =
       "${baseUrl}demande/stateAndUserId/";
+  static const String getDemandeByVendorIdAndState =
+      "${baseUrl}demande/stateAndVendorId/";
 
   static const String Logout = "${baseUrl}auth/logout";
 

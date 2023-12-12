@@ -2,12 +2,13 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:front/config/account_info_storage.dart';
 import 'package:front/config/app_colors.dart';
+import 'package:front/controllers/demande_controller.dart';
 import 'package:front/controllers/event_contorller.dart';
 import 'package:front/controllers/products_controller.dart';
-import 'package:front/controllers/profile_controller.dart';
+import 'package:front/views/event_list_view.dart';
+import 'package:front/views/test/ChatScreen.dart';
 import 'package:front/views/vendors/service_details.dart';
 import 'package:front/widgets/custom_backgroung_image.dart';
-import 'package:front/widgets/custom_box_home_detail_product.dart';
 import 'package:front/widgets/custom_box_detail.dart';
 import 'package:front/widgets/custom_input_text.dart';
 import 'package:front/widgets/custom_text.dart';
@@ -126,10 +127,22 @@ class ProductDetail extends GetView<ProductsController> {
                                   builder: (PController) {
                                     EventController Econtroller =
                                         EventController();
+                                        DemandeController Dcontroller= DemandeController();
                                     return CustomBoxDetail(
+                                      function: (){
+                                            print("demandeuserbyproduct");
+                                        AccountInfoStorage.saveDemandeVendor(
+                                            "${controller.productGetByIdJson!.data!.user!.sId}");
+                                   
+                
+                                        Get.to(ChatScreen());
+                                      },
                                       sendDemandeFunction: () {
-                                        AccountInfoStorage.saveProductId(
-                                            "${PController.productGetByIdJson!.data!.sId}");
+                                         Get.to(EventListView(fromProductDetail: true));
+                                        print("demandeuserbyproduct");
+                                        AccountInfoStorage.saveDemandeVendor(
+                                            "${PController.productGetByIdJson!.data!.user!.sId}");
+                                        AccountInfoStorage.saveFCMTokenUser("${PController.productGetByIdJson!.data!.user!.fCMToken}");
                                       },
                                       issavedfunction: () {
                                         AccountInfoStorage.saveProductId(

@@ -15,6 +15,7 @@ export class UsersController {
   @Post()
   async createUser(@Body() createuserDto: CreateUserDto, @Res() response){
     try{
+      
      const newUser=await this.usersService.createUser(createuserDto)
       return response.status(HttpStatus.CREATED).json({
         message:'user created successfully',
@@ -105,6 +106,29 @@ export class UsersController {
         status:HttpStatus.BAD_REQUEST,
         data:null
       })
+    }
+  }
+
+  ////////////////////// firebase 
+
+  @Post('sendnotif')
+  async sendNotification(
+    
+    @Body('title') title: string,
+    @Body('body') body: string,
+    @Body('token') token: string,
+  ): Promise<any> {
+    try {
+      const response = await this.usersService.sendNotification(title, body, token);
+      return {
+        message: 'Notification sent successfully',
+        data: response,
+      };
+    } catch (error) {
+      return {
+        message: 'Failed to send notification',
+        error: error.message,
+      };
     }
   }
 }

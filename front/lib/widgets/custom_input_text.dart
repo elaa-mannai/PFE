@@ -11,9 +11,11 @@ class CustomInputText extends StatelessWidget {
   final String? Function(String?)? validator;
   final TextEditingController? controller;
   final String? error;
+  final TextInputType? specifykeyboard;
 
   const CustomInputText(
       {super.key,
+      this.specifykeyboard,
       this.label,
       this.iconData,
       required this.obscureText,
@@ -30,7 +32,7 @@ class CustomInputText extends StatelessWidget {
       child: Expanded(
         child: TextFormField(
           cursorColor: AppColor.secondary,
-          controller: controller,
+          controller: controller,keyboardType: specifykeyboard,
           decoration: InputDecoration(
             focusedBorder: InputBorder.none,
             label: Text(
@@ -38,12 +40,10 @@ class CustomInputText extends StatelessWidget {
               style: TextStyle(color: Colors.black54, fontSize: Checkbox.width),
             ),
             enabledBorder: UnderlineInputBorder(
-
-                borderSide: BorderSide(
-                  strokeAlign: 0,
-
-              color: AppColor.goldColor,
-            ),
+              borderSide: BorderSide(
+                strokeAlign: 0,
+                color: AppColor.goldColor,
+              ),
             ),
             suffixIcon: IconButton(
               icon: Icon(

@@ -11,6 +11,7 @@ class AccountInfoStorage {
   static const KeyPassword = "password";
   static const KeyphoneNumber = "phoneNumber";
   static const keyadresse = "adresse";
+  static const keyfcmtoken = "fcmtoken";
 
   static const keyproductId = "productId";
   static const keyprodcutName = "prodcutName";
@@ -44,6 +45,8 @@ class AccountInfoStorage {
   static const keyDemandeState = "demandeState";
   static const keyDemandeUser = "demandeUser";
   static const keyDemandeVendor = "demandeVendor";
+  static const keyLenghtDemandeByVendorAndState =
+      "LenghtDemandeByVendorAndState";
 
   static saveTokenUser(String? tokenUser) {
     SecureStorage.writeSecureData(key: keyTokenUser, value: tokenUser!);
@@ -53,8 +56,16 @@ class AccountInfoStorage {
     return SecureStorage.readSecureData(keyTokenUser);
   }
 
-  static saveId(String id) {
-    SecureStorage.writeSecureData(key: keyId, value: id);
+  static saveFCMTokenUser(String? fcmtoken) {
+    SecureStorage.writeSecureData(key: keyfcmtoken, value: fcmtoken!);
+  }
+
+  static String? readFCMTokenUser() {
+    return SecureStorage.readSecureData(keyfcmtoken);
+  }
+
+  static saveId(String? id) {
+    SecureStorage.writeSecureData(key: keyId, value: id!);
   }
 
   static String? readId() {
@@ -82,16 +93,16 @@ class AccountInfoStorage {
     return SecureStorage.readSecureData(keyemail);
   }
 
-  static saveAdresse(String adresse) {
-    SecureStorage.writeSecureData(key: keyadresse, value: adresse);
+  static saveAdresse(String? adresse) {
+    SecureStorage.writeSecureData(key: keyadresse, value: adresse!);
   }
 
   static String? readAdresse() {
     return SecureStorage.readSecureData(keyadresse);
   }
 
-  static savePhoneNumber(String phoneNumber) {
-    SecureStorage.writeSecureData(key: KeyphoneNumber, value: phoneNumber);
+  static savePhoneNumber(String? phoneNumber) {
+    SecureStorage.writeSecureData(key: KeyphoneNumber, value: phoneNumber!);
   }
 
   static String? readPhoneNumber() {
@@ -389,5 +400,13 @@ class AccountInfoStorage {
 
   static String? readDemandeVendor() {
     return SecureStorage.readSecureData(keyDemandeVendor);
+  }
+
+  static saveLenghtDemandeByVendorAndState(String? LenghtDemandeByVendorAndState) {
+    SecureStorage.writeSecureData(key: keyLenghtDemandeByVendorAndState, value:LenghtDemandeByVendorAndState!);
+  }
+
+  static String? readLenghtDemandeByVendorAndState() {
+    return SecureStorage.readSecureData(keyLenghtDemandeByVendorAndState);
   }
 }

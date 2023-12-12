@@ -214,6 +214,7 @@ class ProfileColntroller extends GetxController {
       //AccountInfoStorage.saveImage(loginUserJson!.user!.image);
       AccountInfoStorage.saveTokenUser(loginUserJson!.tokens!.accessToken);
 
+      updateFCMToken();
       viderControllers();
       update();
 
@@ -287,11 +288,11 @@ class ProfileColntroller extends GetxController {
 
 ////////////function getinfouser /////////////////
 
-  getUserById() {
+  getUserById() async {
     print('get user by id----------------------------------');
     apiUserById.id = AccountInfoStorage.readId().toString();
 
-    apiUserById.getData().then((value) {
+     apiUserById.getData().then((value) {
       print('value user id =====>$value');
       userGetByIdJson = value as UserGetByIdJson?;
       print(
@@ -310,13 +311,13 @@ class ProfileColntroller extends GetxController {
     apiUserById.updateData({
       'username': usernameController.text,
       'email': emailController.text,
-      'adress': adresseController.text,
+      'adress': AccountInfoStorage.readAdresse(),
       'phone': phonenumberController.text,
       'image': AccountInfoStorage.readImage()
     }).then((value) {
       AccountInfoStorage.saveImage(userGetByIdJson!.data!.image.toString());
       print("testing ${AccountInfoStorage.readImage()}");
-
+      print("testing ${AccountInfoStorage.readProductLocal()}");
       print("success");
       // Get.defaultDialog(title: "Alert");
       Get.snackbar("", "Success",
@@ -328,6 +329,20 @@ class ProfileColntroller extends GetxController {
               fontSize: 24,
             ),
           ));
+    }).onError((error, stackTrace) {
+      print('error login======> $error');
+    });
+    update();
+  }
+
+  updateFCMToken() {
+    apiUserById.id = AccountInfoStorage.readId().toString();
+    // AccountInfoStorage.readImage().toString();
+    apiUserById.updateData({
+      'FCMToken': AccountInfoStorage.readFCMTokenUser(),
+    }).then((value) {
+      print("success FCMToken");
+      print("fcm${AccountInfoStorage.readFCMTokenUser()}");
     }).onError((error, stackTrace) {
       print('error login======> $error');
     });
@@ -356,7 +371,6 @@ class ProfileColntroller extends GetxController {
 
   ApiUserDeleteById apiUserDeleteById = ApiUserDeleteById();
   deleteUser() {
-
     /////// add a state to desactivation user
     apiUserDeleteById.id = AccountInfoStorage.readId().toString();
     apiUserDeleteById.deleteData().then((value) {

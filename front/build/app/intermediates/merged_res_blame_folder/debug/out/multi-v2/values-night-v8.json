@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.front.app-mergeDebugResources-35:/values-night-v8/values-night-v8.xml",
+            "outputFile": "com.example.front.app-mergeDebugResources-38:/values-night-v8/values-night-v8.xml",
             "map": [
                 {
                     "source": "D:\\testint\\front\\android\\app\\src\\main\\res\\values-night\\styles.xml",

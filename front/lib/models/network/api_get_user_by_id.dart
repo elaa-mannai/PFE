@@ -5,6 +5,7 @@ import 'package:front/models/network/api_manager.dart';
 
 class ApiUserById extends ApiManager {
   String id = '';
+  
   @override
   String apiUrl() {
     return AppApi.getUserByIdUrl + id;

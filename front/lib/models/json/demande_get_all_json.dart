@@ -4,7 +4,7 @@ import 'package:front/models/json/abstract_json_resource.dart';
 class GetAllDemandeJson extends AbstractJsonResource{ 
   String? message;
   int? status;
-  List<Data>? data;
+  List<DataDemande>? data;
 
   GetAllDemandeJson({this.message, this.status, this.data});
 
@@ -12,9 +12,9 @@ class GetAllDemandeJson extends AbstractJsonResource{
     message = json['message'];
     status = json['status'];
     if (json['data'] != null) {
-      data = <Data>[];
+      data = <DataDemande>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(new DataDemande.fromJson(v));
       });
     }
   }
@@ -30,7 +30,7 @@ class GetAllDemandeJson extends AbstractJsonResource{
   }
 }
 
-class Data {
+class DataDemande {
   String? sId;
   bool? state;
   Products? products;
@@ -38,9 +38,9 @@ class Data {
   Events? events;
   int? iV;
 
-  Data({this.sId, this.state, this.products, this.users, this.events, this.iV});
+  DataDemande({this.sId, this.state, this.products, this.users, this.events, this.iV});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  DataDemande.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     state = json['state'];
     products = json['products'] != null

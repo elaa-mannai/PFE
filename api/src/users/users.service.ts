@@ -5,14 +5,21 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { IUser } from './interfaces/user.interface';
 import { IEvent } from 'src/events/interfaces/event.interface';
-
+import * as admin from 'firebase-admin';
 
 @Injectable()
 export class UsersService {
-
+  private readonly admin: admin.app.App;
  
   
-  constructor(@InjectModel('users') private userModel: Model<IUser>) { }
+  constructor(@InjectModel('users') private userModel: Model<IUser>,
+  ) { 
+    const serviceAccount = require('../../eventmangaement-firebase-adminsdk-yl0ia-c536dcfde7.json');
+    this.admin = admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+      // Other options if necessary
+    });
+  }
 
 
 
@@ -72,4 +79,26 @@ export class UsersService {
     }
     return deleteUser
   }
+
+////////////////////////firebase function
+
+async sendNotification(title: string, body: string, token: string): Promise<any> {
+  const message = {
+    notification: {
+      title,
+      body,
+    },
+    token,
+  };
+  try {
+    const response = await this.admin.messaging().send(message);
+    console.log('Notification sent successfully:', response);
+    return response;
+  } catch (error) {
+    console.error('Error sending notification:', error);
+    throw error;
+  }
 }
+}
+
+

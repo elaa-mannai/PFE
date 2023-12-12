@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.front.app-mergeDebugResources-35:/values-te/values-te.xml",
+            "outputFile": "com.example.front.app-mergeDebugResources-38:/values-te/values-te.xml",
             "map": [
                 {
                     "source": "C:\\Users\\elaa1\\.gradle\\caches\\transforms-3\\aba8f806953ea3dd8f794da3aeb78a12\\transformed\\jetified-play-services-base-18.0.1\\res\\values-te\\values.xml",

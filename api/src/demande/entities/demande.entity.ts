@@ -9,7 +9,7 @@ export class Demande {
     @Prop({required:false, type: SchemaTypes.ObjectId, ref:'users'})
     vendor: Types.ObjectId
  
-    @Prop({required:false, type: SchemaTypes.ObjectId, ref:'products'})
+    @Prop({required:false, type: SchemaTypes.ObjectId, ref:'products', user: { type: SchemaTypes.ObjectId, ref: 'user' }})
     products: Types.ObjectId
 
     @Prop({required:false, type: SchemaTypes.ObjectId, ref:'users'})

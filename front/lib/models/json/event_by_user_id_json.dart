@@ -38,8 +38,9 @@ class Data {
   String? local;
   int? budget;
   String? user;
-  int? iV;
   List<String>? guests;
+  int? iV;
+  List<String>? demande;
 
   Data(
       {this.sId,
@@ -50,8 +51,9 @@ class Data {
       this.local,
       this.budget,
       this.user,
+      this.guests,
       this.iV,
-      this.guests});
+      this.demande});
 
   Data.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -62,8 +64,9 @@ class Data {
     local = json['local'];
     budget = json['budget'];
     user = json['user'];
-    iV = json['__v'];
     guests = json['guests'].cast<String>();
+    iV = json['__v'];
+    demande = json['demande'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
@@ -76,8 +79,9 @@ class Data {
     data['local'] = this.local;
     data['budget'] = this.budget;
     data['user'] = this.user;
-    data['__v'] = this.iV;
     data['guests'] = this.guests;
+    data['__v'] = this.iV;
+    data['demande'] = this.demande;
     return data;
   }
 }

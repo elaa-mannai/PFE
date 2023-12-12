@@ -60,6 +60,7 @@ class User {
   int? phone;
   List<Products>? products;
   List<Favorites>? favorites;
+  String? fCMToken;
 
   User(
       {this.sId,
@@ -77,6 +78,7 @@ class User {
       this.image,
       this.phone,
       this.products,
+      this.fCMToken,
       this.favorites});
 
   User.fromJson(Map<String, dynamic> json) {
@@ -106,6 +108,7 @@ class User {
         favorites!.add(new Favorites.fromJson(v));
       });
     }
+    fCMToken = json['FCMToken'];
   }
 
   Map<String, dynamic> toJson() {
@@ -124,6 +127,7 @@ class User {
     data['adress'] = this.adress;
     data['image'] = this.image;
     data['phone'] = this.phone;
+    data['FCMToken'] = this.fCMToken;
     if (this.products != null) {
       data['products'] = this.products!.map((v) => v.toJson()).toList();
     }

@@ -4,7 +4,6 @@ import 'package:cloudinary/cloudinary.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:front/config/account_info_storage.dart';
-import 'package:front/controllers/products_controller.dart';
 import 'package:front/models/json/categorie_get_by_name_json.dart';
 import 'package:front/models/json/categories_json.dart';
 import 'package:front/models/json/favorite__create_json.dart';
@@ -104,7 +103,7 @@ class ProductsController extends GetxController {
     filteredItemsImages
         .addAll(productGetJson!.data!.map((data) => data.images ?? []));
 
-    await getProductByCatgoryId();
+   /*  await getProductByCatgoryId();
     filteredItemsNameC.addAll(
         productsByCategoryIdJson!.data!.map((data) => data.nameproduct ?? ''));
     filteredItemsDesC.addAll(
@@ -113,7 +112,7 @@ class ProductsController extends GetxController {
         .map((data) => data.category!.name ?? ''));
     filteredItemsImagesC.addAll(
         productsByCategoryIdJson!.data!.map((data) => data.images ?? []));
-    //  createProduct();
+     *///  createProduct();
     // Initialisations spécifiques à ce contrôleur
     super
         .onInit(); // N'oubliez pas d'appeler super.onInit() pour respecter le cycle de vie de GetX.
@@ -127,7 +126,6 @@ class ProductsController extends GetxController {
         return categorieJson!;
       }
       print("data categories =================== ${categorieJson!.message}");
-
       return null;
     }).onError((error, stackTrace) {
       print("error ==== $error");
@@ -264,7 +262,7 @@ class ProductsController extends GetxController {
     update();
   }
 
-///////to do
+///////
   getAllProductByUserId() async {
     print("-------------------Product by user id ---------------------");
     apiProductsGetByUserId.id = AccountInfoStorage.readId().toString();
@@ -283,6 +281,7 @@ class ProductsController extends GetxController {
       getAllProductByUserId();
       update();
       return null;
+      
     }).onError((error, stackTrace) {
       print('error======> $error');
       return null;
@@ -317,7 +316,7 @@ class ProductsController extends GetxController {
         // print('event created=======> ${productAddJson!.data!.sId}');
       });
     } catch (error) {
-      print('error create favorite ==========> $TypeError');
+      print('error create product ==========> $TypeError');
     }
   }
 
@@ -580,7 +579,7 @@ class ProductsController extends GetxController {
     });
   }
 
-  List<String> filteredItemsNameC = [];
+ /*  List<String> filteredItemsNameC = [];
   List<String> filteredItemsDesC = [];
   List<String> filteredItemsCatC = [];
   List<dynamic> filteredItemsImagesC = [];
@@ -609,7 +608,7 @@ class ProductsController extends GetxController {
       update();
     });
   }
-
+ */
 ///////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:front/config/app_colors.dart';
 
@@ -12,16 +13,29 @@ class CustomText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      text!,
-      textAlign: textAlign,
-      maxLines: 22,
-      softWrap: true,
-      style: TextStyle(
-        color: AppColor.goldColor,
-        fontFamily: 'Inter',
-        fontSize: fontSize,
-        fontWeight: fontWeight,
+    return Container(
+      child:/*  AutoSizeText(
+        text!,
+        presetFontSizes: [24, 18, 16, 12, 11, 8, ],
+        maxLines: 22,
+        softWrap: true,
+        textAlign: textAlign,
+        style: TextStyle(
+          color: AppColor.goldColor,
+          fontFamily: 'Inter',
+          fontSize: fontSize,
+          fontWeight: fontWeight,
+        ),
+      ), */
+      Text(
+        text!,
+        // maxLines: ,
+        style: TextStyle(
+          color: AppColor.goldColor,
+          fontFamily: 'Inter',
+          fontSize: fontSize,
+          fontWeight: fontWeight,
+        ),
       ),
     );
   }
