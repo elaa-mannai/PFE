@@ -20,7 +20,7 @@ class _CustomDropdownListState extends State<CustomDropdownList> {
       child: DropdownButtonHideUnderline(
         child: DropdownButton2<String>(
           isExpanded: true,
-          hint: const Row(
+          hint: Row(
             children: [
               Expanded(
                 child: Text(
@@ -28,7 +28,7 @@ class _CustomDropdownListState extends State<CustomDropdownList> {
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: AppColor.white,
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -40,10 +40,10 @@ class _CustomDropdownListState extends State<CustomDropdownList> {
                     value: item,
                     child: Text(
                       item,
-                      style: const TextStyle(
+                      style:  TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: AppColor.white,
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -66,12 +66,12 @@ class _CustomDropdownListState extends State<CustomDropdownList> {
             ),
             elevation: 2,
           ),
-          iconStyleData: const IconStyleData(
+          iconStyleData:  IconStyleData(
             icon: Icon(
               Icons.arrow_drop_down,
             ),
             iconSize: 30,
-            iconEnabledColor: Colors.white,
+            iconEnabledColor: AppColor.white,
             iconDisabledColor: Colors.grey,
           ),
           dropdownStyleData: DropdownStyleData(

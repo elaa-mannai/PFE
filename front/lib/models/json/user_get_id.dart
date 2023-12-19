@@ -1,7 +1,118 @@
 import 'package:front/models/json/abstract_json_resource.dart';
 
 class UserGetByIdJson extends AbstractJsonResource {
-  String? message;
+ String? message;
+  int? status;
+  Data? data;
+
+  UserGetByIdJson({this.message, this.status, this.data});
+
+  UserGetByIdJson.fromJson(Map<String, dynamic> json) {
+    message = json['message'];
+    status = json['status'];
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['message'] = this.message;
+    data['status'] = this.status;
+    if (this.data != null) {
+      data['data'] = this.data!.toJson();
+    }
+    return data;
+  }
+}
+
+class Data {
+  String? items;
+  String? username;
+  String? email;
+  String? password;
+  String? city;
+  String? adress;
+  int? phone;
+  String? image;
+  String? fCMToken;
+  List<String>? favorites;
+  List<String>? events;
+  List<String>? products;
+  List<String>? chats;
+  String? sId;
+  String? createdAt;
+  String? updatedAt;
+  int? iV;
+
+  Data(
+      {this.items,
+      this.username,
+      this.email,
+      this.password,
+      this.city,
+      this.adress,
+      this.phone,
+      this.image,
+      this.fCMToken,
+      this.favorites,
+      this.events,
+      this.products,
+      this.chats,
+      this.sId,
+      this.createdAt,
+      this.updatedAt,
+      this.iV});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    items = json['items'];
+    username = json['username'];
+    email = json['email'];
+    password = json['password'];
+    city = json['city'];
+    adress = json['adress'];
+    phone = json['phone'];
+    image = json['image'];
+    fCMToken = json['FCMToken'];
+    favorites = json['favorites'].cast<String>();
+    events = json['events'].cast<String>();
+    products = json['products'].cast<String>();
+    chats = json['chats'].cast<String>();
+    sId = json['_id'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    iV = json['__v'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['items'] = this.items;
+    data['username'] = this.username;
+    data['email'] = this.email;
+    data['password'] = this.password;
+    data['city'] = this.city;
+    data['adress'] = this.adress;
+    data['phone'] = this.phone;
+    data['image'] = this.image;
+    data['FCMToken'] = this.fCMToken;
+    data['favorites'] = this.favorites;
+    data['events'] = this.events;
+    data['products'] = this.products;
+    data['chats'] = this.chats;
+    data['_id'] = this.sId;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    data['__v'] = this.iV;
+    return data;
+  }
+}
+
+
+
+
+
+
+
+
+  /* String? message;
   int? status;
   Data? data;
 
@@ -136,3 +247,4 @@ class Favorites {
     return data;
   }
 }
+ */

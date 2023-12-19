@@ -27,8 +27,8 @@ class GuestList extends GetView<EventController> {
     // controller.getGuests();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white, //your color
-        surfaceTintColor: Colors.white,
+        backgroundColor: AppColor.white, //your color
+        surfaceTintColor: AppColor.white,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -100,7 +100,8 @@ class GuestList extends GetView<EventController> {
                       return CustomEventDetails(
                         eventName:
                             "${controller.eventByIdJson!.data!.titleevent}",
-                            description:"${controller.eventByIdJson!.data!.description}" ,
+                        description:
+                            "${controller.eventByIdJson!.data!.description}",
                         datedeb: "${controller.eventByIdJson!.data!.dateDebut}",
                         datefin: "${controller.eventByIdJson!.data!.dateFin}",
                         local: "${controller.eventByIdJson!.data!.local}",
@@ -134,7 +135,7 @@ class GuestList extends GetView<EventController> {
                             .secondary, // Set the text color of the button
                       ),
                       child: Text(
-                        "Send The Invitation Message",
+                        "Send The Invitation by Email",
                         style: TextStyle(color: AppColor.secondary),
                       ),
                     ),
@@ -229,7 +230,8 @@ class GuestList extends GetView<EventController> {
                                         ///// update
                                         PopupMenuItem(
                                           onTap: () {
-                                            AccountInfoStorage.saveGuestId("${controller.guestByEventIdJson!.data![index].sId}");
+                                            AccountInfoStorage.saveGuestId(
+                                                "${controller.guestByEventIdJson!.data![index].sId}");
                                             print(
                                                 "sId update this element ${controller.guestByEventIdJson!.data![index].sId}");
                                             Get.dialog(AlertDialog(
@@ -238,7 +240,7 @@ class GuestList extends GetView<EventController> {
                                                   style: TextStyle(
                                                       color:
                                                           AppColor.goldColor)),
-                                              backgroundColor: Colors.white,
+                                              backgroundColor: AppColor.white,
                                               content: SingleChildScrollView(
                                                 child: ListBody(
                                                   children: <Widget>[
@@ -251,6 +253,8 @@ class GuestList extends GetView<EventController> {
                                                     ),
                                                     //phone number
                                                     CustomInputText(
+                                                      specifykeyboard:
+                                                          TextInputType.number,
                                                       controller: controller
                                                           .guestPhonenumberConroller,
                                                       obscureText: false,
@@ -309,7 +313,7 @@ class GuestList extends GetView<EventController> {
                                                         print("object update");
                                                         controller
                                                             .updateGuest();
-      Get.to(GuestList());
+                                                        Get.to(GuestList());
 
                                                         // controller
                                                         //     .getAllGuestsByEventId();
@@ -344,7 +348,8 @@ class GuestList extends GetView<EventController> {
                                               context: context,
                                               builder: (BuildContext context) {
                                                 return AlertDialog(
-                                                  backgroundColor: Colors.white,
+                                                  backgroundColor:
+                                                      AppColor.white,
                                                   title: Text(
                                                       "Do you want to delete this guest?",
                                                       style: TextStyle(
@@ -366,7 +371,7 @@ class GuestList extends GetView<EventController> {
                                                         controller.deleteGuest(
                                                             '${controller.guestByEventIdJson!.data![index].sId}');
                                                         //controller.getAllGuestsByEventId();
-                                                              Get.to(GuestList());
+                                                        Get.to(GuestList());
                                                         Navigator.of(context)
                                                             .pop();
                                                       },
@@ -408,14 +413,14 @@ class GuestList extends GetView<EventController> {
       // New event button
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: AppColor.secondary,
-        foregroundColor: Colors.white,
+        foregroundColor: AppColor.white,
         // icon: Icon(Icons.add_outlined),
         label: Text('New Guest'),
         onPressed: () {
           Get.dialog(AlertDialog(
             title:
                 Text("New Guest", style: TextStyle(color: AppColor.goldColor)),
-            backgroundColor: Colors.white,
+            backgroundColor: AppColor.white,
             content: SingleChildScrollView(
               child: ListBody(
                 children: <Widget>[
@@ -450,7 +455,7 @@ class GuestList extends GetView<EventController> {
                     ),
                     onPressed: () {
                       controller.createGuests();
-                            Get.to(GuestList());
+                      Get.to(GuestList());
 
                       //controller.getAllGuestsByEventId();
                       Navigator.of(context).pop();

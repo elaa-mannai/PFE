@@ -32,7 +32,8 @@ class CustomInputText extends StatelessWidget {
       child: Expanded(
         child: TextFormField(
           cursorColor: AppColor.secondary,
-          controller: controller,keyboardType: specifykeyboard,
+          controller: controller,
+          keyboardType: specifykeyboard,
           decoration: InputDecoration(
             focusedBorder: InputBorder.none,
             label: Text(

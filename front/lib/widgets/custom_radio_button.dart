@@ -6,8 +6,7 @@ import 'package:front/widgets/custom_text.dart';
 class CustomRadiobutton extends StatefulWidget {
   const CustomRadiobutton({super.key, this.controller, this.initialValue});
   final TextEditingController? controller;
-    final Items? initialValue;
-
+  final Items? initialValue;
 
   @override
   State<CustomRadiobutton> createState() => _CustomRadiobuttonState();
@@ -17,16 +16,20 @@ enum Items { Customer, Vendor }
 
 class _CustomRadiobuttonState extends State<CustomRadiobutton> {
   // Items? items = Items.Customer;
- late Items? items;
+  late Items? items;
   @override
   void initState() {
     super.initState();
     // Set the default selection based on the initial value or controller value
-    items = widget.initialValue ?? 
-        (widget.controller != null
-            ? (widget.controller!.text == 'Vendor' ? Items.Vendor : Items.Customer)
-            : null);
+
+    items = widget.initialValue ?? null;
+
+    // items = widget.initialValue ??
+    //     (widget.controller != null
+    //         ? (widget.controller!.text == 'Vendor' ? Items.Vendor : Items.Customer)
+    //         : null);
   }
+
   @override
   Widget build(BuildContext context) {
     return Row(

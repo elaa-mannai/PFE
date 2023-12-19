@@ -16,15 +16,15 @@ class ServiceDetails extends GetView<ProductsController> {
 
   @override
   Widget build(BuildContext context) {
-    ScrollController scrollController =ScrollController();
+    ScrollController scrollController = ScrollController();
     // controller.getCategories();
     // controller.getProductById();
-    controller.getAllProductByUserId();
+    // controller.getAllProductByUserId();
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        backgroundColor: Colors.white, //your colorr
-        surfaceTintColor: Colors.white,
+        backgroundColor: AppColor.white, //your colorr
+        surfaceTintColor: AppColor.white,
         leading: IconButton(
           onPressed: () {
             Get.to(HomeViewVendor());
@@ -171,10 +171,9 @@ class ServiceDetails extends GetView<ProductsController> {
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
           backgroundColor: AppColor.secondary,
-          foregroundColor: Colors.white,
+          foregroundColor: AppColor.white,
           shape: BeveledRectangleBorder(),
           label: Text('New Service'),
           onPressed: () {

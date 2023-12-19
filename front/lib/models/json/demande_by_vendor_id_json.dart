@@ -1,7 +1,7 @@
 import 'package:front/models/json/abstract_json_resource.dart';
 
 class DemandeByVendorIdJson extends AbstractJsonResource {
- String? message;
+  String? message;
   int? status;
   List<Data>? data;
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppColor {
   static Color blackColor = Colors.black87;
-  static Color colorBordure = HexColor("#000000");
+  static Color white = HexColor("#f8f7f4");
   static Color redText = HexColor("#7A1A1A");
   static Color buttonColor = HexColor("#94E044");
   static Color bleucolor = HexColor("#79d2e6");

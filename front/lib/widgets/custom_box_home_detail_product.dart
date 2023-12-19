@@ -129,7 +129,7 @@ class CustomBoxHomeDetailsProduct extends GetView<ProductsController> {
                               '$productname',
                               presetFontSizes: [18, 12],
                               maxLines: 2,
-                              style: const TextStyle(
+                              style:  TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,
                               ),
@@ -143,7 +143,7 @@ class CustomBoxHomeDetailsProduct extends GetView<ProductsController> {
                               '$Descriptiontext',
                               presetFontSizes: [18, 12],
                               maxLines: 2,
-                              style: const TextStyle(
+                              style:  TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,
                               ),
@@ -168,9 +168,9 @@ class CustomBoxHomeDetailsProduct extends GetView<ProductsController> {
     return imagesList
         .map((item) => Container(
               child: Container(
-                margin: const EdgeInsets.all(5.0),
+                margin:  EdgeInsets.all(5.0),
                 child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                  borderRadius:  BorderRadius.all(Radius.circular(5.0)),
                   child: Stack(
                     children: <Widget>[
                       Image.network(
@@ -184,7 +184,7 @@ class CustomBoxHomeDetailsProduct extends GetView<ProductsController> {
                         left: 0.0,
                         right: 0.0,
                         child: Container(
-                          decoration: const BoxDecoration(
+                          decoration:  BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
                                 Color.fromARGB(255, 255, 255, 255),
@@ -194,7 +194,7 @@ class CustomBoxHomeDetailsProduct extends GetView<ProductsController> {
                               end: Alignment.topCenter,
                             ),
                           ),
-                          padding: const EdgeInsets.symmetric(
+                          padding:  EdgeInsets.symmetric(
                             vertical: 20.0,
                             horizontal: 20.0,
                           ),

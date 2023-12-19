@@ -19,8 +19,8 @@ class ChatScreen extends GetView<ChatController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white, //your color
-        surfaceTintColor: Colors.white,
+        backgroundColor: AppColor.white , //your color
+        surfaceTintColor: AppColor.white ,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -58,7 +58,7 @@ class ChatScreen extends GetView<ChatController> {
                     text: controller.messages[index],
                     color: AppColor.secondary,
                     tail: true,
-                    textStyle: TextStyle(color: Colors.white, fontSize: 16),
+                    textStyle: TextStyle(color: AppColor.white , fontSize: 16),
                   );
                 },
               ),

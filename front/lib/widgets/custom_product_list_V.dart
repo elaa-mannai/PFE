@@ -49,7 +49,7 @@ class CustomProductListV extends GetView<ProductsController> {
             child: Container(
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
-                color: Colors.white.withOpacity(0.5),
+                color: AppColor.white .withOpacity(0.5),
                 borderRadius: BorderRadius.all(Radius.circular(20)),
                 // border: Border.all(
                 //     color: colorBorder!.withOpacity(0.1), width: widthBorder!),

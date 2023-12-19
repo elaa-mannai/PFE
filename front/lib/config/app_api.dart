@@ -3,9 +3,9 @@ import 'package:front/config/account_info_storage.dart';
 class AppApi {
   static const String baseUrl = "http://$ip/";
 
-  // static const String ip = "192.168.3.55:3000";
-  static const String ip = "localhost:3000";
-  //  static const String ip = "192.168.1.11:3000";
+  //static const String ip = "192.168.2.179:3000";
+ static const String ip = "localhost:3000";
+ // static const String ip = "192.168.1.13:3000";
 
   static const String sendNotif = "${baseUrl}users/sendnotif";
 
@@ -13,7 +13,9 @@ class AppApi {
   static const String signupUrl = "${baseUrl}users/";
   static const String getUserByIdUrl = "${baseUrl}users/";
   static String updatePasswordUrl =
-      "${baseUrl}auth/updatepassword/${AccountInfoStorage.readId().toString()}";
+      "${baseUrl}auth/updatepassword/";
+      static String resetpassword =
+      "${baseUrl}auth/resetpassword";
   //static const String getImageUser = "${baseUrl}file/users/";
   static const String deleteUserUrl = "${baseUrl}users/";
 

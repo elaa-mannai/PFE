@@ -15,7 +15,11 @@ export class ChatService {
   
     @InjectModel('users')
   private userModel: Model<IUser>,
+
+
 ){}
+
+
 
  async create(createChatDto: CreateChatDto):Promise<IChat> {
   const newchat = new this.chatModel(createChatDto)
@@ -24,7 +28,7 @@ export class ChatService {
 
   await this.userModel.updateOne({_id:createChatDto.sender}, {$push:{chats:newchat._id}});
   await this.userModel.updateOne({_id:createChatDto.reciever}, {$push:{chats:newchat._id}});
-  // await this.userModel.updateOne({_id:createChatDto.message}, {$push:{chats:newchat._id}});
+   await this.userModel.updateOne({_id:createChatDto.messages}, {$push:{chats:newchat._id}});
 
   return await newchat.save()
 }
@@ -37,14 +41,16 @@ export class ChatService {
     }
     return  data;  }
 
- async findOneByIdChat(idSender: string):Promise<IChat> {
-  const data = await this.chatModel.findById(idSender)
+ async findOneByIdChat(idChat: string):Promise<IChat> {
+  const data = await this.chatModel.findById(idChat)
   if (!data) {
     throw new NotFoundException("Chat not found")
   }
   return data
 }
 
+
+/* 
 async findOneByReciever(idReciever: string):Promise<IChat> {
   const data = await this.chatModel.findOne({reciever:idReciever})
   if (!data) {
@@ -60,8 +66,7 @@ async findOneBySender(idSender: string):Promise<IChat> {
   }
   return data
 }
-
-
+ */
 async findByRecieverAndSender(idReciever: string,idSender: string):Promise<IChat[]> {
   const data = await this.chatModel.find({reciever:idReciever, sender:idSender})
   if (!data) {
@@ -72,11 +77,34 @@ async findByRecieverAndSender(idReciever: string,idSender: string):Promise<IChat
 
 
 
-  update(id: number, updateChatDto: UpdateChatDto) {
-    return `This action updates a #${id} chat`;
-  }
+///////// in swagger it give that there is a low connection but the message is added in the database
 
-  remove(id: number) {
-    return `This action removes a #${id} chat`;
+async update(idChat: string, updateChatDto: UpdateChatDto): Promise<IChat> {
+  try {
+    const existingChat = await this.chatModel.findById(idChat);
+
+    if (!existingChat) {
+      throw new NotFoundException("Chat not found");
+    }
+
+    // Assuming `updateChatDto.messages` is an array of messages
+    if (updateChatDto.messages && updateChatDto.messages.length > 0) {
+      // Assuming you want to push the IDs of messages to the `chats` array in the model
+      existingChat.messages = [...existingChat.messages, ...updateChatDto.messages];
+    }
+
+    return existingChat.save();
+  } catch (error) {
+    console.error('Error updating chat:', error);
+    throw error;
   }
+  
+}
+
+
+
+
+  /* remove(id: number) {
+    return `This action removes a #${id} chat`;
+  } */
 }

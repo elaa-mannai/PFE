@@ -14,7 +14,8 @@ class CustomText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child:/*  AutoSizeText(
+      child:
+          /*  AutoSizeText(
         text!,
         presetFontSizes: [24, 18, 16, 12, 11, 8, ],
         maxLines: 22,
@@ -27,8 +28,10 @@ class CustomText extends StatelessWidget {
           fontWeight: fontWeight,
         ),
       ), */
-      Text(
+          Text(
         text!,
+        softWrap: true,
+
         // maxLines: ,
         style: TextStyle(
           color: AppColor.goldColor,

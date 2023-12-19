@@ -6,12 +6,13 @@ import 'custom_text.dart';
 
 class CustomButtonText extends StatelessWidget {
   final String? text;
+  final double? size;
   final double? fontsize;
   final FontWeight? fontsizeweight;
   final Function? function;
   final IconData? icon;
   const CustomButtonText(
-      {Key? key, this.text, this.function, this.icon, this.fontsize, this.fontsizeweight})
+      {Key? key, this.text, this.size, this.function, this.icon, this.fontsize, this.fontsizeweight})
       : super(key: key);
 
   @override
@@ -32,8 +33,9 @@ class CustomButtonText extends StatelessWidget {
         ),
         IconButton(
           icon: Icon(
+            size: size!,
             icon,
-            color: AppColor.goldColor,
+            color: AppColor.secondary,
           ),
           onPressed: () {
             function!();

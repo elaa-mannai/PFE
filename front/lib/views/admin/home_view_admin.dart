@@ -10,11 +10,12 @@ import 'package:front/widgets/custom_text.dart';
 import 'package:get/state_manager.dart';
 
 class HomeViewAdmin extends GetView<CategorieController> {
-  ScrollController scrollController = ScrollController();
+  const HomeViewAdmin({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     controller.getCategories();
+    ScrollController scrollController = ScrollController();
 
     return Scaffold(
       appBar: AppBar(
@@ -23,8 +24,8 @@ class HomeViewAdmin extends GetView<CategorieController> {
           size: 50,
           color: AppColor.goldColor,
         ),
-        backgroundColor: Colors.white, //your color
-        surfaceTintColor: Colors.white,
+        backgroundColor: AppColor.white, //your color
+        surfaceTintColor: AppColor.white,
 
         title: Expanded(
           flex: 0,
@@ -34,14 +35,14 @@ class HomeViewAdmin extends GetView<CategorieController> {
           ),
         ),
       ),
-    drawer: Drawer(
+      drawer: Drawer(
         child: ListView(
           children: [
             UserAccountsDrawerHeader(
               accountName: Text("Admin"),
               accountEmail: Text("admin@example.com"),
               currentAccountPicture: CircleAvatar(
-                backgroundColor: Colors.white,
+                backgroundColor: AppColor.white,
                 child: Icon(Icons.person),
               ),
             ),
@@ -61,7 +62,7 @@ class HomeViewAdmin extends GetView<CategorieController> {
             ),
           ],
         ),
-      ),  
+      ),
       body: SingleChildScrollView(
         child: CustomBackgroungImage(
           fit: BoxFit.cover,
@@ -147,44 +148,42 @@ class HomeViewAdmin extends GetView<CategorieController> {
                       }
                     }
                   }),
-           
-           
-            Expanded(
-              child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 8.0,
-                        mainAxisSpacing: 8.0,
-                      ),
-                      itemCount: 2,
-                      itemBuilder: (context, index) {
-                        // Category category = categoryProvider.categories[index];
-                        // Assuming you have separate lists for users and vendors
-                        int userCount = 5 /* Get user count for the category */;
-                        int vendorCount =  5 /* Get vendor count for the category */;
-            
-                        return Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                 ' category.name',
-                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(height: 8),
-                                Text('Users: $userCount'),
-                                SizedBox(height: 4),
-                                Text('Vendors: $vendorCount'),
-                              ],
+              Expanded(
+                child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 8.0,
+                    mainAxisSpacing: 8.0,
+                  ),
+                  itemCount: 2,
+                  itemBuilder: (context, index) {
+                    // Category category = categoryProvider.categories[index];
+                    // Assuming you have separate lists for users and vendors
+                    int userCount = 5 /* Get user count for the category */;
+                    int vendorCount = 5 /* Get vendor count for the category */;
+
+                    return Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              ' category.name',
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
                             ),
-                          ),
-                        );
-                      },
-                    ),
-            ),
-                
+                            SizedBox(height: 8),
+                            Text('Users: $userCount'),
+                            SizedBox(height: 4),
+                            Text('Vendors: $vendorCount'),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
             ],
           ),
         ),

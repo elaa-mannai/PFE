@@ -15,9 +15,8 @@ class CategorieController extends GetxController {
     print("create categorie function");
     apiCategoriesGet.postData(data).then((value) {
       categorieJson = value as CategorieJson?;
-      getCategories();
-
       update();
+      getCategories();
     }).onError((error, stackTrace) {
       print('error create categorie ==========> $error');
     });

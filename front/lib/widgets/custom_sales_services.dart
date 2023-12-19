@@ -47,7 +47,7 @@ class CustumSalesServices extends GetView {
               style: ElevatedButton.styleFrom(
                 fixedSize: Size(10, 10),
                 backgroundColor: color!, // background
-                onPrimary: Colors.white, // foreground
+                onPrimary: AppColor.white , // foreground
               ),
               onPressed: () {
                 function();

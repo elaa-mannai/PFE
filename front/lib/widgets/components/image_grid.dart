@@ -26,8 +26,8 @@ class CustomMultiImageChange extends GetView<ProductsController> {
     return Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
-          backgroundColor: Colors.white, //your color
-          surfaceTintColor: Colors.white,
+          backgroundColor: AppColor.white, //your color
+          surfaceTintColor: AppColor.white,
           leading: IconButton(
             onPressed: () {
               controller.productDescriptionController.clear();
@@ -87,6 +87,7 @@ class CustomMultiImageChange extends GetView<ProductsController> {
                                 controller: controller.productPriceController,
                                 obscureText: false,
                                 label: "Price:",
+                                specifykeyboard: TextInputType.number,
                               ),
                               SizedBox(height: 10),
                               //location dropdownlist
@@ -173,7 +174,7 @@ class CustomMultiImageChange extends GetView<ProductsController> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton.extended(
           backgroundColor: AppColor.goldColor,
-          foregroundColor: Colors.white,
+          foregroundColor: AppColor.white,
           shape: BeveledRectangleBorder(),
           onPressed: () {
             print("alert dialog");
@@ -182,7 +183,7 @@ class CustomMultiImageChange extends GetView<ProductsController> {
               builder: (BuildContext context) {
                 return controller.isUpload
                     ? AlertDialog(
-                        backgroundColor: Colors.white,
+                        backgroundColor: AppColor.white,
                         title: Text("Confirme creation",
                             style: TextStyle(color: AppColor.secondary)),
                         actions: [
@@ -195,7 +196,7 @@ class CustomMultiImageChange extends GetView<ProductsController> {
                                 controller.productPriceController.clear();
                                 controller.imagefiles = null;
                                 Navigator.of(context).pop();
-                                Get.to(ServiceDetails());
+                               Get.to(ServiceDetails());
                                 controller.getAllProductByUserId();
                                 print(
                                     "-------------------product creation---------------");
@@ -211,7 +212,7 @@ class CustomMultiImageChange extends GetView<ProductsController> {
                         ],
                       )
                     : AlertDialog(
-                        backgroundColor: Colors.white,
+                        backgroundColor: AppColor.white,
                         title: Text("wait for image upload",
                             style: TextStyle(color: AppColor.secondary)),
                         actions: [
@@ -224,7 +225,7 @@ class CustomMultiImageChange extends GetView<ProductsController> {
                                 controller.productPriceController.clear();
                                 controller.imagefiles = null;
                                 Navigator.of(context).pop();
-                                Get.to(ServiceDetails());
+                               Get.to(ServiceDetails());
                                 controller.getAllProductByUserId();
                                 print(
                                     "-------------------product creation---------------");

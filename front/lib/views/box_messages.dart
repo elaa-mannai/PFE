@@ -17,10 +17,10 @@ class BoxMessages extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white, //your color
-        surfaceTintColor: Colors.white,
+        backgroundColor: AppColor.white, //your color
+        surfaceTintColor: AppColor.white,
         elevation: 0,
-        shadowColor: Colors.white,
+        shadowColor: AppColor.white,
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
@@ -71,7 +71,7 @@ class BoxMessages extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: ListTile(
-                        tileColor: Colors.white,
+                        tileColor:AppColor.white,
                         onTap: () {
                           //////////////// getchatwith 2 users id and save the ids
                           Get.to(ChatScreen());

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param,Res, Delete, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param,Res, Delete, HttpStatus, Put } from '@nestjs/common';
 import { ChatService } from './chat.service';
 import { CreateChatDto } from './dto/create-chat.dto';
 import { UpdateChatDto } from './dto/update-chat.dto';
@@ -8,8 +8,12 @@ import { IChat } from './interface/chat.interface';
 @Controller('chats')
 @ApiTags('chats')
 export class ChatController {
-  constructor(private readonly chatService: ChatService) {}
+  constructor(
+    private readonly chatService: ChatService,
+    ) {}
 
+  
+  
   @Post()
   async create(@Body() createChatDto: CreateChatDto, @Res() response) {
     try {
@@ -26,26 +30,26 @@ export class ChatController {
         data: null
       })
     } 
-  }
+  } 
 
-  @Get('stateAndUserId/:idReciever/:idSender')
- async GetChatBySenderAndReciever (@Param('idReciever') idReciever: string ,@Param('idSender') idSender : string,@Res() response): Promise<IChat>{
- try{
-  const favoriteDate = await this.chatService.findByRecieverAndSender( idReciever,idSender )
-  return response.status(HttpStatus.OK).json({
-    message:"Chat by Sender and Reciever found successfully",
-    status:HttpStatus.OK,
-    data:favoriteDate
-  })
- }catch
-  (error){
-    return response.status(HttpStatus.BAD_REQUEST).json({
-      message:error.message,
-      status:HttpStatus.BAD_REQUEST,
-      data:null
+   @Get('SenderIDAndRecieverId/:idReciever/:idSender')
+  async GetChatBySenderAndReciever (@Param('idReciever') idReciever: string ,@Param('idSender') idSender : string,@Res() response): Promise<IChat>{
+  try{
+    const favoriteDate = await this.chatService.findByRecieverAndSender( idReciever,idSender )
+    return response.status(HttpStatus.OK).json({
+      message:"Chat by Sender and Reciever found successfully",
+      status:HttpStatus.OK,
+      data:favoriteDate
     })
- } 
- }
+  }catch
+    (error){
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message:error.message,
+        status:HttpStatus.BAD_REQUEST,
+        data:null
+      })
+  } 
+  }
 
   @Get()
  async findAll(@Res() response) {
@@ -85,7 +89,9 @@ export class ChatController {
     }  
   }
 
-  @Get('Reciever/:idReciever')
+  
+
+ /*  @Get('Reciever/:idReciever')
   async findOneByRecier(@Param('idReciever') idReciever: string, @Res() response) {
     try {
       const Pdata = await this.chatService.findOneByReciever(idReciever)
@@ -122,15 +128,23 @@ export class ChatController {
       })
     }  
   }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateChatDto: UpdateChatDto) {
-    return this.chatService.update(+id, updateChatDto);
+ */
+  
+  @Patch('updateBychatid/:idchat')
+  updateBychatID(@Param('idchat') idchat: string, @Res() response, @Body() updateChatDto: UpdateChatDto) {
+    return this.chatService.update(idchat, updateChatDto);
   }
 
+
+  /* @Patch('updateBySenderAndReceiver/:idchat')
+  async updateBySenderAndReceiver(@Param('idchat') idchat: string ,@Res() response, @Body() updateChatDto: UpdateChatDto) {
+    await this.chatService.findOneByIdChat(idchat);
+    // return this.chatService.updateBySenderAndReceiver(idReciever,idSender, updateChatDto);
+  } */
+/* 
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.chatService.remove(+id);
   }
-  
+   */
 }

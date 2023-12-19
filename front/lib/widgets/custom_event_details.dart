@@ -65,7 +65,7 @@ class CustomEventDetails extends GetView<EventController> {
                     Get.dialog(AlertDialog(
                       title: Text("Update Event informations:",
                           style: TextStyle(color: AppColor.goldColor)),
-                      backgroundColor: Colors.white,
+                      backgroundColor: AppColor.white,
                       content: SingleChildScrollView(
                         child: ListBody(
                           children: <Widget>[
@@ -129,7 +129,7 @@ class CustomEventDetails extends GetView<EventController> {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            backgroundColor: Colors.white,
+                            backgroundColor: AppColor.white,
                             title: Text("Do you want to delete this event?",
                                 style: TextStyle(color: AppColor.goldColor)),
                             actions: [

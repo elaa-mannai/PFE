@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:front/config/account_info_storage.dart';
 import 'package:front/config/app_colors.dart';
 import 'package:front/controllers/demande_controller.dart';
@@ -22,14 +22,14 @@ class HomeViewVendor extends GetView<ProfileColntroller> {
 
     DemandeController Dcontroller = DemandeController();
     // Dcontroller.getDemandeByUserIdAndStateUrl();
-    Dcontroller.getDemande();
-    Dcontroller.getDemandeByVendorIdAndStateUrl();
-    Dcontroller.getDemandeByVendorId();
-    controller.getUserById();
+    // Dcontroller.getDemande();
+    // Dcontroller.getDemandeByVendorIdAndStateUrl();
+    // Dcontroller.getDemandeByVendorId();
+    // controller.getUserById();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white, //your color
-        surfaceTintColor: Colors.white,
+        backgroundColor: AppColor.white , //your color
+        surfaceTintColor: AppColor.white ,
 
         title: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -188,7 +188,7 @@ class HomeViewVendor extends GetView<ProfileColntroller> {
                         child: CustomText(
                             fontSize: 32,
                             fontWeight: FontWeight.w500,
-                            text: 'List demanded services'),
+                            text: 'List demanded Product'),
                       ),
                       //  barre de titre
                       Expanded(
@@ -229,7 +229,7 @@ class HomeViewVendor extends GetView<ProfileColntroller> {
                     ],
                   ),
                 ),
-                //// list Services
+                //// list Products
                 Expanded(
                   flex: 5,
                   child: FutureBuilder(
@@ -274,10 +274,7 @@ class HomeViewVendor extends GetView<ProfileColntroller> {
                                 controller: scrollController,
                                 scrollDirection: Axis.vertical,
                                 ///// get the last 8 demande
-                                itemCount: controller
-                                    .demandeByVendorIdJson!
-                                    .data!
-                                    .length,
+                                itemCount: 1,
                                 itemBuilder: (BuildContext context, index) {
                                   return CustumSalesServices(
                                     productname:
@@ -426,4 +423,4 @@ class HomeViewVendor extends GetView<ProfileColntroller> {
                           }
                         }),
                   ),
-                */
+                */ 

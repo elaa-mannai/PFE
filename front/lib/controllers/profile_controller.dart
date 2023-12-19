@@ -9,11 +9,13 @@ import 'package:front/controllers/products_controller.dart';
 import 'package:front/models/json/login_user_json.dart';
 import 'package:front/models/json/user_all_json.dart';
 import 'package:front/models/json/user_get_id.dart';
+import 'package:front/models/json/user_update_password_json.dart';
 import 'package:front/models/network/api_get_user_by_id.dart';
 import 'package:front/models/network/api_loginn.dart';
 import 'package:front/models/network/api_signup.dart';
 import 'package:front/models/network/api_user_all.dart';
 import 'package:front/models/network/api_user_delete.dart';
+import 'package:front/models/network/api_user_update_password.dart';
 import 'package:front/views/admin/home_view_admin.dart';
 import 'package:front/views/favorite_view.dart';
 import 'package:front/views/home_view_customer.dart';
@@ -23,6 +25,7 @@ import 'package:front/views/signup_view.dart';
 import 'package:front/views/vendors/home_view_vendor.dart';
 import 'package:front/controllers/products_controller.dart';
 import 'package:get/get.dart';
+import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:dio/dio.dart';
@@ -48,12 +51,13 @@ class ProfileColntroller extends GetxController {
   TextEditingController newpasswordcontroller = TextEditingController();
   TextEditingController oldpasswordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController confirmUpdatePassword = TextEditingController();
+
   TextEditingController itemscontroller = TextEditingController();
   bool passwordsMatch = true;
   bool isVisiblePassword = true;
   bool confirmPassword = true;
   bool confirmPassword1 = true;
-  bool confirmPassword2 = true;
   ProductsController productsControlle = ProductsController();
   void viderControllers() {
     confirmPasswordController.text = '';
@@ -126,11 +130,6 @@ class ProfileColntroller extends GetxController {
 
   void showConfirmPassword1() {
     confirmPassword1 = !confirmPassword1;
-    update();
-  }
-
-  void showConfirmPassword2() {
-    confirmPassword2 = !confirmPassword2;
     update();
   }
 
@@ -208,6 +207,7 @@ class ProfileColntroller extends GetxController {
       AccountInfoStorage.savePhoneNumber(loginUserJson!.user!.phone.toString());
       AccountInfoStorage.saveAdresse(loginUserJson!.user!.adress.toString());
       AccountInfoStorage.savePassword(passwordController.text);
+
       // AccountInfoStorage.saveFavoriteId(
       //     loginUserJson!.user!.favorites!.toString());
 
@@ -230,6 +230,10 @@ class ProfileColntroller extends GetxController {
         AccountInfoStorage.readImage();
 
         Get.to(HomeViewVendor());
+      } else {
+        print('Admin');
+        AccountInfoStorage.readImage();
+        Get.to(HomeViewAdmin());
       }
     }).onError((error, stackTrace) {
       ///// modifier ui /////////////
@@ -292,7 +296,7 @@ class ProfileColntroller extends GetxController {
     print('get user by id----------------------------------');
     apiUserById.id = AccountInfoStorage.readId().toString();
 
-     apiUserById.getData().then((value) {
+    apiUserById.getData().then((value) {
       print('value user id =====>$value');
       userGetByIdJson = value as UserGetByIdJson?;
       print(
@@ -301,6 +305,8 @@ class ProfileColntroller extends GetxController {
       emailController.text = userGetByIdJson!.data!.email!.toString();
       adresseController.text = userGetByIdJson!.data!.adress!.toString();
       phonenumberController.text = userGetByIdJson!.data!.phone!.toString();
+      adresseController.text = userGetByIdJson!.data!.adress!.toString();
+      imageController.text = userGetByIdJson!.data!.image!.toString();
     });
   }
 
@@ -311,13 +317,11 @@ class ProfileColntroller extends GetxController {
     apiUserById.updateData({
       'username': usernameController.text,
       'email': emailController.text,
-      'adress': AccountInfoStorage.readAdresse(),
+      'adress': AccountInfoStorage.readProductLocal(),
       'phone': phonenumberController.text,
       'image': AccountInfoStorage.readImage()
     }).then((value) {
       AccountInfoStorage.saveImage(userGetByIdJson!.data!.image.toString());
-      print("testing ${AccountInfoStorage.readImage()}");
-      print("testing ${AccountInfoStorage.readProductLocal()}");
       print("success");
       // Get.defaultDialog(title: "Alert");
       Get.snackbar("", "Success",
@@ -335,6 +339,93 @@ class ProfileColntroller extends GetxController {
     update();
   }
 
+  updatepasswordUser() {
+    apiUserUpdatePassword.id = AccountInfoStorage.readId().toString();
+    // AccountInfoStorage.readImage().toString();
+    apiUserUpdatePassword
+        .updateData({'password': newpasswordcontroller.text}).then((value) {
+      AccountInfoStorage.savePassword(userUpdatePasswordJson.user!.password.toString());
+
+      print("success password updated");
+      Get.snackbar("", "Success",
+          backgroundColor: AppColor.goldColor,
+          titleText: Text(
+            "Passowrd Update",
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 24,
+            ),
+          ));
+    }).onError((error, stackTrace) {
+      print('error login======> $error');
+    });
+    update();
+  }
+
+  UserUpdatePasswordJson userUpdatePasswordJson = UserUpdatePasswordJson();
+  ApiUserUpdatePassword apiUserUpdatePassword = ApiUserUpdatePassword();
+  /* updatepasswordUser()  {
+    apiUserUpdatePassword.id = AccountInfoStorage.readId().toString();
+        AccountInfoStorage.readTokenUser();
+
+      print("idddddd ${ AccountInfoStorage.readId().toString() } and token ${    AccountInfoStorage.readTokenUser()
+}");
+    apiUserUpdatePassword
+        .updateData({'password': newpasswordcontroller.text,
+        'refreshToken':""}).then((value) {
+      // print(confirmPasswordController.text);
+      print(newpasswordcontroller.text);
+
+      print("success password updated");
+      Get.snackbar("", "Success",
+          backgroundColor: AppColor.goldColor,
+          titleText: Text(
+            "Passowrd Update",
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 24,
+            ),
+          ));
+    }).onError((error, stackTrace) {
+      print('error login======> $error');
+    });
+
+  }
+ */
+  resetpasswordUser() async {
+    print("Server Response: ");
+    dio1.post(AppApi.resetpassword, data: {
+      'email': emailController.text,
+      // 'newpassword': newpasswordcontroller.text,
+    }).then((value) {
+      print("Server Response: $value");
+      print("success sent email for password updated");
+      Get.snackbar("", "Success",
+          backgroundColor: AppColor.goldColor,
+          titleText: Text(
+            "Passowrd Update",
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 24,
+            ),
+          ));
+    }).onError((error, stackTrace) {
+      print('Error reset password: $error');
+      Get.snackbar(
+        "",
+        "Failed while sending email to reset password. Please try again.",
+        backgroundColor: AppColor.redText,
+        titleText: Text(
+          "Error",
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 24,
+          ),
+        ),
+      );
+    });
+  }
+
   updateFCMToken() {
     apiUserById.id = AccountInfoStorage.readId().toString();
     // AccountInfoStorage.readImage().toString();
@@ -348,26 +439,6 @@ class ProfileColntroller extends GetxController {
     });
     update();
   }
-
-  updatepasswordUser() {
-    dio1.patch(AppApi.updatePasswordUrl,
-        data: {"password": newpasswordcontroller.text}).then((value) {
-      print("success");
-      Get.snackbar("", "Success",
-          backgroundColor: AppColor.goldColor,
-          titleText: Text(
-            "Passowrd Update",
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 24,
-            ),
-          ));
-    }).onError((error, stackTrace) {
-      print('error login======> $error');
-    });
-  }
-
-  resetpasswordUser() {}
 
   ApiUserDeleteById apiUserDeleteById = ApiUserDeleteById();
   deleteUser() {

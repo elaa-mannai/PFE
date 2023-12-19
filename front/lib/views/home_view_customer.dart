@@ -5,11 +5,9 @@ import 'package:front/controllers/products_controller.dart';
 import 'package:front/controllers/profile_controller.dart';
 import 'package:front/views/event_list_view.dart';
 import 'package:front/views/favorite_view.dart';
-import 'package:front/views/product-by-categorie.dart';
 import 'package:front/views/product_detail.dart';
 import 'package:front/views/product_selection_by_services.dart';
 import 'package:front/views/profile_view.dart';
-import 'package:front/views/setting_view.dart';
 import 'package:front/widgets/custom_backgroung_image.dart';
 import 'package:front/widgets/custom_box_home_detail_product.dart';
 import 'package:front/widgets/custom_button_text.dart';
@@ -126,18 +124,18 @@ class HomeView extends GetView<ProductsController> {
                     );
                   }),
                   //setting
-                  ListTile(
+                  /* ListTile(
                     leading: Icon(
                       Icons.settings,
                     ),
-                    title: Text('Settings'),
+                    title: Text('Change Password'),
                     onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => SettingView()));
-                    },
-                  ),
+                    }, 
+                  ),*/
                   AboutListTile(
                     // <-- SEE HERE
                     icon: Icon(
@@ -212,37 +210,50 @@ class HomeView extends GetView<ProductsController> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 //service
-                Expanded(
-                  flex: 1,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: CustomText(
-                          textAlign: TextAlign.justify,
-                          text: 'Services',
-                          fontSize: 24,
-                          fontWeight: FontWeight.w400,
-                          //textAlign: TextAlign.left,
-                        ),
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: CustomText(
+                        textAlign: TextAlign.justify,
+                        text: '',
+                        fontSize: 24,
+                        fontWeight: FontWeight.w400,
+                        //textAlign: TextAlign.left,
                       ),
-                      //view all
+                    ),
+                    //view all
+                    Expanded(
+                      flex: 1,
+                      child: CustomButtonText(
+                        text: 'ProductSelectionByServices',
+                        size: 40,
+                        icon: Icons.search_off,
+                        function: () {
+                          Get.to(ProductSelectionByServices());
+                          //  Get.to(EventListView());
+                          //  Get.to(ProductDetail());
+                          // Get.to(FavoriteView());
+                          //  Get.to(ProfileView());
+                        },
+                      ),
+                    ),
                       Expanded(
-                        flex: 1,
-                        child: CustomButtonText(
-                          text: 'View All',
-                          icon: Icons.arrow_forward,
-                          function: () {
-                            Get.to(ProductSelectionByServices());
-                            //  Get.to(EventListView());
-                            //  Get.to(ProductDetail());
-                            // Get.to(FavoriteView());
-                            //  Get.to(ProfileView());
-                          },
-                        ),
-                      )
-                    ],
-                  ),
+                      flex: 1,
+                      child: CustomButtonText(
+                        text: 'ProfileView',
+                        size: 40,
+                        icon: Icons.search_off,
+                        function: () {
+                          Get.to(ProfileView());
+                          //  Get.to(EventListView());
+                          //  Get.to(ProductDetail());
+                          // Get.to(FavoriteView());
+                          //  Get.to(ProfileView());
+                        },
+                      ),
+                    )
+                  ],
                 ),
 
                 //list service names
@@ -356,62 +367,59 @@ class HomeView extends GetView<ProductsController> {
                             );
                           } else {
                             return Center(
-                              child: Expanded(
-                                // flex: 5,
-                                child: GetBuilder<ProductsController>(
-                                  builder: (controller) {
-                                    return ListView.builder(
-                                      shrinkWrap: true,
-                                      controller: scrollController,
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: controller
-                                          .productGetJson!.data!.length,
-                                      itemBuilder:
-                                          (BuildContext context, index) {
-                                        controller.getCategorieById(
-                                            "${controller.productGetJson!.data![index].category!.name}");
-                                        return GestureDetector(
-                                          child: CustomBoxHomeDetailsProduct(
-                                            function: () {},
-                                            fun: () {
-                                              controller.getProductById();
-                                            },
-                                            ////// function to get the shape with current state
-                                            // icon: Icons.favorite_sharp,
-
-                                            img: (controller.productGetJson!
-                                                .data![index].images),
-                                            ServiceName:
-                                                "${controller.productGetJson!.data![index].category!.name}",
-                                            productname:
-                                                "${controller.productGetJson!.data![index].nameproduct}",
-                                            Descriptiontext:
-                                                "${controller.productGetJson!.data![index].description}",
-                                            // height: 200,
-                                            // width: 100,
-                                            colorBorder: AppColor.goldColor,
-                                            widthBorder: 1,
-                                          ),
-                                          onTap: () {
-                                            ////
-                                            // AccountInfoStorage.saveDemandeVendor(
-                                            //     "${controller.productGetByIdJson!.data!.user!.sId}");
-
-                                            print(
-                                                "*-------------------------------------------*get category by id*****************");
-                                            AccountInfoStorage.saveProductId(
-                                                controller.productGetJson!
-                                                    .data![index].sId);
+                              child: GetBuilder<ProductsController>(
+                                builder: (controller) {
+                                  return ListView.builder(
+                                    shrinkWrap: true,
+                                    controller: scrollController,
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: controller
+                                        .productGetJson!.data!.length,
+                                    itemBuilder:
+                                        (BuildContext context, index) {
+                                      controller.getCategorieById(
+                                          "${controller.productGetJson!.data![index].category!.name}");
+                                      return GestureDetector(
+                                        child: CustomBoxHomeDetailsProduct(
+                                          function: () {},
+                                          fun: () {
                                             controller.getProductById();
-                                            Get.to(ProductDetail());
-                                            print(
-                                                "*************get category by id*****************");
                                           },
-                                        );
-                                      },
-                                    );
-                                  },
-                                ),
+                                          ////// function to get the shape with current state
+                                          // icon: Icons.favorite_sharp,
+
+                                          img: (controller.productGetJson!
+                                              .data![index].images),
+                                          ServiceName:
+                                              "${controller.productGetJson!.data![index].category!.name}",
+                                          productname:
+                                              "${controller.productGetJson!.data![index].nameproduct}",
+                                          Descriptiontext:
+                                              "${controller.productGetJson!.data![index].description}",
+                                          // height: 200,
+                                          // width: 100,
+                                          colorBorder: AppColor.goldColor,
+                                          widthBorder: 1,
+                                        ),
+                                        onTap: () {
+                                          ////
+                                          // AccountInfoStorage.saveDemandeVendor(
+                                          //     "${controller.productGetByIdJson!.data!.user!.sId}");
+
+                                          print(
+                                              "*-------------------------------------------*get category by id*****************");
+                                          AccountInfoStorage.saveProductId(
+                                              controller.productGetJson!
+                                                  .data![index].sId);
+                                          controller.getProductById();
+                                          Get.to(ProductDetail());
+                                          print(
+                                              "*************get category by id*****************");
+                                        },
+                                      );
+                                    },
+                                  );
+                                },
                               ),
                             );
                           }
@@ -419,7 +427,8 @@ class HomeView extends GetView<ProductsController> {
                       }),
                 ),
 
-                // Top vendors
+                // Top vendors 
+                /// get All vendor
                 Expanded(
                   flex: 1,
                   child: Row(
@@ -428,23 +437,23 @@ class HomeView extends GetView<ProductsController> {
                         flex: 2,
                         child: CustomText(
                           textAlign: TextAlign.justify,
-                          text: 'Top Vendors',
+                          text: 'Vendors Profiles',
                           fontSize: 24,
                           fontWeight: FontWeight.w400,
                           //textAlign: TextAlign.left,
                         ),
                       ),
                       //view all
-                      Expanded(
-                        flex: 1,
-                        child: CustomButtonText(
-                          text: 'View All',
-                          icon: Icons.arrow_forward,
-                          function: () {
-                            //  Get.to();
-                          },
-                        ),
-                      )
+                      // Expanded(
+                      //   flex: 1,
+                      //   child: CustomButtonText(
+                      //     text: 'View All',
+                      //     icon: Icons.arrow_forward,
+                      //     function: () {
+                      //       //  Get.to();
+                      //     },
+                      //   ),
+                      // )
                     ],
                   ),
                 ),

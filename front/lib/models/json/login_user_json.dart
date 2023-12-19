@@ -50,7 +50,7 @@ class User {
   String? email;
   String? password;
   List<String>? events;
-  List<String>? guests;
+  List<String>? chats;
   String? createdAt;
   String? updatedAt;
   int? iV;
@@ -69,7 +69,7 @@ class User {
       this.email,
       this.password,
       this.events,
-      this.guests,
+      this.chats,
       this.createdAt,
       this.updatedAt,
       this.iV,
@@ -88,7 +88,7 @@ class User {
     email = json['email'];
     password = json['password'];
     events = json['events'].cast<String>();
-    guests = json['guests'].cast<String>();
+    chats = json['chats'].cast<String>();
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
@@ -119,7 +119,7 @@ class User {
     data['email'] = this.email;
     data['password'] = this.password;
     data['events'] = this.events;
-    data['guests'] = this.guests;
+    data['chats'] = this.chats;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     data['__v'] = this.iV;
@@ -166,7 +166,7 @@ class Products {
     description = json['description'];
     price = json['price'];
     favorite = json['favorite'];
-    images = json['images'];
+    images = json['images'].cast<dynamic>();
     category = json['category'];
     user = json['user'];
     iV = json['__v'];

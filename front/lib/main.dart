@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front/config/account_info_storage.dart';
+import 'package:front/config/app_colors.dart';
 import 'package:front/config/bindings.dart';
 import 'package:front/views/admin/home_view_admin.dart';
 import 'package:front/views/login_view.dart';
@@ -62,7 +63,7 @@ class LandPage extends StatelessWidget {
           width: 360,
           height: 640,
           clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(color: Colors.white),
+          decoration: BoxDecoration(color: AppColor.white ),
           child: Stack(
             children: [
               Positioned(

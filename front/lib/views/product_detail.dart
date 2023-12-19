@@ -38,8 +38,8 @@ class ProductDetail extends GetView<ProductsController> {
             print("testing data${controller.productGetByIdJson!.data!}");
             return Scaffold(
               appBar: AppBar(
-                backgroundColor: Colors.white, //your color
-                surfaceTintColor: Colors.white,
+                backgroundColor: AppColor.white, //your color
+                surfaceTintColor:AppColor.white,
                 leading: IconButton(
                   onPressed: () {
                     controller.getProducts();
@@ -265,8 +265,8 @@ class ProductDetail extends GetView<ProductsController> {
             print("testing data${controller.productGetByIdJson!.data!}");
             return Scaffold(
               appBar: AppBar(
-                backgroundColor: Colors.white, //your color
-                surfaceTintColor: Colors.white,
+                backgroundColor: AppColor.white, //your color
+                surfaceTintColor: AppColor.white,
                 leading: IconButton(
                   onPressed: () {
                     controller.getAllProductByUserId();
@@ -338,7 +338,7 @@ class ProductDetail extends GetView<ProductsController> {
                                               "Update Product informations:",
                                               style: TextStyle(
                                                   color: AppColor.goldColor)),
-                                          backgroundColor: Colors.white,
+                                          backgroundColor: AppColor.white,
                                           content: SingleChildScrollView(
                                             child: ListBody(
                                               children: <Widget>[
@@ -393,7 +393,7 @@ class ProductDetail extends GetView<ProductsController> {
                                                         .clear();
                                                     controller.imagefiles =
                                                         null;
-                                                    Get.to(ServiceDetails());
+                                     //               Get.to(ServiceDetails());
                                                   },
                                                 );
                                               },
@@ -407,7 +407,7 @@ class ProductDetail extends GetView<ProductsController> {
                                             context: context,
                                             builder: (BuildContext context) {
                                               return AlertDialog(
-                                                backgroundColor: Colors.white,
+                                                backgroundColor: AppColor.white,
                                                 title: Text(
                                                     "Do you want to delete this Product?",
                                                     style: TextStyle(
@@ -430,7 +430,7 @@ class ProductDetail extends GetView<ProductsController> {
                                                           .deleteProduct();
                                                       Navigator.of(context)
                                                           .pop();
-                                                      Get.to(ServiceDetails());
+                                                     Get.to(ServiceDetails());
                                                     },
                                                     child: Text('OK',
                                                         style: TextStyle(

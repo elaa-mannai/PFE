@@ -190,8 +190,8 @@ class CustomServiceList extends StatelessWidget {
                           ),
                           child: Text(
                             '${imagesList.indexOf(item)}',
-                            style: const TextStyle(
-                              color: Colors.white,
+                            style: TextStyle(
+                              color: AppColor.white ,
                               fontSize: 20.0,
                               fontWeight: FontWeight.bold,
                             ),

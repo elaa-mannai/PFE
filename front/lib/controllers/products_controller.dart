@@ -295,6 +295,7 @@ class ProductsController extends GetxController {
       "nameproduct": productNameController.text,
       "description": productDescriptionController.text,
       "price": productPriceController.text,
+      "location":AccountInfoStorage.readProductLocal(),
       "images": AccountInfoStorage.readProductListImage(),
       "category": AccountInfoStorage.readCategorieName().toString(),
       "user": AccountInfoStorage.readId().toString(),
@@ -308,7 +309,7 @@ class ProductsController extends GetxController {
         // AccountInfoStorage.readProductListImage();
         update();
 
-        getAllProductByUserId();
+        // getAllProductByUserId();
 
         // productAddJson = value as ProductAddJson?;
         //  print('name==================> ${AccountInfoStorage.readProductName()}');

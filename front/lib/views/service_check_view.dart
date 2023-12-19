@@ -14,8 +14,8 @@ class ServiceCheckView extends GetView<DemandeController> {
     ScrollController scrollController = ScrollController();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white, //your color
-        surfaceTintColor: Colors.white,
+        backgroundColor: AppColor.white, //your color
+        surfaceTintColor: AppColor.white,
         leading: IconButton(
             onPressed: () {
               Navigator.of(context).pop();

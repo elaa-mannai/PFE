@@ -21,7 +21,7 @@ class CustomButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           fixedSize: Size(width!, height!),
           backgroundColor: backgroundColor,//AppColor.goldColor, // background
-          onPrimary: Colors.white, // foreground
+          onPrimary: AppColor.white, // foreground
         ),
         onPressed: () {
           function!();

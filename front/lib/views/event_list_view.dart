@@ -29,8 +29,8 @@ class EventListView extends GetView<EventController> {
     //controller.formattedate("${controller.eventsJson!.message}");
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white, //your color
-        surfaceTintColor: Colors.white,
+        backgroundColor: AppColor.white, //your color
+        surfaceTintColor: AppColor.white,
         leading: IconButton(
           onPressed: () {
             Navigator.push(
@@ -146,6 +146,8 @@ class EventListView extends GetView<EventController> {
                                           "${controller.eventByUserIdJson!.data![index].budget}",
                                       text:
                                           "${controller.eventByUserIdJson!.data![index].guests!.length}",
+                                      textS:
+                                          "${controller.eventByUserIdJson!.data![index].demande!.length}",
                                       colorBorder: AppColor.goldColor,
                                       widthBorder: 1,
                                       function: () {},
@@ -172,7 +174,7 @@ class EventListView extends GetView<EventController> {
                                             context: context,
                                             builder: (BuildContext context) {
                                               return AlertDialog(
-                                                backgroundColor: Colors.white,
+                                                backgroundColor: AppColor.white,
                                                 title: Text(
                                                     "Do you want to delete this Product?",
                                                     style: TextStyle(
@@ -223,14 +225,14 @@ class EventListView extends GetView<EventController> {
       // New event button
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: AppColor.secondary,
-        foregroundColor: Colors.white,
+        foregroundColor: AppColor.white,
         // icon: Icon(Icons.add_outlined),
         label: Text('New Event'),
         onPressed: () {
           Get.dialog(AlertDialog(
             title:
                 Text("New event", style: TextStyle(color: AppColor.goldColor)),
-            backgroundColor: Colors.white,
+            backgroundColor: AppColor.white,
             content: SingleChildScrollView(
               child: ListBody(
                 children: <Widget>[
@@ -246,7 +248,7 @@ class EventListView extends GetView<EventController> {
                     obscureText: false,
                     label: "Description",
                   ),
-                  //location dropdownlist
+                  //budget
                   CustomInputText(
                     controller: controller.budgetController,
                     obscureText: false,

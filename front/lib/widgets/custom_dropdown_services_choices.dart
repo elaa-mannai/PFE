@@ -2,6 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:front/config/account_info_storage.dart';
 import 'package:front/config/app_colors.dart';
+import 'package:front/controllers/categorie_contoller.dart';
 import 'package:front/controllers/products_controller.dart';
 
 class CustomDropdownServices extends StatefulWidget {
@@ -12,7 +13,10 @@ class CustomDropdownServices extends StatefulWidget {
 }
 
 class _CustomDropdownServicesState extends State<CustomDropdownServices> {
+  CategorieController categorieController = CategorieController();
+
   final List<String> items = [
+    // AccountInfoStorage.readCategorieName().toString()
     "Catering", "Wedding dresses", "Makeup",
 
     ///dinamic
@@ -35,7 +39,7 @@ class _CustomDropdownServicesState extends State<CustomDropdownServices> {
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: AppColor.white,
                 ),
                 overflow: TextOverflow.ellipsis,
               ),
@@ -45,10 +49,10 @@ class _CustomDropdownServicesState extends State<CustomDropdownServices> {
                       value: item,
                       child: Text(
                         item,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: AppColor.white,
                         ),
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -72,12 +76,12 @@ class _CustomDropdownServicesState extends State<CustomDropdownServices> {
               ),
               elevation: 2,
             ),
-            iconStyleData: const IconStyleData(
+            iconStyleData: IconStyleData(
               icon: Icon(
                 Icons.arrow_drop_down,
               ),
               iconSize: 30,
-              iconEnabledColor: Colors.white,
+              iconEnabledColor: AppColor.white,
               iconDisabledColor: Colors.grey,
             ),
             dropdownStyleData: DropdownStyleData(

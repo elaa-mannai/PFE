@@ -33,33 +33,21 @@ class SignupView extends GetView<ProfileColntroller> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               // logo && description
-              Expanded(
-                flex: 2,
-                child: Column(
-                  children: [
-                    //logo
-                    Padding(
-                      padding: EdgeInsets.only(top: 20),
-                      child: Center(
-                          child: Image.asset(
-                        'assets/images/logo1.png',
-                        width: 300,
-                        height: 150,
-                      )),
-                    ),
-                    //description
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 10),
-                      child: CustomText(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        text:
-                            'Sign in to plan with us for your event \n to avoid many of the things that used \n to stress you before',
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ],
-                ),
+              Column(
+                children: [
+                  //logo
+                  Image.asset('assets/images/logo1.png',
+                      width: MediaQuery.sizeOf(context).width,
+                      height: MediaQuery.sizeOf(context).height / 3),
+                  //description
+                  CustomText(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    text:
+                        'Sign in to plan with us for your event \nto avoid many of the things that used \nto stress you before',
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
               // text button login&&signup
               Row(
@@ -72,6 +60,8 @@ class SignupView extends GetView<ProfileColntroller> {
                       CustomButtonText(
                         text: 'Login',
                         fontsize: 18,
+                        icon: Icons.abc,
+                        size: 1,
                         fontsizeweight: FontWeight.bold,
                         function: () {
                           controller.usernameController.clear();
@@ -96,6 +86,8 @@ class SignupView extends GetView<ProfileColntroller> {
                       CustomButtonText(
                         text: 'Sign up',
                         fontsize: 18,
+                        icon: Icons.abc,
+                        size: 1,
                         fontsizeweight: FontWeight.bold,
                         function: () {
                           // Navigator.push(
@@ -133,8 +125,8 @@ class SignupView extends GetView<ProfileColntroller> {
                               return "User Name should be atleast 6 characters";
                             } else if (value.length > 15) {
                               return "User Name should not be greater than 15 characters";
-                            } else
-                              return null;
+                            } // else
+                            // return null;
                           },
                           label: 'User Name',
                           iconData: Icons.person,
@@ -265,75 +257,80 @@ class SignupView extends GetView<ProfileColntroller> {
               ),
 
               //footer
-              Expanded(
-                flex: 1,
-                child: Column(
-                  children: [
-                    //text
-                    CustomText(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        text: 'Sign up with',
-                        textAlign: TextAlign.center),
-                    // Login with Facebook or twitter or gmail
-                    Expanded(
-                      flex: 1,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              print("twitter connection!");
-                            },
-                            child: Image(
-                              image: AssetImage('assets/images/twitter.png'),
-                              width: 35,
-                              height: 35,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () async {
-                              print("facebook connection!");
-                          /*     try {
-                                final LoginResult result =
-                                    await FacebookAuth.instance.login();
+              SizedBox(
+                height: 20,
+              )
 
-                                if (result.status == LoginStatus.success) {
-                                  // The user has successfully logged in with Facebook
-                                  print(
-                                      'Facebook login successful! User ID: ${result.accessToken!.userId}');
-                                } else {
-                                  // Facebook login failed
-                                  print(
-                                      'Facebook login failed. Error message: ${result.message}');
-                                }
-                              } catch (e) {
-                                print('Error during Facebook login: $e');
-                              } */
-                            },
-                            child: Image(
-                              image: AssetImage('assets/images/fb.png'),
-                              width: 35,
-                              height: 35,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              print("gmail connection!");
-                            },
-                            child: Image(
-                              image: AssetImage('assets/images/gmail.png'),
-                              width: 35,
-                              height: 35,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              //   Expanded(
+              //     flex: 1,
+              //     child: Column(
+              //       children: [
+              //         //text
+              //         CustomText(
+              //             fontSize: 16,
+              //             fontWeight: FontWeight.w400,
+              //             text: 'Sign up with',
+              //             textAlign: TextAlign.center),
+              //         // Login with Facebook or twitter or gmail
+              //         Expanded(
+              //           flex: 1,
+              //           child: Row(
+              //             crossAxisAlignment: CrossAxisAlignment.center,
+              //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //             children: [
+              //               GestureDetector(
+              //                 onTap: () {
+              //                   print("twitter connection!");
+              //                 },
+              //                 child: Image(
+              //                   image: AssetImage('assets/images/twitter.png'),
+              //                   width: 35,
+              //                   height: 35,
+              //                 ),
+              //               ),
+              //               GestureDetector(
+              //                 onTap: () async {
+              //                   print("facebook connection!");
+              //               /*     try {
+              //                     final LoginResult result =
+              //                         await FacebookAuth.instance.login();
+
+              //                     if (result.status == LoginStatus.success) {
+              //                       // The user has successfully logged in with Facebook
+              //                       print(
+              //                           'Facebook login successful! User ID: ${result.accessToken!.userId}');
+              //                     } else {
+              //                       // Facebook login failed
+              //                       print(
+              //                           'Facebook login failed. Error message: ${result.message}');
+              //                     }
+              //                   } catch (e) {
+              //                     print('Error during Facebook login: $e');
+              //                   } */
+              //                 },
+              //                 child: Image(
+              //                   image: AssetImage('assets/images/fb.png'),
+              //                   width: 35,
+              //                   height: 35,
+              //                 ),
+              //               ),
+              //               GestureDetector(
+              //                 onTap: () {
+              //                   print("gmail connection!");
+              //                 },
+              //                 child: Image(
+              //                   image: AssetImage('assets/images/gmail.png'),
+              //                   width: 35,
+              //                   height: 35,
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ],
             ],
           ),
         ),

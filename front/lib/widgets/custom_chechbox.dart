@@ -30,7 +30,7 @@ class CustomChechbox extends StatelessWidget {
             side: BorderSide(color: colorBorder!, width: widthBorder!),
           ),
           //fixedSize: Size(width!, height!),
-          backgroundColor: Colors.white.withOpacity(0.8), // background
+          backgroundColor: AppColor.white.withOpacity(0.8), // background
           onPrimary: AppColor.goldColor, // foreground
         ),
         onPressed: () {

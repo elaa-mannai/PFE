@@ -28,8 +28,8 @@ class DemandeList extends GetView<DemandeController> {
               Navigator.pop(context);
               //code to execute when this button is pressed
             }),
-        backgroundColor: Colors.white, //your color
-        surfaceTintColor: Colors.white,
+        backgroundColor: AppColor.white , //your color
+        surfaceTintColor: AppColor.white ,
         title: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

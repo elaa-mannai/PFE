@@ -17,8 +17,8 @@ class ProductsView extends GetView<ProductsController> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white, //your color
-        surfaceTintColor: Colors.white,
+        backgroundColor: AppColor.white, //your color
+        surfaceTintColor:AppColor.white,
         leading: IconButton(
             onPressed: () {
               Navigator.pop(context);

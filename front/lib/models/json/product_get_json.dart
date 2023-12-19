@@ -1,7 +1,7 @@
 import 'package:front/models/json/abstract_json_resource.dart';
 
 class ProductGetJson extends AbstractJsonResource {
- String? message;
+   String? message;
   int? status;
   List<Data>? data;
 
@@ -34,35 +34,35 @@ class Data {
   String? nameproduct;
   String? description;
   int? price;
+  String? location;
   List<dynamic>? images;
   Category? category;
   String? user;
   int? iV;
-  String? location;
 
   Data(
       {this.sId,
       this.nameproduct,
       this.description,
       this.price,
+      this.location,
       this.images,
       this.category,
       this.user,
-      this.iV,
-      this.location});
+      this.iV});
 
   Data.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     nameproduct = json['nameproduct'];
     description = json['description'];
     price = json['price'];
+    location = json['location'];
     images = json['images'].cast<dynamic>();
     category = json['category'] != null
         ? new Category.fromJson(json['category'])
         : null;
     user = json['user'];
     iV = json['__v'];
-    location = json['location'];
   }
 
   Map<String, dynamic> toJson() {
@@ -71,13 +71,13 @@ class Data {
     data['nameproduct'] = this.nameproduct;
     data['description'] = this.description;
     data['price'] = this.price;
+    data['location'] = this.location;
     data['images'] = this.images;
     if (this.category != null) {
       data['category'] = this.category!.toJson();
     }
     data['user'] = this.user;
     data['__v'] = this.iV;
-    data['location'] = this.location;
     return data;
   }
 }
@@ -87,7 +87,7 @@ class Category {
   String? name;
   int? iV;
 
-  Category({ this.sId, this.name, this.iV});
+  Category({this.sId, this.name, this.iV});
 
   Category.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];

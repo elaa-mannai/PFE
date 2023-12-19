@@ -12,7 +12,7 @@ import 'package:get/get.dart';
 
 class CustomEventList extends GetView<EventController> {
   final String? eventName, textService;
-  final String? datedeb, datefin, description, local, budget, text;
+  final String? datedeb, datefin, description, local, budget, text, textS;
   final Function? function;
   final double? widthBorder;
   final Color? colorBorder;
@@ -30,6 +30,7 @@ class CustomEventList extends GetView<EventController> {
     this.textService,
     this.description,
     this.local,
+    this.textS,
     this.budget,
     this.getlistguest,
   }) : super(key: key);
@@ -122,14 +123,35 @@ class CustomEventList extends GetView<EventController> {
                       ),
                     ),
                     // Pack of services
+
                     Expanded(
+                      child: GestureDetector(
+                        child: Column(
+                          children: [
+                            CustomText(text: "Pack of services:"),
+                            Text(
+                              textS!,
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            // SizedBox(height: 10),
+                          ],
+                        ),
+                        onTap: () {
+                          Get.to(ServiceCheckView());
+                          // controller.getEventById(
+                          //     "${AccountInfoStorage.readEventId()}");
+                        
+                        },
+                      ),
+                    ),
+
+          /*           Expanded(
                       child: Column(
                         children: [
                           CustomText(text: "Pack of services:"),
                           // services data which are related to each event
                           TextButton(
                               onPressed: () {
-                               
                                 // AccountInfoStorage.saveDemandeState(Pcontroller.userGetByIdJson.data.)
                                 Get.to(ServiceCheckView());
 
@@ -145,7 +167,7 @@ class CustomEventList extends GetView<EventController> {
                         ],
                       ),
                     ),
-                    ////////////////////////////////////////////////////////////
+            */         ////////////////////////////////////////////////////////////
                     ///problem that it only get one event by id
                     Expanded(
                       child: GestureDetector(
@@ -156,7 +178,7 @@ class CustomEventList extends GetView<EventController> {
                               text!,
                               style: TextStyle(color: Colors.black),
                             ),
-                            SizedBox(height: 10),
+                            // SizedBox(height: 10),
                           ],
                         ),
                         onTap: () {
@@ -179,13 +201,13 @@ class CustomEventList extends GetView<EventController> {
   }
 }
 
-/////
-List<String> _images = [
-  'https://images.unsplash.com/photo-1590650516494-0c8e4a4dd67e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80',
-];
-List<String> _imagesGuest = [
-  'https://images.unsplash.com/photo-1632067694887-097be1c5c5d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
-];
+// /////
+// List<String> _images = [
+//   'https://images.unsplash.com/photo-1590650516494-0c8e4a4dd67e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80',
+// ];
+// List<String> _imagesGuest = [
+//   'https://images.unsplash.com/photo-1632067694887-097be1c5c5d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
+// ];
 /* import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:front/config/app_colors.dart';

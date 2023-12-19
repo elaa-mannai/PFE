@@ -13,7 +13,7 @@
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
-                          color: Colors.white,
+                          color: AppColor.white ,
                         ),
                       ),
                       Icon(Icons.message_outlined)
@@ -122,7 +122,7 @@
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
-                          color: Colors.white,
+                          color: AppColor.white ,
                         ),
                       ),
                       Icon(Icons.contact_page_outlined)

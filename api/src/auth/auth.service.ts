@@ -68,10 +68,11 @@ export class AuthService {
 
     async resetpassword(user: any, token: string) {
         const newpassword = token
-        console.log("newpassword", newpassword)
+        console.log("password", newpassword)
         await this.mailerService.sendMail({
             to: user.email,
             template: './resetpassword',
+            
             context: {
                 name: user.name,
                 email: user.email,

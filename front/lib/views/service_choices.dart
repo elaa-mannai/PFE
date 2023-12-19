@@ -22,8 +22,8 @@ class ServiceChoices extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white, //your color
-        surfaceTintColor: Colors.white,
+        backgroundColor: AppColor.white, //your color
+        surfaceTintColor: AppColor.white,
         leading: IconButton(
             onPressed: () {
               Navigator.of(context).pop();

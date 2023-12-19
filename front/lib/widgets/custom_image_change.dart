@@ -38,10 +38,10 @@ class CustomImageChange extends StatelessWidget {
               // Define the Theme of image picker.
               imagePickerTheme: ThemeData(
                 // Define the default brightness and colors.
-                primaryColor: Colors.white,
+                primaryColor: AppColor.white,
                 //   shadowColor: Colors.transparent,
                 colorScheme:
-                    const ColorScheme.light(background: Colors.white70),
+                     ColorScheme.light(background: AppColor.white),
                 iconTheme: const IconThemeData(color: AppColor.goldColor),
                 // Define the default font family.
                 fontFamily: 'Georgia',
