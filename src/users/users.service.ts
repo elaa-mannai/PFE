@@ -34,12 +34,27 @@ export class UsersService {
     return user
   }
 
+  
+  async findByUsersItem(items: string): Promise<IUser[]> {
+    // const userData = await this.userModel.find().exec();
+
+    const user = await this.userModel.find({ items: { $in: items } }).exec();
+    if (!user || user.length === 0) {
+      throw new NotFoundException("Users items Data not found")
+    }
+    return user
+  }
+
+
+  
+
+
  /*  async findByGoogleId(googleId: string): Promise<IUser | null> {
     return this.userModel.findOne({ googleId }).exec();
   }
  */
   async findAllUsers(): Promise<IUser[]> {
-    const userData = await this.userModel.find().exec()
+    const userData = await this.userModel.find().exec();
     if (!userData || userData.length === 0) {
       throw new NotFoundException("Users Data not found")
     }

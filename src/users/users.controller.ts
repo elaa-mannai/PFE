@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus, UseInterceptors, UploadedFiles, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus, UseInterceptors, UploadedFiles, UploadedFile, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -6,6 +6,7 @@ import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger/dist/decorators';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { CreateProductDto } from 'src/products/dto/create-product.dto';
+import { query } from 'express';
 
 @Controller('users')
 @ApiTags('users')
@@ -55,6 +56,26 @@ export class UsersController {
   async findOne(@Res() response ,@Param('id') userId: string) {
     try {
       const exsitingUser =await this.usersService.findOneUser(userId)
+      return response.status(HttpStatus.OK).json({
+        message:"User found successfully",
+        status:HttpStatus.OK,
+        data:exsitingUser
+      })
+    } catch (error) {
+       return response.status(HttpStatus.BAD_REQUEST).json({
+        message:error.message,
+        status:HttpStatus.BAD_REQUEST,
+        data:null
+      })
+    }
+  }
+
+
+  
+  @Get('items')
+  async findByUsersItem(@Res() response ,@Query('items') items: string) {
+    try {
+      const exsitingUser =await this.usersService.findByUsersItem(items)
       return response.status(HttpStatus.OK).json({
         message:"User found successfully",
         status:HttpStatus.OK,

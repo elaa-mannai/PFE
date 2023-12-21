@@ -51,6 +51,25 @@ export class ChatController {
   } 
   }
 
+  @Get('findByUserId/:idSender')
+  async GetChatByUserId (@Param('idSender') idSender : string,@Res() response): Promise<IChat>{
+  try{
+    const favoriteDate = await this.chatService.findByUserId( idSender )
+    return response.status(HttpStatus.OK).json({
+      message:"Chat by Sender and Reciever found successfully",
+      status:HttpStatus.OK,
+      data:favoriteDate
+    })
+  }catch
+    (error){
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message:error.message,
+        status:HttpStatus.BAD_REQUEST,
+        data:null
+      })
+  } 
+  }
+
   @Get()
  async findAll(@Res() response) {
   try {

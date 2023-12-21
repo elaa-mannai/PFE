@@ -28,10 +28,11 @@ export class ChatService {
 
   await this.userModel.updateOne({_id:createChatDto.sender}, {$push:{chats:newchat._id}});
   await this.userModel.updateOne({_id:createChatDto.reciever}, {$push:{chats:newchat._id}});
-   await this.userModel.updateOne({_id:createChatDto.messages}, {$push:{chats:newchat._id}});
+  //  await this.userModel.updateOne({_id:createChatDto.messages}, {$push:{chats:newchat._id}});
 
   return await newchat.save()
 }
+
 
   async findAll():Promise<IChat[]> {
     const data = await this.chatModel.find()
@@ -74,6 +75,15 @@ async findByRecieverAndSender(idReciever: string,idSender: string):Promise<IChat
   }
   return data
 }
+
+async findByUserId(iduser: string):Promise<IChat[]> {
+  const data = await this.chatModel.find({sender: iduser}).populate('reciever')
+  if (!data) {
+    throw new NotFoundException("Chat not found")
+  }
+  return data
+}
+
 
 
 
