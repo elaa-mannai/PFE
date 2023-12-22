@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:front/config/account_info_storage.dart';
 import 'package:front/config/app_colors.dart';
+import 'package:front/controllers/chat_controller.dart';
 import 'package:front/controllers/demande_controller.dart';
 import 'package:front/controllers/event_contorller.dart';
 import 'package:front/controllers/products_controller.dart';
@@ -39,7 +40,7 @@ class ProductDetail extends GetView<ProductsController> {
             return Scaffold(
               appBar: AppBar(
                 backgroundColor: AppColor.white, //your color
-                surfaceTintColor:AppColor.white,
+                surfaceTintColor: AppColor.white,
                 leading: IconButton(
                   onPressed: () {
                     controller.getProducts();
@@ -127,22 +128,26 @@ class ProductDetail extends GetView<ProductsController> {
                                   builder: (PController) {
                                     EventController Econtroller =
                                         EventController();
-                                        DemandeController Dcontroller= DemandeController();
+                                    DemandeController Dcontroller =
+                                        DemandeController();
+                                    ChatController chatController =
+                                        ChatController();
                                     return CustomBoxDetail(
-                                      function: (){
-                                            print("demandeuserbyproduct");
+                                      messagefunction: () {
+                                        print("messagefunction id vendor ");
                                         AccountInfoStorage.saveDemandeVendor(
                                             "${controller.productGetByIdJson!.data!.user!.sId}");
-                                   
-                
+                                        chatController.createChat();
                                         Get.to(ChatScreen());
                                       },
                                       sendDemandeFunction: () {
-                                         Get.to(EventListView(fromProductDetail: true));
+                                        Get.to(EventListView(
+                                            fromProductDetail: true));
                                         print("demandeuserbyproduct");
                                         AccountInfoStorage.saveDemandeVendor(
                                             "${PController.productGetByIdJson!.data!.user!.sId}");
-                                        AccountInfoStorage.saveFCMTokenUser("${PController.productGetByIdJson!.data!.user!.fCMToken}");
+                                        AccountInfoStorage.saveFCMTokenUser(
+                                            "${PController.productGetByIdJson!.data!.user!.fCMToken}");
                                       },
                                       issavedfunction: () {
                                         AccountInfoStorage.saveProductId(
@@ -393,7 +398,7 @@ class ProductDetail extends GetView<ProductsController> {
                                                         .clear();
                                                     controller.imagefiles =
                                                         null;
-                                     //               Get.to(ServiceDetails());
+                                                    //               Get.to(ServiceDetails());
                                                   },
                                                 );
                                               },
@@ -430,7 +435,7 @@ class ProductDetail extends GetView<ProductsController> {
                                                           .deleteProduct();
                                                       Navigator.of(context)
                                                           .pop();
-                                                     Get.to(ServiceDetails());
+                                                      Get.to(ServiceDetails());
                                                     },
                                                     child: Text('OK',
                                                         style: TextStyle(

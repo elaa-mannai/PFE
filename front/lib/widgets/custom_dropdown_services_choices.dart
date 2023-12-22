@@ -15,6 +15,24 @@ class CustomDropdownServices extends StatefulWidget {
 class _CustomDropdownServicesState extends State<CustomDropdownServices> {
   CategorieController categorieController = CategorieController();
 
+
+    List<String> items = [];
+
+  String? selectedValue;
+
+  @override
+  void initState() {
+    super.initState();
+    // Fetch categories when the widget is initialized
+    categorieController.getCategories().then((List<String>? categories) {
+      if (categories != null) {
+        setState(() {
+          items = categories;
+        });
+      }
+    });
+  }
+/* 
   final List<String> items = [
     // AccountInfoStorage.readCategorieName().toString()
     "Catering", "Wedding dresses", "Makeup",
@@ -22,7 +40,7 @@ class _CustomDropdownServicesState extends State<CustomDropdownServices> {
     ///dinamic
   ];
   String? selectedValue;
-
+ */
   @override
   Widget build(BuildContext context) {
     ProductsController controller = ProductsController();

@@ -103,7 +103,7 @@ await this.userModel.updateOne({_id: createDemandeDto.users},
     }
 
     async findAllDemandeByVendor(Vendorid: string):Promise<IDemande[]>{
-    const data= await this.demandeModel.find({vendor: Vendorid}).populate('products')//.populate('users')
+    const data= await this.demandeModel.find({vendor: Vendorid}).populate('products').populate('users')
     if (!data || data.length ==0 ){
    return null
     }
@@ -114,7 +114,7 @@ await this.userModel.updateOne({_id: createDemandeDto.users},
   
       // const mongoose = require('mongoose');
       // const userIdObject = new mongoose.Types.ObjectId(Vendorid);
-      const data= await this.demandeModel.find({vendor: Vendorid, state})//.populate('products')//.populate('users')
+      const data= await this.demandeModel.find({vendor: Vendorid, state}).populate('products').populate('users')
       if (!data || data.length ==0 ){
      return null
       }

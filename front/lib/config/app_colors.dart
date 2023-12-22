@@ -6,7 +6,7 @@ class AppColor {
   static Color redText = HexColor("#7A1A1A");
   static Color buttonColor = HexColor("#94E044");
   static Color bleucolor = HexColor("#79d2e6");
-  static const goldColor = Color(0xB2816609);
+  static const goldColor = Color.fromARGB(177, 129, 102, 9);
   static const secondary = Color.fromARGB(176, 201, 167, 43);
 }
 

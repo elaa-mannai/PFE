@@ -1,17 +1,19 @@
-import 'package:front/config/account_info_storage.dart';
 
 class AppApi {
   static const String baseUrl = "http://$ip/";
 
-  //static const String ip = "192.168.2.179:3000";
+  //  static const String ip = "192.168.2.179:3000";
  static const String ip = "localhost:3000";
- // static const String ip = "192.168.1.13:3000";
+//  static const String ip = "192.168.1.13:3000";
+//  static const String ip = "192.168.43.104:3000";
 
   static const String sendNotif = "${baseUrl}users/sendnotif";
 
   static const String loginUrl = "${baseUrl}auth/signin";
   static const String signupUrl = "${baseUrl}users/";
   static const String getUserByIdUrl = "${baseUrl}users/";
+  static const String allUsers = "${baseUrl}users/";
+  
   static String updatePasswordUrl =
       "${baseUrl}auth/updatepassword/";
       static String resetpassword =
@@ -28,8 +30,9 @@ class AppApi {
 
   static const String createNewChat = "${baseUrl}chats/";
   static const String getAllChat = "${baseUrl}chats";
-  static const String getChatBySendor = "${baseUrl}chats/sender";
-  static const String getChatByReciever = "${baseUrl}chats/reciever";
+  static const String getChatById = "${baseUrl}chats/";
+  static const String getChatBySendor = "${baseUrl}chats/findByUserId/";
+  static const String getChatByReciever = "${baseUrl}chats/findByUserId/";
   static const String getChatBySendorAndReciever = "${baseUrl}chats/reciever";
 
   static const String getCategoriesUrl = "${baseUrl}categories/";

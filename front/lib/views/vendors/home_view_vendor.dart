@@ -1,4 +1,4 @@
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:front/config/account_info_storage.dart';
 import 'package:front/config/app_colors.dart';
 import 'package:front/controllers/demande_controller.dart';
@@ -21,15 +21,15 @@ class HomeViewVendor extends GetView<ProfileColntroller> {
     ScrollController scrollController = ScrollController();
 
     DemandeController Dcontroller = DemandeController();
-    // Dcontroller.getDemandeByUserIdAndStateUrl();
-    // Dcontroller.getDemande();
-    // Dcontroller.getDemandeByVendorIdAndStateUrl();
-    // Dcontroller.getDemandeByVendorId();
-    // controller.getUserById();
+    Dcontroller.getDemandeByUserIdAndStateUrl();
+    Dcontroller.getDemande();
+    Dcontroller.getDemandeByVendorIdAndStateUrl();
+    Dcontroller.getDemandeByVendorId();
+    controller.getUserById();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColor.white , //your color
-        surfaceTintColor: AppColor.white ,
+        backgroundColor: AppColor.white, //your color
+        surfaceTintColor: AppColor.white,
 
         title: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -178,8 +178,15 @@ class HomeViewVendor extends GetView<ProfileColntroller> {
                       Get.to(DemandeList());
                     },
                     child: Text("viex")),
+                SizedBox(width: 5),
 
-                // Services Commandes
+                TextButton(
+                    onPressed: () {
+                      Get.to(ServiceDetails());
+                    },
+                    child: Text("viex")),
+
+                // barre d'informations Services Commandes
                 Expanded(
                   flex: 1,
                   child: Column(
@@ -229,7 +236,7 @@ class HomeViewVendor extends GetView<ProfileColntroller> {
                     ],
                   ),
                 ),
-                //// list Products
+                //// list demanded Products
                 Expanded(
                   flex: 5,
                   child: FutureBuilder(
@@ -268,19 +275,18 @@ class HomeViewVendor extends GetView<ProfileColntroller> {
                           } else {
                             return GetBuilder<DemandeController>(
                                 builder: (controller) {
-                              return 
-                              ListView.builder(
+                              return ListView.builder(
                                 shrinkWrap: true,
                                 controller: scrollController,
                                 scrollDirection: Axis.vertical,
                                 ///// get the last 8 demande
-                                itemCount: 1,
+                                itemCount: controller.demandeByVendorIdJson!.data!.length,
                                 itemBuilder: (BuildContext context, index) {
                                   return CustumSalesServices(
                                     productname:
-                                       '${controller.demandeByVendorIdJson!.data![index].products}',
+                                        '${controller.demandeByVendorIdJson!.data![index].products!.nameproduct}',
                                     customername:
-                                      '${controller.demandeByVendorIdJson!.data![index].users}',
+                                        '${controller.demandeByVendorIdJson!.data![index].users!.username}',
                                     //////////////make icons to be changed with demande status
                                     status: "waiting",
                                     color: AppColor.goldColor,

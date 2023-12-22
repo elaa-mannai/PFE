@@ -221,9 +221,9 @@ class LoginView extends GetView<ProfileColntroller> {
                                             text: "Send New Password",
                                             function: () {
                                               print("object");
+                                              controller.resetpasswordUser();
                                               controller.emailController
                                                   .clear();
-                                              controller.resetpasswordUser();
                                               Get.to(LoginView());
                                             },
                                           ),

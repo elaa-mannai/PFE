@@ -1,10 +1,14 @@
 import 'package:flutter/widgets.dart';
 import 'package:front/controllers/products_controller.dart';
 import 'package:front/controllers/profile_controller.dart';
+import 'package:front/models/json/chat_by_id_json.dart';
+import 'package:front/models/json/chat_by_user_id.dart';
 import 'package:front/models/json/chat_get_all_json.dart';
 import 'package:front/models/json/chat_json.dart';
-import 'package:front/models/network/api_create_new_chat.dart';
-import 'package:front/models/network/api_get_all_chat_by_user_customer_ids.dart';
+import 'package:front/models/network/api_chat_create_new.dart';
+import 'package:front/models/network/api_chat_get_all_by_user_customer_ids.dart';
+import 'package:front/models/network/api_chat_get_by_id.dart';
+import 'package:front/models/network/api_chat_get_by_user_id.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:front/config/account_info_storage.dart';
@@ -12,8 +16,11 @@ import 'package:front/config/app_api.dart';
 
 class ChatController extends GetxController {
   GetAllChatJson? getAllChatJson;
+  GetChatById? chatById;
   CreateNewChatJson? createNewChatJson;
-
+  GetChatByUserId? getChatByUserId;
+  ApiChatGetById apiChatGetById = ApiChatGetById();
+  ApiChatByUserId apiChatByUserId = ApiChatByUserId();
   ApiAllChatByUserAndCustomerIDs apiAllChatByUserAndCustomerIDs =
       ApiAllChatByUserAndCustomerIDs();
   ApiNewChat apiNewChat = ApiNewChat();
@@ -37,20 +44,19 @@ class ChatController extends GetxController {
     Map<String, dynamic> messages = {
       'message': message,
       'sender': AccountInfoStorage.readId().toString(),
-      'receiver': AccountInfoStorage.readDemandeVendor(),
+      'receiver': AccountInfoStorage.readDemandeVendor().toString(),
       // 'time': DateTime.now().millisecondsSinceEpoch,
     };
 
     print("create demande function");
     apiNewChat.postData(messages).then((value) {
       createNewChatJson = value as CreateNewChatJson?;
-       socket!.emit('sendNewMessage', messages);
+      socket!.emit('sendNewMessage', messages);
 
       print("mmmmm $messages");
       // sendNotificationChat();
       // getChatByUserAndCustomerIDs();
-      // update(); 
-    
+      // update();
     }).onError((error, stackTrace) {
       print('error create demande ==========> $error');
     });
@@ -106,5 +112,39 @@ class ChatController extends GetxController {
     });
   }
 
-  
+  getchatuserId() {
+    apiChatByUserId.idS = AccountInfoStorage.readId().toString();
+    return apiChatByUserId.getData().then((value) {
+      print("success get categories");
+      getChatByUserId = value as GetChatByUserId;
+      if (getChatByUserId!.data != null) {
+        return getChatByUserId!;
+      }
+      print(
+          "data length categories =================== ${getChatByUserId!.data!.length}");
+      update();
+      return null;
+    }).onError((error, stackTrace) {
+      print("error ==== $error");
+      return getChatByUserId!;
+    });
+  }
+
+  getmessage() {
+    apiChatGetById.id = AccountInfoStorage.readChatId().toString();
+    return apiChatGetById.getData().then((value) {
+      print("success get categories");
+      chatById = value as GetChatById?;
+      if (chatById!.data != null) {
+        return chatById!;
+      }
+      print(
+          "data messages =================== ${chatById!.data!.messages}");
+      update();
+      return null;
+    }).onError((error, stackTrace) {
+      print("error ==== $error");
+      return chatById!;
+    });
+  }
 }

@@ -13,6 +13,8 @@ class AccountInfoStorage {
   static const keyadresse = "adresse";
   static const keyfcmtoken = "fcmtoken";
 
+  static const keyusersnumber = "usersnumber";
+
   static const keyproductId = "productId";
   static const keyprodcutName = "prodcutName";
   static const keyprodcutPrice = "prodcutPrice";
@@ -48,6 +50,10 @@ class AccountInfoStorage {
   static const keyLenghtDemandeByVendorAndState =
       "LenghtDemandeByVendorAndState";
 
+  static const keySendorId = "sendorId";
+  static const keyRecieverId = "recieverId";
+  static const keyChatId = "chatId";
+
   static saveTokenUser(String? tokenUser) {
     SecureStorage.writeSecureData(key: keyTokenUser, value: tokenUser!);
   }
@@ -62,6 +68,14 @@ class AccountInfoStorage {
 
   static String? readFCMTokenUser() {
     return SecureStorage.readSecureData(keyfcmtoken);
+  }
+
+  static saveusersnumber(String? usersnumber) {
+    SecureStorage.writeSecureData(key: keyusersnumber, value: usersnumber!);
+  }
+
+  static String? readusersnumber() {
+    return SecureStorage.readSecureData(keyusersnumber);
   }
 
   static saveId(String? id) {
@@ -402,11 +416,41 @@ class AccountInfoStorage {
     return SecureStorage.readSecureData(keyDemandeVendor);
   }
 
-  static saveLenghtDemandeByVendorAndState(String? LenghtDemandeByVendorAndState) {
-    SecureStorage.writeSecureData(key: keyLenghtDemandeByVendorAndState, value:LenghtDemandeByVendorAndState!);
+  static saveLenghtDemandeByVendorAndState(
+      String? LenghtDemandeByVendorAndState) {
+    SecureStorage.writeSecureData(
+        key: keyLenghtDemandeByVendorAndState,
+        value: LenghtDemandeByVendorAndState!);
   }
 
   static String? readLenghtDemandeByVendorAndState() {
     return SecureStorage.readSecureData(keyLenghtDemandeByVendorAndState);
+  }
+
+
+
+
+   static saveSendorId(String? sendorId) {
+    SecureStorage.writeSecureData(key: keySendorId, value: sendorId!);
+  }
+
+  static String? readSendorId() {
+    return SecureStorage.readSecureData(keySendorId);
+  }
+
+   static saveRecieverId(String? recieverid) {
+    SecureStorage.writeSecureData(key: keyRecieverId, value: recieverid!);
+  }
+
+  static String? readRecieverId() {
+    return SecureStorage.readSecureData(keyRecieverId);
+  }
+  
+   static saveChatId(String? chatId) {
+    SecureStorage.writeSecureData(key: keyChatId, value: chatId!);
+  }
+
+  static String? readChatId() {
+    return SecureStorage.readSecureData(keyChatId);
   }
 }

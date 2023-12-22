@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:cloudinary/cloudinary.dart';
 import 'package:flutter/material.dart';
@@ -17,15 +16,11 @@ import 'package:front/models/network/api_user_all.dart';
 import 'package:front/models/network/api_user_delete.dart';
 import 'package:front/models/network/api_user_update_password.dart';
 import 'package:front/views/admin/home_view_admin.dart';
-import 'package:front/views/favorite_view.dart';
 import 'package:front/views/home_view_customer.dart';
 import 'package:front/views/login_view.dart';
-import 'package:front/views/product_detail.dart';
 import 'package:front/views/signup_view.dart';
 import 'package:front/views/vendors/home_view_vendor.dart';
-import 'package:front/controllers/products_controller.dart';
 import 'package:get/get.dart';
-import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:dio/dio.dart';
@@ -80,7 +75,8 @@ class ProfileColntroller extends GetxController {
   @override
   void onInit() {
     //logOut();
-
+    // AccountInfoStorage.saveusersnumber(usersAllJson!.data!.length.toString());
+    //getallusers();
     //createEvent();
     // Initialisations spécifiques à ce contrôleur
     super
@@ -141,8 +137,7 @@ class ProfileColntroller extends GetxController {
   }
 
 //////////////////////////calendar selection /////////////////////
-
-  String? date;
+String? date;
   Future checkValueMembers() async {
     await getData();
     WidgetsBinding.instance.addPostFrameCallback((_) {});
@@ -159,7 +154,7 @@ class ProfileColntroller extends GetxController {
     sharedPreferences.setString("data", date);
     print('save$date');
   }
-
+  
   DateTime selectedDate = DateTime.now(); // Initialize with the current date
 
   Future<void> selectDate(BuildContext context) async {
@@ -228,6 +223,7 @@ class ProfileColntroller extends GetxController {
       } else if (loginUserJson!.user!.items == "Vendor") {
         print('Vendor');
         AccountInfoStorage.readImage();
+
 
         Get.to(HomeViewVendor());
       } else {
@@ -344,7 +340,8 @@ class ProfileColntroller extends GetxController {
     // AccountInfoStorage.readImage().toString();
     apiUserUpdatePassword
         .updateData({'password': newpasswordcontroller.text}).then((value) {
-      AccountInfoStorage.savePassword(userUpdatePasswordJson.user!.password.toString());
+      AccountInfoStorage.savePassword(
+          userUpdatePasswordJson.user!.password.toString());
 
       print("success password updated");
       Get.snackbar("", "Success",
@@ -452,6 +449,39 @@ class ProfileColntroller extends GetxController {
       print('erorr delete user === > $error');
     });
     update();
+  }
+
+  /*  getallusers() async {
+    /////// add a state to desactivation user
+    print(' get all users ');
+
+    await apiUserAll.getData().then((value) {
+      print('++++++++++ get all users ++++++++++++${usersAllJson!.data!.length}');
+
+      print('ssucces get all users ');
+      // update();
+    }).onError((error, stackTrace) {
+      print('erorr get user === > $error');
+    });
+    update();
+  } */
+
+
+//Problem
+  getallusers() {
+    print(" get users");
+    return apiUserAll!.getData().then((value) {
+      print("success get users");
+      usersAllJson = value as UsersAllJson;
+      if (usersAllJson!.data != null) {
+        return usersAllJson!;
+      }
+      print("data users =================== ${usersAllJson!.message}");
+      return null;
+    }).onError((error, stackTrace) {
+      print("error ==== $error");
+      return usersAllJson!;
+    });
   }
 
   logOut() {

@@ -35,18 +35,18 @@ class Data {
   String? username;
   String? email;
   String? password;
+  List<String>? favorites;
   List<String>? events;
-  List<String>? guests;
+  List<String>? products;
+  List<String>? chats;
   String? createdAt;
   String? updatedAt;
   int? iV;
   String? refreshToken;
+  String? fCMToken;
   String? adress;
   String? image;
   int? phone;
-  List<String>? products;
-  List<String>? favorites;
-  String? city;
 
   Data(
       {this.sId,
@@ -54,18 +54,18 @@ class Data {
       this.username,
       this.email,
       this.password,
+      this.favorites,
       this.events,
-      this.guests,
+      this.products,
+      this.chats,
       this.createdAt,
       this.updatedAt,
       this.iV,
       this.refreshToken,
+      this.fCMToken,
       this.adress,
       this.image,
-      this.phone,
-      this.products,
-      this.favorites,
-      this.city});
+      this.phone});
 
   Data.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -73,18 +73,18 @@ class Data {
     username = json['username'];
     email = json['email'];
     password = json['password'];
+    favorites = json['favorites'].cast<String>();
     events = json['events'].cast<String>();
-    guests = json['guests'].cast<String>();
+    products = json['products'].cast<String>();
+    chats = json['chats'].cast<String>();
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
     refreshToken = json['refreshToken'];
+    fCMToken = json['FCMToken'];
     adress = json['adress'];
     image = json['image'];
     phone = json['phone'];
-    products = json['products'].cast<String>();
-    favorites = json['favorites'].cast<String>();
-    city = json['city'];
   }
 
   Map<String, dynamic> toJson() {
@@ -94,18 +94,18 @@ class Data {
     data['username'] = this.username;
     data['email'] = this.email;
     data['password'] = this.password;
+    data['favorites'] = this.favorites;
     data['events'] = this.events;
-    data['guests'] = this.guests;
+    data['products'] = this.products;
+    data['chats'] = this.chats;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     data['__v'] = this.iV;
     data['refreshToken'] = this.refreshToken;
+    data['FCMToken'] = this.fCMToken;
     data['adress'] = this.adress;
     data['image'] = this.image;
     data['phone'] = this.phone;
-    data['products'] = this.products;
-    data['favorites'] = this.favorites;
-    data['city'] = this.city;
     return data;
   }
 }

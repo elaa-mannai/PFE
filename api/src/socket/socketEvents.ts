@@ -21,22 +21,22 @@ export class SocketEvents {
 
     }
     //connection
-    // handleConnection(client: Socket) {
-    //     //this.createRoom("room", client);
-    //     // client.on("message", (socket) => {
-    //     //     // join a single room
-    //     // //    socket.join("room1");
-    //     // console.log(`connect================${socket.id}`)
-    //     // })
-    //     console.log(`client connected: ${client.id}`);
-
-    // }
-
     handleConnection(client: Socket) {
-        this.createRoom("room", client);
+        //this.createRoom("room", client);
+        // client.on("message", (socket) => {
+        //     // join a single room
+        // //    socket.join("room1");
+        // console.log(`connect================${socket.id}`)
+        // })
         console.log(`client connected: ${client.id}`);
 
     }
+
+    // handleConnection(client: Socket) {
+    //     this.createRoom("room", client);
+    //     console.log(`client connected: ${client.id}`);
+
+    // }
     //deconnection
     handleDisconnect(client: Socket) {
         console.log(`client disconnected: ${client.id}`);

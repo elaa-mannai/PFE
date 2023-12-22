@@ -97,14 +97,16 @@ class DemandeList extends GetView<DemandeController> {
                                 shrinkWrap: true,
                                 controller: scrollController,
                                 scrollDirection: Axis.vertical,
-                                itemCount: 8,
+                                itemCount: controller
+                                      .demandeByVendorIdJson!.data!.length,
                                 itemBuilder: (BuildContext context, index) {
                                   return  CustumSalesServices(
                                           color: AppColor.goldColor,
+                                          icon: Icons.abc,
                                           productname:
-                                            'test',//  '${controller.demandeByVendorIdJson!.data![index].products?.nameproduct}',
+                                              '${controller.demandeByVendorIdJson!.data![index].products?.nameproduct}',
                                           customername:
-                                           'test',//  "${controller.demandeByVendorIdJson!.data![index].users}",
+                                            "${controller.demandeByVendorIdJson!.data![index].users!.username}",
                                           status: "waiting",
                                           function: () {
                                            /*  AccountInfoStorage.saveDemandeId(

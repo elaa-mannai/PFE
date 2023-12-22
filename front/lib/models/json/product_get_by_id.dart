@@ -1,7 +1,7 @@
 import 'package:front/models/json/abstract_json_resource.dart';
 
 class ProductGetByIdJson extends AbstractJsonResource {
-  String? message;
+String? message;
   int? status;
   Data? data;
 
@@ -29,7 +29,8 @@ class Data {
   String? nameproduct;
   String? description;
   int? price;
-  List<String>? images;
+  String? location;
+  List<dynamic>? images;
   Category? category;
   User? user;
   int? iV;
@@ -40,6 +41,7 @@ class Data {
       this.nameproduct,
       this.description,
       this.price,
+      this.location,
       this.images,
       this.category,
       this.user,
@@ -51,7 +53,8 @@ class Data {
     nameproduct = json['nameproduct'];
     description = json['description'];
     price = json['price'];
-    images = json['images'].cast<String>();
+    location = json['location'];
+    images = json['images'].cast<dynamic>();
     category = json['category'] != null
         ? new Category.fromJson(json['category'])
         : null;
@@ -68,6 +71,7 @@ class Data {
     data['nameproduct'] = this.nameproduct;
     data['description'] = this.description;
     data['price'] = this.price;
+    data['location'] = this.location;
     data['images'] = this.images;
     if (this.category != null) {
       data['category'] = this.category!.toJson();
@@ -114,16 +118,12 @@ class User {
   List<String>? favorites;
   List<String>? events;
   List<String>? products;
-  List<String>? guests;
+  List<String>? chats;
   String? createdAt;
   String? updatedAt;
   int? iV;
   String? refreshToken;
-  String? adress;
-  String? image;
-  int? phone;
   String? fCMToken;
-  List<String>? chats;
 
   User(
       {this.sId,
@@ -134,16 +134,12 @@ class User {
       this.favorites,
       this.events,
       this.products,
-      this.guests,
+      this.chats,
       this.createdAt,
       this.updatedAt,
       this.iV,
       this.refreshToken,
-      this.adress,
-      this.image,
-      this.phone,
-      this.fCMToken,
-      this.chats});
+      this.fCMToken});
 
   User.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -154,16 +150,12 @@ class User {
     favorites = json['favorites'].cast<String>();
     events = json['events'].cast<String>();
     products = json['products'].cast<String>();
-    guests = json['guests'].cast<String>();
+    chats = json['chats'].cast<String>();
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
     refreshToken = json['refreshToken'];
-    adress = json['adress'];
-    image = json['image'];
-    phone = json['phone'];
     fCMToken = json['FCMToken'];
-    chats = json['chats'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
@@ -176,16 +168,12 @@ class User {
     data['favorites'] = this.favorites;
     data['events'] = this.events;
     data['products'] = this.products;
-    data['guests'] = this.guests;
+    data['chats'] = this.chats;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     data['__v'] = this.iV;
     data['refreshToken'] = this.refreshToken;
-    data['adress'] = this.adress;
-    data['image'] = this.image;
-    data['phone'] = this.phone;
     data['FCMToken'] = this.fCMToken;
-    data['chats'] = this.chats;
     return data;
   }
 }

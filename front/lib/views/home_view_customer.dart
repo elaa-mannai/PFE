@@ -3,6 +3,7 @@ import 'package:front/config/account_info_storage.dart';
 import 'package:front/config/app_colors.dart';
 import 'package:front/controllers/products_controller.dart';
 import 'package:front/controllers/profile_controller.dart';
+import 'package:front/views/box_messages.dart';
 import 'package:front/views/event_list_view.dart';
 import 'package:front/views/favorite_view.dart';
 import 'package:front/views/product_detail.dart';
@@ -226,7 +227,7 @@ class HomeView extends GetView<ProductsController> {
                     Expanded(
                       flex: 1,
                       child: CustomButtonText(
-                        text: 'ProductSelectionByServices',
+                        text: '',
                         size: 40,
                         icon: Icons.search_off,
                         function: () {
@@ -241,11 +242,11 @@ class HomeView extends GetView<ProductsController> {
                       Expanded(
                       flex: 1,
                       child: CustomButtonText(
-                        text: 'ProfileView',
+                        text: '',
                         size: 40,
                         icon: Icons.search_off,
                         function: () {
-                          Get.to(ProfileView());
+                          Get.to(BoxMessages());
                           //  Get.to(EventListView());
                           //  Get.to(ProductDetail());
                           // Get.to(FavoriteView());

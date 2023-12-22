@@ -11,11 +11,11 @@ import 'package:front/widgets/custom_text.dart';
 import 'package:get/get.dart';
 
 class CustomBoxDetail extends StatelessWidget {
-  final Function? function, issavedfunction, sendDemandeFunction;
+  final Function? messagefunction, issavedfunction, sendDemandeFunction;
   final Icon? icon;
   const CustomBoxDetail(
       {Key? key,
-      this.function,
+      this.messagefunction,
       this.sendDemandeFunction,
       this.icon,
       this.issavedfunction})
@@ -85,7 +85,7 @@ class CustomBoxDetail extends StatelessWidget {
                     size: 30,
                   ),
                   onPressed: () {
-                    function!();
+                    messagefunction!();
 
                     
                   },

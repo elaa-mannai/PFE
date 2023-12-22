@@ -34,7 +34,8 @@ class Data {
   String? nameproduct;
   String? description;
   int? price;
-  List<String>? images;
+  String? location;
+  List<dynamic>? images;
   Category? category;
   String? user;
   int? iV;
@@ -44,6 +45,7 @@ class Data {
       this.nameproduct,
       this.description,
       this.price,
+      this.location,
       this.images,
       this.category,
       this.user,
@@ -54,7 +56,8 @@ class Data {
     nameproduct = json['nameproduct'];
     description = json['description'];
     price = json['price'];
-    images = json['images'].cast<String>();
+    location = json['location'];
+    images = json['images'].cast<dynamic>();
     category = json['category'] != null
         ? new Category.fromJson(json['category'])
         : null;
@@ -68,6 +71,7 @@ class Data {
     data['nameproduct'] = this.nameproduct;
     data['description'] = this.description;
     data['price'] = this.price;
+    data['location'] = this.location;
     data['images'] = this.images;
     if (this.category != null) {
       data['category'] = this.category!.toJson();
@@ -99,4 +103,3 @@ class Category {
     return data;
   }
 }
-

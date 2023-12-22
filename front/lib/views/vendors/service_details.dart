@@ -17,9 +17,9 @@ class ServiceDetails extends GetView<ProductsController> {
   @override
   Widget build(BuildContext context) {
     ScrollController scrollController = ScrollController();
-    // controller.getCategories();
-    // controller.getProductById();
-    // controller.getAllProductByUserId();
+    controller.getCategories();
+    controller.getProductById();
+    controller.getAllProductByUserId();
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
