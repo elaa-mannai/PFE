@@ -7,8 +7,7 @@ class CustumSalesServices extends GetView {
   final String customername;
   final Color? color;
   final String productname;
-  final String status;
-  final Function function;
+  final Function functionIcon;
   final IconData? icon;
 
   const CustumSalesServices(
@@ -17,8 +16,7 @@ class CustumSalesServices extends GetView {
       this.color,
       required this.customername,
       required this.productname,
-      required this.status,
-      required this.function})
+      required this.functionIcon})
       : super(key: key);
 
   @override
@@ -37,20 +35,20 @@ class CustumSalesServices extends GetView {
               fontSize: 16, fontWeight: FontWeight.w300, text: customername!),
         ),
         //  SizedBox(width: 30),
-        Expanded(
+        /*  Expanded(
           child: CustomText(
               fontSize: 16, fontWeight: FontWeight.w300, text: status!),
-        ),
+        ), */
         //SizedBox(width: 15),
         Expanded(
           child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 fixedSize: Size(10, 10),
                 backgroundColor: color!, // background
-                onPrimary: AppColor.white , // foreground
+                onPrimary: AppColor.white, // foreground
               ),
               onPressed: () {
-                function();
+                functionIcon();
               },
               child: Icon(icon!)),
         ),

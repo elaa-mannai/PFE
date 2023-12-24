@@ -427,9 +427,6 @@ class AccountInfoStorage {
     return SecureStorage.readSecureData(keyLenghtDemandeByVendorAndState);
   }
 
-
-
-
    static saveSendorId(String? sendorId) {
     SecureStorage.writeSecureData(key: keySendorId, value: sendorId!);
   }
@@ -445,6 +442,11 @@ class AccountInfoStorage {
   static String? readRecieverId() {
     return SecureStorage.readSecureData(keyRecieverId);
   }
+
+   static deleteRecieverId() {
+    print("deleted reciever id ");
+    return SecureStorage.deleteSecureData(keyRecieverId);
+  }
   
    static saveChatId(String? chatId) {
     SecureStorage.writeSecureData(key: keyChatId, value: chatId!);
@@ -453,4 +455,11 @@ class AccountInfoStorage {
   static String? readChatId() {
     return SecureStorage.readSecureData(keyChatId);
   }
+
+ static deleteChatId() {
+    print("deleted reciever id ");
+    return SecureStorage.deleteSecureData(keyChatId);
+  }
+
+
 }

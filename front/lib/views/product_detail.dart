@@ -7,7 +7,7 @@ import 'package:front/controllers/demande_controller.dart';
 import 'package:front/controllers/event_contorller.dart';
 import 'package:front/controllers/products_controller.dart';
 import 'package:front/views/event_list_view.dart';
-import 'package:front/views/test/ChatScreen.dart';
+import 'package:front/views/chat/ChatScreen.dart';
 import 'package:front/views/vendors/service_details.dart';
 import 'package:front/widgets/custom_backgroung_image.dart';
 import 'package:front/widgets/custom_box_detail.dart';
@@ -135,9 +135,14 @@ class ProductDetail extends GetView<ProductsController> {
                                     return CustomBoxDetail(
                                       messagefunction: () {
                                         print("messagefunction id vendor ");
-                                        AccountInfoStorage.saveDemandeVendor(
+
+                                        AccountInfoStorage.saveRecieverId(
                                             "${controller.productGetByIdJson!.data!.user!.sId}");
-                                        chatController.createChat();
+                                        AccountInfoStorage.readId().toString();
+                                        chatController
+                                            .getchatSenderIDAndRecieverId();
+
+                                        // chatController.createChat();
                                         Get.to(ChatScreen());
                                       },
                                       sendDemandeFunction: () {

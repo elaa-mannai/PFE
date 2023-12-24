@@ -48,7 +48,7 @@ export class ChatService {
     throw new NotFoundException("Chat not found")
   }
   return data
-}
+  }
 
 
 /* 
@@ -69,7 +69,7 @@ async findOneBySender(idSender: string):Promise<IChat> {
 }
  */
 async findByRecieverAndSender(idReciever: string,idSender: string):Promise<IChat[]> {
-  const data = await this.chatModel.find({reciever:idReciever, sender:idSender})
+  const data = await this.chatModel.find({reciever:idReciever, sender:idSender}).exec()
   if (!data) {
     throw new NotFoundException("Chat not found")
   }
@@ -96,14 +96,23 @@ async update(idChat: string, updateChatDto: UpdateChatDto): Promise<IChat> {
     if (!existingChat) {
       throw new NotFoundException("Chat not found");
     }
-
+    console.log('updating message back')
     // Assuming `updateChatDto.messages` is an array of messages
     if (updateChatDto.messages && updateChatDto.messages.length > 0) {
       // Assuming you want to push the IDs of messages to the `chats` array in the model
+      console.log('updating message back begin if')
+
       existingChat.messages = [...existingChat.messages, ...updateChatDto.messages];
+      console.log('updating message back end if')
     }
 
-    return existingChat.save();
+    console.log('updating message before saving')
+   // existingChat.updateOne();
+   await  existingChat.save()
+   console.log('updating message after saving')
+
+    return existingChat;
+
   } catch (error) {
     console.error('Error updating chat:', error);
     throw error;

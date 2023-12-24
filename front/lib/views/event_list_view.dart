@@ -194,6 +194,8 @@ class EventListView extends GetView<EventController> {
                                                   ),
                                                   TextButton(
                                                     onPressed: () {
+                                                      print(
+                                                          "yes added demande in event");
                                                       Dcontroller
                                                           .createDemande();
                                                       Navigator.of(context)

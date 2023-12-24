@@ -11,7 +11,7 @@ class ApiFavoriteByUserIdAndState extends ApiManager {
 
   @override
   String apiUrl() {
-    String url = "${AppApi.getFavoriteByUserIdAndStateUrl}$id/state?state=true";
+    String url = "${AppApi.getFavoriteByUserIdAndStateUrl}$id/state?state=false";
     print("url ${url}");
     return url;
     

@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:front/controllers/products_controller.dart';
 import 'package:front/controllers/profile_controller.dart';
+import 'package:front/models/json/chat_SenderIDAndRecieverId_json.dart';
 import 'package:front/models/json/chat_by_id_json.dart';
 import 'package:front/models/json/chat_by_user_id.dart';
 import 'package:front/models/json/chat_get_all_json.dart';
@@ -19,6 +20,7 @@ class ChatController extends GetxController {
   GetChatById? chatById;
   CreateNewChatJson? createNewChatJson;
   GetChatByUserId? getChatByUserId;
+  SenderIDAndRecieverIdJson? senderIDAndRecieverIdJson;
   ApiChatGetById apiChatGetById = ApiChatGetById();
   ApiChatByUserId apiChatByUserId = ApiChatByUserId();
   ApiAllChatByUserAndCustomerIDs apiAllChatByUserAndCustomerIDs =
@@ -44,13 +46,43 @@ class ChatController extends GetxController {
     Map<String, dynamic> messages = {
       'message': message,
       'sender': AccountInfoStorage.readId().toString(),
-      'receiver': AccountInfoStorage.readDemandeVendor().toString(),
-      // 'time': DateTime.now().millisecondsSinceEpoch,
+      'reciever': AccountInfoStorage.readDemandeVendor().toString(),
+      'time': DateTime.now().millisecondsSinceEpoch,
     };
 
     print("create demande function");
     apiNewChat.postData(messages).then((value) {
       createNewChatJson = value as CreateNewChatJson?;
+      socket!.emit('sendNewMessage', messages);
+
+      print("mmmmm $messages");
+      // sendNotificationChat();
+      // getChatByUserAndCustomerIDs();
+      // update();
+    }).onError((error, stackTrace) {
+      print('error create demande ==========> $error');
+    });
+  }
+
+  void sendMessage() {
+    print("------------------create demande -------------------");
+    String message = messageController.text.trim();
+    if (message.isNotEmpty) {
+      socket!.emit('message', message);
+      messageController.clear();
+    }
+
+     Map<String, dynamic> messages = {
+      'messages': [message],
+      'sender': AccountInfoStorage.readId().toString(),
+      'reciever': AccountInfoStorage.readDemandeVendor().toString(),
+      'time': DateTime.now().millisecondsSinceEpoch,
+    };
+
+    print("create demande function");
+    apiNewChat.postData(messages).then((value) {
+      createNewChatJson = value as CreateNewChatJson?;
+      print('createNewChatJson$value');
       socket!.emit('sendNewMessage', messages);
 
       print("mmmmm $messages");
@@ -113,15 +145,16 @@ class ChatController extends GetxController {
   }
 
   getchatuserId() {
+    print("function getchatuserId");
     apiChatByUserId.idS = AccountInfoStorage.readId().toString();
     return apiChatByUserId.getData().then((value) {
-      print("success get categories");
+      print("success getchatuserId");
       getChatByUserId = value as GetChatByUserId;
       if (getChatByUserId!.data != null) {
         return getChatByUserId!;
       }
       print(
-          "data length categories =================== ${getChatByUserId!.data!.length}");
+          "data length getchatuserId =================== ${getChatByUserId!.data!.length}");
       update();
       return null;
     }).onError((error, stackTrace) {
@@ -130,16 +163,40 @@ class ChatController extends GetxController {
     });
   }
 
-  getmessage() {
+  getchatSenderIDAndRecieverId() {
+    print("senderIDAndRecieverIdJson  function");
+    apiAllChatByUserAndCustomerIDs.idS = AccountInfoStorage.readId().toString();
+    apiAllChatByUserAndCustomerIDs.idR =
+        AccountInfoStorage.readDemandeVendor().toString();
+    return apiAllChatByUserAndCustomerIDs.getData().then((value) {
+      print("success get chatsenderIDAndRecieverIdJson");
+      senderIDAndRecieverIdJson = value as SenderIDAndRecieverIdJson?;
+      if (senderIDAndRecieverIdJson!.data != null) {
+        return senderIDAndRecieverIdJson!;
+      }
+      print(
+          "data length chat =================== ${senderIDAndRecieverIdJson!.data!.length}");
+      update();
+      return null;
+    }).onError((error, stackTrace) {
+      print("error ==== $error");
+      return senderIDAndRecieverIdJson!;
+    });
+  }
+
+  getChatbyId() {
+    print("function success get chat by id");
     apiChatGetById.id = AccountInfoStorage.readChatId().toString();
     return apiChatGetById.getData().then((value) {
-      print("success get categories");
+      print("success get chat by id");
       chatById = value as GetChatById?;
+      print('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee${chatById!.data!.messages}');
       if (chatById!.data != null) {
+        print("null check");
         return chatById!;
       }
       print(
-          "data messages =================== ${chatById!.data!.messages}");
+          "data messages chat =================== ${chatById!.data!.messages}");
       update();
       return null;
     }).onError((error, stackTrace) {

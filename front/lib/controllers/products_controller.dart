@@ -93,6 +93,8 @@ class ProductsController extends GetxController {
   @override
   Future<void> onInit() async {
     getCategories();
+    getAllProductByUserId();
+
     await getProducts();
     filteredItemsName
         .addAll(productGetJson!.data!.map((data) => data.nameproduct ?? ''));
@@ -103,7 +105,7 @@ class ProductsController extends GetxController {
     filteredItemsImages
         .addAll(productGetJson!.data!.map((data) => data.images ?? []));
 
-   /*  await getProductByCatgoryId();
+    /*  await getProductByCatgoryId();
     filteredItemsNameC.addAll(
         productsByCategoryIdJson!.data!.map((data) => data.nameproduct ?? ''));
     filteredItemsDesC.addAll(
@@ -112,7 +114,7 @@ class ProductsController extends GetxController {
         .map((data) => data.category!.name ?? ''));
     filteredItemsImagesC.addAll(
         productsByCategoryIdJson!.data!.map((data) => data.images ?? []));
-     *///  createProduct();
+     */ //  createProduct();
     // Initialisations spécifiques à ce contrôleur
     super
         .onInit(); // N'oubliez pas d'appeler super.onInit() pour respecter le cycle de vie de GetX.
@@ -266,26 +268,24 @@ class ProductsController extends GetxController {
   getAllProductByUserId() async {
     print("-------------------Product by user id ---------------------");
     apiProductsGetByUserId.id = AccountInfoStorage.readId().toString();
+    try {
+      return await apiProductsGetByUserId.getData().then((value) {
+        print('value===========> $value');
+        //////////the value is null
+        productsByUserIdJson = value as ProductsByUserIdJson?;
 
-    return await apiProductsGetByUserId.getData().then((value) {
-      print('value===========> $value');
-      //////////the value is null
-      productsByUserIdJson = value as ProductsByUserIdJson?;
-      
-
-      if (productsByUserIdJson!.data != null) {
-        print(
-            "Product by user id =============== ${productsByUserIdJson!.data!.length}");
-        return productsByUserIdJson;
-      }
-      getAllProductByUserId();
-      update();
-      return null;
-      
-    }).onError((error, stackTrace) {
-      print('error======> $error');
-      return null;
-    });
+        if (productsByUserIdJson!.data != null) {
+          print(
+              "Product by user id =============== ${productsByUserIdJson!.data!.length}");
+          return productsByUserIdJson;
+        }
+        // getAllProductByUserId();
+        update();
+        // return null;
+      });
+    } catch (error) {
+      print("error product by productsByUserIdJson id ==== $error");
+    }
   }
 
   bool isUpload = false;
@@ -295,7 +295,7 @@ class ProductsController extends GetxController {
       "nameproduct": productNameController.text,
       "description": productDescriptionController.text,
       "price": productPriceController.text,
-      "location":AccountInfoStorage.readProductLocal(),
+      "location": AccountInfoStorage.readProductLocal(),
       "images": AccountInfoStorage.readProductListImage(),
       "category": AccountInfoStorage.readCategorieName().toString(),
       "user": AccountInfoStorage.readId().toString(),
@@ -304,12 +304,12 @@ class ProductsController extends GetxController {
       apiProductAdd.postData(data).then((value) {
         print('success+++++++++++++++> $value');
 
-        //AccountInfoStorage.deleteProductListImage();
+        AccountInfoStorage.deleteProductListImage();
         print("object");
         // AccountInfoStorage.readProductListImage();
-        update();
 
-        // getAllProductByUserId();
+        getAllProductByUserId();
+        update();
 
         // productAddJson = value as ProductAddJson?;
         //  print('name==================> ${AccountInfoStorage.readProductName()}');
@@ -580,7 +580,7 @@ class ProductsController extends GetxController {
     });
   }
 
- /*  List<String> filteredItemsNameC = [];
+  /*  List<String> filteredItemsNameC = [];
   List<String> filteredItemsDesC = [];
   List<String> filteredItemsCatC = [];
   List<dynamic> filteredItemsImagesC = [];

@@ -14,8 +14,6 @@ class DemandeList extends GetView<DemandeController> {
   @override
   Widget build(BuildContext context) {
     ScrollController scrollController = ScrollController();
-    controller.getDemande();
-    controller.getDemandeByVendorId();
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -28,8 +26,8 @@ class DemandeList extends GetView<DemandeController> {
               Navigator.pop(context);
               //code to execute when this button is pressed
             }),
-        backgroundColor: AppColor.white , //your color
-        surfaceTintColor: AppColor.white ,
+        backgroundColor: AppColor.white, //your color
+        surfaceTintColor: AppColor.white,
         title: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -56,6 +54,51 @@ class DemandeList extends GetView<DemandeController> {
              crossAxisAlignment: CrossAxisAlignment.start,
            */
             children: [
+              // barre d'informations Services Commandes
+              Expanded(
+                flex: 1,
+                child: Column(
+                  children: [
+                    //  barre de titre
+                    Expanded(
+                      child: Row(children: [
+                        SizedBox(width: 10),
+                        Expanded(
+                          // flex: 2,
+                          child: CustomText(
+                              // fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                              text: "Products"),
+                        ),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: CustomText(
+                              // fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                              text: "Buyers "),
+                        ),
+                        // SizedBox(width: 5),
+                        Expanded(
+                          child: CustomText(
+                              // fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                              text: "Status"),
+                        ),
+                        SizedBox(width: 50),
+                      ]),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(5),
+                      child: Container(
+                        width: MediaQuery.sizeOf(context).width,
+                        height: 1,
+                        color: AppColor.secondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
               Expanded(
                 flex: 5,
                 child: FutureBuilder(
@@ -94,55 +137,47 @@ class DemandeList extends GetView<DemandeController> {
                           return GetBuilder<DemandeController>(
                               builder: (controller) {
                             return ListView.builder(
-                                shrinkWrap: true,
-                                controller: scrollController,
-                                scrollDirection: Axis.vertical,
-                                itemCount: controller
-                                      .demandeByVendorIdJson!.data!.length,
-                                itemBuilder: (BuildContext context, index) {
-                                  return  CustumSalesServices(
-                                          color: AppColor.goldColor,
-                                          icon: Icons.abc,
-                                          productname:
-                                              '${controller.demandeByVendorIdJson!.data![index].products?.nameproduct}',
-                                          customername:
-                                            "${controller.demandeByVendorIdJson!.data![index].users!.username}",
-                                          status: "waiting",
-                                          function: () {
-                                           /*  AccountInfoStorage.saveDemandeId(
-                                                "${controller.getDemandeByIdJson!.data!.sId}");
-                                            if (controller
-                                                    .demandeByVendorIdJson!
-                                                    .data !=
-                                                null) {
-                                              if (controller.demandeExiste(
-                                                  controller
-                                                      .getAllDemandeJson!.data!,
-                                                  controller.getDemandeByIdJson!
-                                                      .data!.sId)) {
-                                                print(
-                                                    'if-----------------------');
-                                                AccountInfoStorage
-                                                    .saveDemandeId(controller
-                                                        .getDemandeByIdJson!
-                                                        .data!
-                                                        .sId);
-                                                controller.updateDemande(
-                                                    !controller
-                                                        .getDemandeByIdJson!
-                                                        .data!
-                                                        .state!);
-                                              } else {
-                                                print("else ");
-                                                controller.createDemande();
-                                              }
-                                            } else {
-                                              print("else ");
-                                              controller.createDemande();
-                                            } */
-                                          },
-                                      );
-                                });
+                              shrinkWrap: true,
+                              controller: scrollController,
+                              scrollDirection: Axis.vertical,
+                              ///// get the last 8 demande
+                              itemCount: controller
+                                  .demandeByVendorIdJson!.data!.length,
+                              itemBuilder: (BuildContext context, index) {
+                                AccountInfoStorage.saveDemandeId(controller
+                                    .demandeByVendorIdJson!.data![index].sId
+                                    .toString());
+                                controller.getDemandeById();
+
+                                return CustumSalesServices(
+                                  productname:
+                                      '${controller.demandeByVendorIdJson!.data![index].products!.nameproduct}',
+                                  customername:
+                                      '${controller.demandeByVendorIdJson!.data![index].users!.username}',
+                                  //////////////make icons to be changed with demande status
+                                  // status: "waiting",
+                                  color: AppColor.goldColor,
+                                  icon: controller
+                                          .getDemandeByIdJson!.data!.state!
+                                      ? Icons.done_rounded
+                                      : Icons.done_all_rounded,
+
+                                  functionIcon: () {
+                                    print('demande state ');
+                                    controller.getDemandeById();
+                                    AccountInfoStorage.saveDemandeId(controller
+                                        .demandeByVendorIdJson!.data![index].sId
+                                        .toString());
+                                    controller.updateDemande(!controller
+                                        .getDemandeByIdJson!.data!.state!);
+                                    print(
+                                        'demande state ${controller.getDemandeByIdJson!.data!.state}');
+
+                                    // Get.to(DemandeList());
+                                  },
+                                );
+                              },
+                            );
                           });
                         }
                       }

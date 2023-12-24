@@ -3,7 +3,7 @@ import 'package:front/config/account_info_storage.dart';
 import 'package:front/config/app_colors.dart';
 import 'package:front/controllers/products_controller.dart';
 import 'package:front/controllers/profile_controller.dart';
-import 'package:front/views/box_messages.dart';
+import 'package:front/views/chat/box_messages.dart';
 import 'package:front/views/event_list_view.dart';
 import 'package:front/views/favorite_view.dart';
 import 'package:front/views/product_detail.dart';
@@ -239,7 +239,7 @@ class HomeView extends GetView<ProductsController> {
                         },
                       ),
                     ),
-                      Expanded(
+                    Expanded(
                       flex: 1,
                       child: CustomButtonText(
                         text: '',
@@ -374,10 +374,9 @@ class HomeView extends GetView<ProductsController> {
                                     shrinkWrap: true,
                                     controller: scrollController,
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: controller
-                                        .productGetJson!.data!.length,
-                                    itemBuilder:
-                                        (BuildContext context, index) {
+                                    itemCount:
+                                        controller.productGetJson!.data!.length,
+                                    itemBuilder: (BuildContext context, index) {
                                       controller.getCategorieById(
                                           "${controller.productGetJson!.data![index].category!.name}");
                                       return GestureDetector(
@@ -428,7 +427,7 @@ class HomeView extends GetView<ProductsController> {
                       }),
                 ),
 
-                // Top vendors 
+                // Top vendors
                 /// get All vendor
                 Expanded(
                   flex: 1,
@@ -459,30 +458,104 @@ class HomeView extends GetView<ProductsController> {
                   ),
                 ),
                 ////vendor profile data
-                Expanded(
+             
+               Expanded(
                   flex: 5,
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      controller: scrollController,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 10,
-                      itemBuilder: (BuildContext context, index) {
-                        return CustomFavoriteList(
-                          icon: Icons.reviews,
-                          fun: () {
-                            controller.getProductById();
-                          },
-                          img: (controller.productGetJson!.data![index].images),
-                          ServiceName: "Catering",
-                          Descriptiontext: '',
-                          //  'Le lorem ipsum est, en imprimerie, une suite de mots sans signification utilisée à titre provisoire pour calibrer une mise en page, le texte définitif venant remplacer le faux-texte dès qul est prêt ou que la mise en page est achevée. Généralement, on utilise un texte en faux latin, le Lorem ipsum ou Lipsum',
-                          height: 200,
-                          width: 200,
-                          colorBorder: Colors.white.withOpacity(1),
-                          widthBorder: 1,
-                        );
+                  child: FutureBuilder(
+                      future: controller.getProducts(),
+                      builder: (ctx, snapshot) {
+                        // Checking if future is resolved or not
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          print("-----------------snapshot$snapshot");
+                          return Center(
+                            child: CircularProgressIndicator(
+                                color: AppColor.secondary),
+                          );
+                        } else {
+                          // If we got an error
+                          if (snapshot.hasError) {
+                            return Center(
+                              child: Text(
+                                'Something went wrong !!!',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            );
+
+                            // if we got our data
+                          }
+
+                          if (snapshot.data == null) {
+                            // Extracting data from snapshot object
+                            print(
+                                '-----------------------snapshotdata=======>$snapshot');
+                            return Center(
+                              child: Text(
+                                'There is no service for the moment',
+                                style: TextStyle(color: AppColor.secondary),
+                              ),
+                            );
+                          } else {
+                            return Center(
+                              child: GetBuilder<ProductsController>(
+                                builder: (controller) {
+                                  return ListView.builder(
+                                    shrinkWrap: true,
+                                    controller: scrollController,
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount:
+                                        controller.productGetJson!.data!.length,
+                                    itemBuilder: (BuildContext context, index) {
+                                      controller.getCategorieById(
+                                          "${controller.productGetJson!.data![index].category!.name}");
+                                      return GestureDetector(
+                                        child: CustomBoxHomeDetailsProduct(
+                                          function: () {},
+                                          fun: () {
+                                            controller.getProductById();
+                                          },
+                                          ////// function to get the shape with current state
+                                          // icon: Icons.favorite_sharp,
+
+                                          img: (controller.productGetJson!
+                                              .data![index].images),
+                                          ServiceName:
+                                              "${controller.productGetJson!.data![index].category!.name}",
+                                          productname:
+                                              "${controller.productGetJson!.data![index].nameproduct}",
+                                          Descriptiontext:
+                                              "${controller.productGetJson!.data![index].description}",
+                                          // height: 200,
+                                          // width: 100,
+                                          colorBorder: AppColor.goldColor,
+                                          widthBorder: 1,
+                                        ),
+                                        onTap: () {
+                                          ////
+                                          // AccountInfoStorage.saveDemandeVendor(
+                                          //     "${controller.productGetByIdJson!.data!.user!.sId}");
+
+                                          print(
+                                              "*-------------------------------------------*get category by id*****************");
+                                          AccountInfoStorage.saveProductId(
+                                              controller.productGetJson!
+                                                  .data![index].sId);
+                                          controller.getProductById();
+                                          Get.to(ProductDetail());
+                                          print(
+                                              "*************get category by id*****************");
+                                        },
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                            );
+                          }
+                        }
                       }),
                 ),
+
               ],
             ),
           ),

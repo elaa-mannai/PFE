@@ -5,6 +5,7 @@ import 'package:front/controllers/demande_controller.dart';
 import 'package:front/controllers/profile_controller.dart';
 import 'package:front/views/login_view.dart';
 import 'package:front/views/profile_view.dart';
+import 'package:front/views/vendors/custom_demande.dart';
 import 'package:front/views/vendors/demande_list.dart';
 import 'package:front/views/vendors/service_details.dart';
 import 'package:front/widgets/custom_backgroung_image.dart';
@@ -237,73 +238,9 @@ class HomeViewVendor extends GetView<ProfileColntroller> {
                   ),
                 ),
                 //// list demanded Products
-                Expanded(
-                  flex: 5,
-                  child: FutureBuilder(
-                      future: Dcontroller.getDemandeByVendorId(),
-                      builder: (ctx, snapshot) {
-                        // Checking if future is resolved or not
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          print("-----------------snapshot$snapshot");
-                          return Center(
-                            child: CircularProgressIndicator(
-                                color: AppColor.secondary),
-                          );
-                        } else {
-                          // If we got an error
-                          if (snapshot.hasError) {
-                            return Center(
-                              child: Text(
-                                '${snapshot.error} occurred',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                            );
-
-                            // if we got our data
-                          }
-                          if (snapshot.data == null) {
-                            // Extracting data from snapshot object
-                            print(
-                                '-----------------------snapshotdata=======>$snapshot');
-                            return Center(
-                              child: Text(
-                                'There is no demande for the moment!!',
-                                style: TextStyle(color: AppColor.secondary),
-                              ),
-                            );
-                          } else {
-                            return GetBuilder<DemandeController>(
-                                builder: (controller) {
-                              return ListView.builder(
-                                shrinkWrap: true,
-                                controller: scrollController,
-                                scrollDirection: Axis.vertical,
-                                ///// get the last 8 demande
-                                itemCount: controller.demandeByVendorIdJson!.data!.length,
-                                itemBuilder: (BuildContext context, index) {
-                                  return CustumSalesServices(
-                                    productname:
-                                        '${controller.demandeByVendorIdJson!.data![index].products!.nameproduct}',
-                                    customername:
-                                        '${controller.demandeByVendorIdJson!.data![index].users!.username}',
-                                    //////////////make icons to be changed with demande status
-                                    status: "waiting",
-                                    color: AppColor.goldColor,
-                                    icon: Icons.abc,
-                                    function: () {
-                                      Get.to(DemandeList());
-                                    },
-                                  );
-                                },
-                              );
-                            });
-                          }
-                        }
-                      }),
-                ),
-
-                //  (controller.userGetByIdJson.data.items == 'Vendor') ? true : false;
+                       Expanded(flex: 5, child:
+                        CustomDemande()),
+       //  (controller.userGetByIdJson.data.items == 'Vendor') ? true : false;
               ],
             ),
           ),

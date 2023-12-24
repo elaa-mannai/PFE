@@ -3,7 +3,7 @@ import 'package:front/models/json/abstract_json_resource.dart';
 class GetAllChatJson extends AbstractJsonResource {
   String? message;
   int? status;
-  List<Data>? data;
+  List<ChatData>? data;
 
   GetAllChatJson({this.message, this.status, this.data});
 
@@ -11,9 +11,9 @@ class GetAllChatJson extends AbstractJsonResource {
     message = json['message'];
     status = json['status'];
     if (json['data'] != null) {
-      data = <Data>[];
+      data = <ChatData>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(new ChatData.fromJson(v));
       });
     }
   }
@@ -29,16 +29,16 @@ class GetAllChatJson extends AbstractJsonResource {
   }
 }
 
-class Data {
+class ChatData {
   String? sId;
   String? message;
   String? sender;
   String? reciever;
   int? iV;
 
-  Data({this.sId, this.message, this.sender, this.reciever, this.iV});
+  ChatData({this.sId, this.message, this.sender, this.reciever, this.iV});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  ChatData.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     message = json['message'];
     sender = json['sender'];

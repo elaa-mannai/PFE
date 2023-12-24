@@ -15,6 +15,7 @@ import 'package:front/models/network/api_demande_by_vendor_id_and_state_fasle.da
 import 'package:front/models/network/api_demande_create.dart';
 import 'package:front/models/network/api_demande_get.dart';
 import 'package:front/models/network/api_demande_get_by_id.dart';
+import 'package:front/models/network/api_demande_update_by_id.dart';
 import 'package:get/get.dart';
 
 class DemandeController extends GetxController {
@@ -32,6 +33,18 @@ class DemandeController extends GetxController {
   GetAllDemandeJson? getAllDemandeJson;
   CreateDemandeJson? createDemandeJson;
   DemandeByUserIdAndStateJson? demandeByUserIdAndStateJson;
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    getDemande();
+    getDemandeById();
+    getDemandeByUserID();
+    getDemandeByVendorId();
+    getDemandeByUserIdAndStateUrl();
+    getDemandeByVendorIdAndStateUrl();
+  }
 
   createDemande() {
     print("------------------create demande -------------------");
@@ -70,8 +83,13 @@ class DemandeController extends GetxController {
 
   getDemandeById() {
     apiDemandeGetById.id = AccountInfoStorage.readDemandeId().toString();
+    print("getdemandeby id function");
     return apiDemandeGetById.getData().then((value) {
+      print("getdemandeby id value  $value");
+
       getDemandeByIdJson = value as GetDemandeByIdJson?;
+      print("getdemandeby id json ${getDemandeByIdJson!.data!.state}");
+
       if (getDemandeByIdJson!.data != null) {
         return getDemandeByIdJson;
       }
@@ -133,12 +151,12 @@ class DemandeController extends GetxController {
         //////////the value is null
         demandeByVendorIdAndStateJson = value as DemandeByVendorIdAndStateJson?;
         print(
-            '----------------------------------------------demande----${demandeByVendorIdAndStateJson!.data}');
+            '----------------------------------------------demande----${demandeByVendorIdAndStateJson!.data![0].state}');
 
         if (demandeByVendorIdAndStateJson!.data != null) {
           print(
               '++++++++++length++++++++++++${demandeByVendorIdAndStateJson!.data!.length}');
-          
+
           return demandeByVendorIdAndStateJson!;
         }
 
@@ -146,6 +164,7 @@ class DemandeController extends GetxController {
             '----------------------------------------------DemandeByVendorIdAndStateUrl----');
 
         update();
+        return null;
       });
     } catch (error) {
       print('error DemandeByVendorIdAndStateUrl======> $error');
@@ -181,16 +200,17 @@ class DemandeController extends GetxController {
   }
 
   DemandeByVendorIdJson? demandeByVendorIdJson;
-  getDemandeByVendorId()  {
+  getDemandeByVendorId() async {
     print("-------------------------DemandeByVendorId---------------------");
     apiDemandeByVendorId.id = AccountInfoStorage.readId().toString();
     /*   apiDemandeByVendorId.state =
         AccountInfoStorage.readDemandeState().toString();
  */
     try {
-      return  apiDemandeByVendorId.getData().then((value) {
+      return await apiDemandeByVendorId.getData().then((value) {
         print('value DemandeByVendorId===========> $value');
         //////////the value is null
+        ///
         demandeByVendorIdJson = value as DemandeByVendorIdJson?;
         print(
             '----------------------------------------------demande----${demandeByVendorIdJson!.data}');
@@ -252,21 +272,25 @@ class DemandeController extends GetxController {
     print('------------------------false--------------------');
     return false;
   }
+  */
+
+  ApiDemandeUpdatebyId apiDemandeUpdatebyId = ApiDemandeUpdatebyId();
 
   updateDemande(bool? demandeState) async {
-    apiDemandeGetById.id = AccountInfoStorage.readDemandeId().toString();
+    apiDemandeUpdatebyId.id = AccountInfoStorage.readDemandeId().toString();
+    print("demandestate $demandeState");
+
     try {
       await apiDemandeGetById.updateData({"state": demandeState}).then((value) {
         print('update success----------------------');
 
-        getDemandeByIdJson = value as GetDemandeByIdJson?;
-        AccountInfoStorage.saveFavoriteState(
-            "${getDemandeByIdJson!.data!.state}");
+//        getDemandeByIdJson = value as GetDemandeByIdJson?;
+        /* AccountInfoStorage.saveFavoriteState(
+            "${getDemandeByIdJson!.data!.state}"); */
       });
-      getDemandeByVendorId();
-      getDemandeByUserIdAndStateUrl();
-      getDemandeByUserID();
+
       AccountInfoStorage.saveDemandeId(getDemandeByIdJson!.data!.sId);
+      getDemandeById();
       getDemande();
       update();
     } catch (error) {
@@ -274,7 +298,7 @@ class DemandeController extends GetxController {
     }
     update();
   }
- */
+
 ////////////////// notif
   /// change the elements of title and body
   sendNotificationDemande() async {

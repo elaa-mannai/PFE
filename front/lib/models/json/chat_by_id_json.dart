@@ -25,28 +25,28 @@ class GetChatById extends AbstractJsonResource{
 }
 
 class Data {
-  String? messages;
+  String? sId;
+  List<dynamic>? messages;
   String? sender;
   String? reciever;
-  String? sId;
   int? iV;
 
-  Data({this.messages, this.sender, this.reciever, this.sId, this.iV});
+  Data({this.sId, this.messages, this.sender, this.reciever, this.iV});
 
   Data.fromJson(Map<String, dynamic> json) {
-    messages = json['message'];
+    sId = json['_id'];
+    messages = json['messages'].cast<dynamic>();
     sender = json['sender'];
     reciever = json['reciever'];
-    sId = json['_id'];
     iV = json['__v'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.messages;
+    data['_id'] = this.sId;
+    data['messages'] = this.messages;
     data['sender'] = this.sender;
     data['reciever'] = this.reciever;
-    data['_id'] = this.sId;
     data['__v'] = this.iV;
     return data;
   }

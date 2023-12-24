@@ -6,7 +6,7 @@ import 'package:front/controllers/profile_controller.dart';
 import 'package:front/models/json/login_user_json.dart';
 import 'package:front/views/favorite_view.dart';
 import 'package:front/config/account_info_storage.dart';
-import 'package:front/views/test/ChatScreen.dart';
+import 'package:front/views/chat/ChatScreen.dart';
 import 'package:front/widgets/custom_text.dart';
 import 'package:get/get.dart';
 
@@ -85,6 +85,8 @@ class CustomBoxDetail extends StatelessWidget {
                     size: 30,
                   ),
                   onPressed: () {
+
+                    
                     messagefunction!();
 
                     
